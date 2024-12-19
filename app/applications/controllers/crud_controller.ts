@@ -30,6 +30,24 @@ export default class CrudController {
   }
 
   @bindOrganizationWithMember
+  async store({ request, response }: HttpContext, organization: Organization) {
+    const result = await organization.ravelClient.fleets.create({
+      name: request.input('name'),
+    })
+    if (!result.success) {
+      logger.error(
+        { reason: result, organization, name: request.input('name') },
+        'Failed to create fleet.'
+      )
+      return response.badRequest()
+    }
+
+    return response
+      .redirect()
+      .toPath(`/organizations/${organization.slug}/applications/${result.value.id}`)
+  }
+
+  @bindOrganizationWithMember
   async edit({ inertia, params, response }: HttpContext, organization: Organization) {
     const result = await organization.ravelClient.fleets.get(params.applicationId)
     if (!result.success) {

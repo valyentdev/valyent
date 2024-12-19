@@ -16,7 +16,7 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 export default function IndexPage({ fleets }: { fleets: Array<Fleet> }) {
   return (
     <ApplicationsLayout>
-      <div className="grid lg:grid-cols-3">
+      <div className="grid lg:grid-cols-3 gap-4">
         {fleets.map((fleet) => (
           <FleetCard fleet={fleet} key={fleet.id} />
         ))}

@@ -6,17 +6,29 @@ import { cn } from '#common/ui/lib/cn'
 import { Link } from '@inertiajs/react'
 import { PlusCircleIcon } from 'lucide-react'
 import React from 'react'
+import CreateApplicationDialog from './create_application_dialog'
 
 export interface ApplicationsLayoutProps extends DashboardLayoutProps {}
 
 export default function ApplicationsLayout({ children }: ApplicationsLayoutProps) {
+  const [createApplicationDialogOpen, setCreateApplicationDialogOpen] = React.useState(false)
+
   return (
     <DashboardLayout
       title="Applications"
       actionButton={
-        <Button icon={<PlusCircleIcon className="h-4 w-4" />}>Create Application</Button>
+        <Button
+          onClick={() => setCreateApplicationDialogOpen(true)}
+          icon={<PlusCircleIcon className="h-4 w-4" />}
+        >
+          Create Application
+        </Button>
       }
     >
+      <CreateApplicationDialog
+        open={createApplicationDialogOpen}
+        setOpen={setCreateApplicationDialogOpen}
+      />
       <div className="grid sm:grid-cols-4 lg:grid-cols-5 my-8">
         <div>
           <ApplicationsLayoutNav />
