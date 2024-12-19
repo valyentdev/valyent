@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: valyent_console_postgres
+    environment:
+      POSTGRES_USER: valyent_console
+      POSTGRES_PASSWORD: valyent_console
+      POSTGRES_DB: valyent_console
+    volumes:
+      - valyent_console_postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  redis:
+    image: redis:6.2
+    container_name: valyent_console_redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - valyent_console_redis_data:/data
+
+volumes:
+  valyent_console_postgres_data:
+  valyent_console_redis_data:

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="/favicon.ico" rel="icon" />
+
+    <title inertia>
+      Valyent
+    </title>
+
+    @viteReactRefresh()
+    @inertiaHead()
+    @vite([
+    'app/common/ui/app/app.tsx',
+    `app/${page.component.split('/')[0]}/ui/pages/${page.component.split('/').splice(1)}.tsx`
+    ])
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-zinc-50/80 overflow-y-scroll antialiased">
+    @inertia()
+  </body>
+</html>
