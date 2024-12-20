@@ -1,22 +1,19 @@
+import { BreadcrumbsProps } from '#common/ui/components/breadcrumb'
 import DashboardLayout from '#common/ui/components/dashboard_layout'
 import useParams from '#common/ui/hooks/use_params'
 import usePath from '#common/ui/hooks/use_path'
 import { cn } from '#common/ui/lib/cn'
+import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Link } from '@inertiajs/react'
-import * as React from 'react'
-import useOrganizations from '../hooks/use_organizations'
-import { BreadcrumbsProps } from '#common/ui/components/breadcrumb'
+import React from 'react'
 
-interface SettingsLayoutProps extends React.PropsWithChildren {
+export interface AILayoutProps extends React.PropsWithChildren {
   breadcrumbs: BreadcrumbsProps
 }
 
-const SettingsLayout: React.FunctionComponent<SettingsLayoutProps> = ({
-  breadcrumbs,
-  children,
-}) => {
+export default function AILayout({ children, breadcrumbs }: AILayoutProps) {
   const { currentOrganization } = useOrganizations()
-
+  const basePath = `/organizations/${currentOrganization?.slug}`
   const initialBreadcrumbs = [
     {
       label: (
@@ -38,16 +35,17 @@ const SettingsLayout: React.FunctionComponent<SettingsLayoutProps> = ({
       ),
     },
     {
-      label: 'Settings',
+      label: 'AI',
+      href: basePath + '/ai',
     },
   ]
   const layoutBreadcrumbs = [...initialBreadcrumbs, ...breadcrumbs]
 
   return (
-    <DashboardLayout breadcrumbs={layoutBreadcrumbs} title="Settings">
-      <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-5 my-8">
+    <DashboardLayout title="AI" breadcrumbs={layoutBreadcrumbs}>
+      <div className="grid sm:grid-cols-4 lg:grid-cols-5 gap-x-8 my-8">
         <div>
-          <SettingsNav />
+          <AILayoutNav />
         </div>
         <div className="sm:col-span-3 lg:col-span-4">{children}</div>
       </div>
@@ -55,39 +53,37 @@ const SettingsLayout: React.FunctionComponent<SettingsLayoutProps> = ({
   )
 }
 
-export default SettingsLayout
-
-function SettingsNav() {
+function AILayoutNav() {
   const params = useParams()
   const path = usePath()
   return (
     <nav className="grid gap-5 text-sm text-muted-foreground">
       <Link
-        href={`/organizations/${params.organizationSlug}/settings`}
+        href={`/organizations/${params.organizationSlug}/ai/overview`}
         className={cn(
-          path === `/organizations/${params.organizationSlug}/settings` &&
+          path === `/organizations/${params.organizationSlug}/ai/overview` &&
             'font-semibold text-primary'
         )}
       >
-        Organization Settings
+        Overview
       </Link>
       <Link
         className={cn(
-          path === `/organizations/${params.organizationSlug}/settings/account` &&
+          path === `/organizations/${params.organizationSlug}/ai/sandboxes` &&
             'font-semibold text-primary'
         )}
-        href={`/organizations/${params.organizationSlug}/settings/account`}
+        href={`/organizations/${params.organizationSlug}/ai/sandboxes`}
       >
-        Account Settings
+        Sandboxes
       </Link>
       <Link
-        href={`/organizations/${params.organizationSlug}/billing`}
         className={cn(
-          path === `/organizations/${params.organizationSlug}/billing` &&
+          path === `/organizations/${params.organizationSlug}/ai/api_keys` &&
             'font-semibold text-primary'
         )}
+        href={`/organizations/${params.organizationSlug}/ai/api_keys`}
       >
-        Billing
+        API Keys
       </Link>
     </nav>
   )

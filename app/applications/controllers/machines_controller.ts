@@ -36,4 +36,40 @@ export default class MachinesController {
       machines: listMachinesResult.value,
     })
   }
+
+  @bindOrganizationWithMember
+  async show({ inertia, params, response }: HttpContext, organization: Organization) {
+    /**
+     * Get fleet.
+     */
+    const getFleetResult = await organization.ravelClient.fleets.get(params.applicationId)
+    if (!getFleetResult.success) {
+      logger.error({ reason: getFleetResult.reason, organization }, 'Failed to get fleet.')
+      return response.internalServerError()
+    }
+
+    /**
+     * Get machine.
+     */
+    const getMachineResult = await organization.ravelClient.machines.get(
+      params.applicationId,
+      params.machineId
+    )
+    if (!getMachineResult.success) {
+      logger.error(
+        {
+          reason: getMachineResult.reason,
+          organization,
+          applicationId: params.applicationId,
+        },
+        'Failed to get machine.'
+      )
+      return response.internalServerError()
+    }
+
+    return inertia.render('applications/machine', {
+      fleet: getFleetResult.value,
+      machine: getMachineResult.value,
+    })
+  }
 }

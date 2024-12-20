@@ -1,14 +1,7 @@
 import React from 'react'
 import { Fleet } from 'valyent.ts'
 import ApplicationLayout from '../components/application_layout'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '#common/ui/components/card'
+import { Card, CardContent, CardHeader, CardTitle } from '#common/ui/components/card'
 
 export default function LogsPage({ fleet }: { fleet: Fleet }) {
   return (

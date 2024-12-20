@@ -3,6 +3,12 @@ import { Slot } from '@radix-ui/react-slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import { cn } from '../lib/cn'
 
+export type BreadcrumbsProps = Array<{
+  label: string | React.ReactNode
+  href?: string
+  isCurrent?: boolean
+}>
+
 const Breadcrumb = React.forwardRef<
   HTMLElement,
   React.ComponentPropsWithoutRef<'nav'> & {

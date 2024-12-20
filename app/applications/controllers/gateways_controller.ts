@@ -18,9 +18,9 @@ export default class GatewaysController {
     /**
      * List gateways.
      */
-    const listGatewaysResult = await organization.ravelClient.fleets.get(params.applicationId)
+    const listGatewaysResult = await organization.ravelClient.gateways.list(params.applicationId)
     if (!listGatewaysResult.success) {
-      logger.error({ reason: listGatewaysResult.reason, organization }, 'Failed to get gateways.')
+      logger.error({ reason: listGatewaysResult.reason, organization }, 'Failed to list gateways.')
       return response.internalServerError()
     }
 

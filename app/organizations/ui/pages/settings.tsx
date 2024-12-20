@@ -6,7 +6,7 @@ interface SettingsProps {}
 
 const Settings: React.FunctionComponent<SettingsProps> = () => {
   return (
-    <SettingsLayout>
+    <SettingsLayout breadcrumbs={[{ label: 'Account Settings' }]}>
       <MyAccountCard />
     </SettingsLayout>
   )

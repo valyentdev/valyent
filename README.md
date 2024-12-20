@@ -11,7 +11,7 @@ To learn more about Valyent, check out the [documentation](https://docs.valyent.
 
 ## License
 
-Valyent is an open source project licensed under the [Apache License Version 2.0](https://github.com/valyentdev/ravel/blob/main/LICENSE).
+Valyent is an open source project licensed under the [Apache License Version 2.0](https://github.com/valyentdev/valyent/blob/main/LICENSE).
 
 ## Contributing
 

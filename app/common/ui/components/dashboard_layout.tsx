@@ -111,7 +111,11 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                 `/organizations/${params.organizationSlug}/api_keys` === path
               }
             />
-            <Tab href={`/organizations/${params.organizationSlug}/ai`} label="AI" />
+            <Tab
+              href={`/organizations/${params.organizationSlug}/ai/overview`}
+              active={path.startsWith(`/organizations/${params.organizationSlug}/ai`)}
+              label="AI"
+            />
             <Tab
               href={`/organizations/${params.organizationSlug}/settings`}
               active={
@@ -134,7 +138,15 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                       {breadcrumb.href ? (
                         <BreadcrumbLink href={breadcrumb.href}>{breadcrumb.label}</BreadcrumbLink>
                       ) : (
-                        <BreadcrumbPage>{breadcrumb.label}</BreadcrumbPage>
+                        <BreadcrumbPage
+                          className={
+                            breadcrumbs[breadcrumbs.length - 1].label !== breadcrumb.label
+                              ? 'text-muted-foreground'
+                              : ''
+                          }
+                        >
+                          {breadcrumb.label}
+                        </BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
                     {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}

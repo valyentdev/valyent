@@ -13,7 +13,7 @@ export default function Edit({
   organization: Organization
 }) {
   return (
-    <SettingsLayout>
+    <SettingsLayout breadcrumbs={[{ label: 'Organization Settings' }]}>
       {isOwner && <EditOrganizationCard organization={organization} />}
       {!isOwner && <QuitOrganizationCard organization={organization} />}
     </SettingsLayout>

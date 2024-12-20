@@ -24,7 +24,7 @@ const Show: React.FunctionComponent<ShowProps> = ({ invoices, upcomingInvoice })
   const [loading, setLoading] = React.useState(false)
   const params = useParams()
   return (
-    <SettingsLayout>
+    <SettingsLayout breadcrumbs={[{ label: 'Billing' }]}>
       <div className="flex items-center gap-x-4">
         <h3 className="text-2xl tracking-[-0.16px] text-zinc-900 font-serif">Billing</h3>
         <a
