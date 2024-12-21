@@ -67,9 +67,29 @@ export default class MachinesController {
       return response.internalServerError()
     }
 
+    /**
+     * List events.
+     */
+    const listEventsResult = await organization.ravelClient.machines.listEvents(
+      params.applicationId,
+      params.machineId
+    )
+    if (!listEventsResult.success) {
+      logger.error(
+        {
+          reason: listEventsResult.reason,
+          organization,
+          applicationId: params.applicationId,
+        },
+        'Failed to list events.'
+      )
+      return response.internalServerError()
+    }
+
     return inertia.render('applications/machine', {
       fleet: getFleetResult.value,
       machine: getMachineResult.value,
+      events: listEventsResult.value,
     })
   }
 }

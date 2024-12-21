@@ -14,12 +14,16 @@ import {
 import { CpuIcon } from 'lucide-react'
 import useParams from '#common/ui/hooks/use_params'
 import Ansi from '@curvenote/ansi-to-react'
-import { formatDate, parseISO } from 'date-fns'
+import { formatDate } from 'date-fns'
+import useQuery from '#common/ui/hooks/use_query'
 
 export default function LogsPage({ machines }: { fleet: Fleet; machines: Array<Machine> }) {
-  const [currentMachine, setCurrentMachine] = React.useState<Machine | undefined>(undefined)
-  const [entries, setEntries] = React.useState<Array<LogEntry>>([])
   const params = useParams()
+  const query = useQuery()
+  const [currentMachine, setCurrentMachine] = React.useState<Machine | undefined>(
+    query.machineId ? machines.find((machine) => machine.id === query.machineId) : undefined
+  )
+  const [entries, setEntries] = React.useState<Array<LogEntry>>([])
 
   async function fetchLogs(machine: Machine) {
     try {

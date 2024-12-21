@@ -1,7 +1,7 @@
 import React from 'react'
 import ApplicationLayout from '../components/application_layout'
 import { Card, CardTitle, CardContent, CardDescription } from '#common/ui/components/card'
-import { IconExternalLink, IconTrash } from '@tabler/icons-react'
+import { IconExternalLink } from '@tabler/icons-react'
 import { Machine, MachineStatus } from 'valyent.ts'
 import {
   Table,
@@ -12,11 +12,10 @@ import {
   TableCell,
 } from '#common/ui/components/table'
 import { Link } from '@inertiajs/react'
-import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import useParams from '#common/ui/hooks/use_params'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import clsx from 'clsx'
-import { CirclePlayIcon, CircleStopIcon, LogsIcon } from 'lucide-react'
+import MachineActions from '../components/machine_actions'
 
 export default function MachinesPage({ machines }: { machines: Array<Machine> }) {
   return (
@@ -59,7 +58,6 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
 }
 
 function MachineTableItem({ machine }: { machine: Machine }) {
-  const { currentOrganization } = useOrganizations()
   const params = useParams()
   return (
     <TableRow>
@@ -70,7 +68,7 @@ function MachineTableItem({ machine }: { machine: Machine }) {
           </div>
         </div>
         <Link
-          href={`/organizations/${currentOrganization?.id}/applications/${params.applicationId}/machines/${machine.id}`}
+          href={`/organizations/${params.organizationSlug}/applications/${params.applicationId}/machines/${machine.id}`}
           className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
         >
           {machine.id}
@@ -84,26 +82,8 @@ function MachineTableItem({ machine }: { machine: Machine }) {
       <TableCell>
         {formatDistanceToNow(parseISO(machine.created_at), { addSuffix: true })}
       </TableCell>
-      <TableCell className="flex flex-wrap items-center space-x-2">
-        {machine.state === MachineStatus.Stopped && (
-          <button className="hover:opacity-85 transition-opacity lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-md lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
-            <CirclePlayIcon className="h-3.5 w-3.5 text-blue-800" />
-          </button>
-        )}
-        <button className="hover:opacity-85 transition-opacity lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-md lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
-          <LogsIcon className="h-3.5 w-3.5 text-blue-800" />
-        </button>
-        {machine.state !== MachineStatus.Stopped && (
-          <button className="hover:opacity-85 transition-opacity lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-red-100/75 lg:rounded-md lg:shadow-sm shadow-red-800/10 lg:ring-1 ring-red-800/10">
-            <CircleStopIcon className="h-3.5 w-3.5 text-red-800" />
-          </button>
-        )}
-        {machine.state !== MachineStatus.Destroyed &&
-          machine.state !== MachineStatus.Destroying && (
-            <button className="hover:opacity-85 transition-opacity lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-red-100/75 lg:rounded-md lg:shadow-sm shadow-red-800/10 lg:ring-1 ring-red-800/10">
-              <IconTrash className="h-3.5 w-3.5 text-red-800" />
-            </button>
-          )}
+      <TableCell>
+        <MachineActions machine={machine} />
       </TableCell>
     </TableRow>
   )
@@ -124,8 +104,4 @@ function getColorClass(status: MachineStatus) {
     case MachineStatus.Running:
       return 'text-emerald-500 !bg-emerald-100 animate-pulse'
   }
-}
-
-function capitalize(str: string): string {
-  return str.charAt(0).toUpperCase() + str.slice(1)
 }
