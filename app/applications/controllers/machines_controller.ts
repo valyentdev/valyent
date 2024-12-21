@@ -92,4 +92,32 @@ export default class MachinesController {
       events: listEventsResult.value,
     })
   }
+
+  @bindOrganizationWithMember
+  async destroy({ params, response }: HttpContext, organization: Organization) {
+    /**
+     * Delete machine.
+     */
+    const deleteMachineResult = await organization.ravelClient.machines.delete(
+      params.applicationId,
+      params.machineId,
+      true
+    )
+    if (!deleteMachineResult.success) {
+      logger.error(
+        {
+          reason: deleteMachineResult.reason,
+          organization,
+          applicationId: params.applicationId,
+          machineId: params.machineId,
+        },
+        'Failed to delete machine.'
+      )
+      return response.internalServerError()
+    }
+
+    return response
+      .redirect()
+      .toPath(`/organizations/${organization.slug}/applications/${params.applicationId}/machines`)
+  }
 }

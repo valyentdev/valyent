@@ -43,7 +43,7 @@ export default function GatewaysPage({ gateways }: { fleet: Fleet; gateways: Arr
         <p className="mr-1">View and manage the entrypoints of your machines.</p>
         <a
           className="text-blue-600 hover:text-blue-700 flex items-center space-x-1"
-          href="https://docs.valyent.cloud/glossary/gateway"
+          href="https://docs.valyent.cloud/concepts/gateway"
           target="_blank"
         >
           <span>Learn more about Valyent Gateways.</span>

@@ -9,10 +9,16 @@ import {
   CardTitle,
 } from '#common/ui/components/card'
 import Button from '#common/ui/components/button'
+import DeleteApplicationDialog from '../components/delete_application_dialog'
 
 export default function EditPage({ fleet }: { fleet: Fleet }) {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
   return (
     <ApplicationLayout title="Settings" breadcrumbs={[{ label: 'Settings' }]}>
+      <DeleteApplicationDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => setIsDeleteDialogOpen(false)}
+      />
       <div className="sm:col-span-3 lg:col-span-4">
         <Card>
           <CardContent>
@@ -22,7 +28,9 @@ export default function EditPage({ fleet }: { fleet: Fleet }) {
             </CardDescription>
           </CardContent>
           <CardFooter>
-            <Button variant="destructive">Delete Application</Button>
+            <Button variant="destructive" onClick={() => setIsDeleteDialogOpen(true)}>
+              Delete Application
+            </Button>
           </CardFooter>
         </Card>
       </div>

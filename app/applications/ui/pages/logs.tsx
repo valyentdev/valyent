@@ -93,17 +93,24 @@ export default function LogsPage({ machines }: { fleet: Fleet; machines: Array<M
         </div>
       </div>
       <Card className="mt-4">
-        <CardContent className="!px-4 !py-2">
-          <ul className="min-h-8 max-h-96 overflow-y-auto font-mono text-sm" id="logs-container">
-            {entries.map((entry, index) => (
-              <li key={index}>
-                <span className="mr-4 text-emerald-600">
-                  {formatDate(new Date(entry.timestamp * 1000), 'yyyy-MM-dd HH:mm:ss O')}
-                </span>
-                <Ansi>{entry.message}</Ansi>
-              </li>
-            ))}
-          </ul>
+        <CardContent className="!p-6">
+          {currentMachine ? (
+            <ul
+              className="min-h-8 max-h-[30rem] flex flex-col gap-y-1 overflow-y-auto font-mono text-sm"
+              id="logs-container"
+            >
+              {entries.map((entry, index) => (
+                <li key={index}>
+                  <span className="mr-4 text-emerald-600">
+                    {formatDate(new Date(entry.timestamp * 1000), 'yyyy-MM-dd HH:mm:ss O')}
+                  </span>
+                  <Ansi>{entry.message}</Ansi>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm italic">Select a machine...</p>
+          )}
         </CardContent>
       </Card>
     </ApplicationLayout>
