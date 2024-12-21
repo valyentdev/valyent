@@ -12,7 +12,7 @@ import Button from '#common/ui/components/button'
 
 export default function EditPage({ fleet }: { fleet: Fleet }) {
   return (
-    <ApplicationLayout breadcrumbs={[{ label: 'Settings' }]}>
+    <ApplicationLayout title="Settings" breadcrumbs={[{ label: 'Settings' }]}>
       <div className="sm:col-span-3 lg:col-span-4">
         <Card>
           <CardContent>

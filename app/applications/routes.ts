@@ -33,6 +33,13 @@ router
   ])
   .use(middleware.auth())
 
+router
+  .get('/organizations/:organizationSlug/applications/:applicationId/machines/:machineId/logs', [
+    LogsController,
+    'getLogs',
+  ])
+  .use(middleware.auth())
+
 const GatewaysController = () => import('./controllers/gateways_controller.js')
 
 router

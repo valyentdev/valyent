@@ -15,7 +15,7 @@ export default function ShowPage({ fleet }: { fleet: Fleet }) {
   const { currentOrganization } = useOrganizations()
   const basePath = `/organizations/${currentOrganization?.slug}`
   return (
-    <ApplicationLayout breadcrumbs={[{ label: 'Overview' }]}>
+    <ApplicationLayout title="Overview" breadcrumbs={[{ label: 'Overview' }]}>
       <div className="sm:col-span-3 lg:col-span-4">
         <Card>
           <CardHeader>

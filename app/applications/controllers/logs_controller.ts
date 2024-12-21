@@ -15,8 +15,32 @@ export default class LogsController {
       return response.internalServerError()
     }
 
+    /**
+     * List machines.
+     */
+    const listMachinesResult = await organization.ravelClient.machines.list(getFleetResult.value.id)
+    if (!listMachinesResult.success) {
+      logger.error({ reason: listMachinesResult.reason, organization }, 'Failed to list machines.')
+      return response.internalServerError()
+    }
+
     return inertia.render('applications/logs', {
       fleet: getFleetResult.value,
+      machines: listMachinesResult.value,
     })
+  }
+
+  @bindOrganizationWithMember
+  async getLogs({ params, response }: HttpContext, organization: Organization) {
+    const logsResponse = await organization.ravelClient.machines.getLogs(
+      params.applicationId,
+      params.machineId
+    )
+    if (!logsResponse.success) {
+      logger.error({ reason: logsResponse.reason, organization }, 'Failed to get logs.')
+      return response.internalServerError()
+    }
+
+    return response.json(logsResponse.value)
   }
 }

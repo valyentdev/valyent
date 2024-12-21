@@ -1,3 +1,4 @@
+import { CardTitle } from '#common/ui/components/card'
 import DashboardLayout, { DashboardLayoutProps } from '#common/ui/components/dashboard_layout'
 import usePageProps from '#common/ui/hooks/use_page_props'
 import useParams from '#common/ui/hooks/use_params'
@@ -17,7 +18,11 @@ export interface ApplicationLayoutProps extends DashboardLayoutProps {
   }>
 }
 
-export default function ApplicationLayout({ children, breadcrumbs }: ApplicationLayoutProps) {
+export default function ApplicationLayout({
+  children,
+  breadcrumbs,
+  title,
+}: ApplicationLayoutProps) {
   const { currentOrganization } = useOrganizations()
   const basePath = `/organizations/${currentOrganization?.slug}`
   const { fleet } = usePageProps<{ fleet: Fleet }>()
@@ -63,7 +68,11 @@ export default function ApplicationLayout({ children, breadcrumbs }: Application
         <div>
           <ApplicationLayoutNav />
         </div>
-        <div className="sm:col-span-3 lg:col-span-4">{children}</div>
+
+        <div className="sm:col-span-3 lg:col-span-4">
+          {title ? <CardTitle className="mb-4">{title}</CardTitle> : null}
+          {children}
+        </div>
       </div>
     </DashboardLayout>
   )

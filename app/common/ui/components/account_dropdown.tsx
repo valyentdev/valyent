@@ -40,7 +40,7 @@ const AccountDropdown: React.FunctionComponent<AccountDropdownProps> = () => {
 
         <DropdownMenuGroup>
           <Link href={`/organizations/${params.organizationSlug}/settings/account`}>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem className="cursor-pointer text-foreground">
               <IconSettings className="mr-2 h-4 w-4" />
 
               <span>Account Settings</span>
