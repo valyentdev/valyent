@@ -22,11 +22,14 @@ const DeleteGatewayDialog: React.FunctionComponent<DeleteGatewayDialogProps> = (
   const form = useForm({})
   const successToast = useSuccessToast()
   const handleDelete = () => {
-    form.delete(`/organizations/${params.organizationSlug}/gateways/${gateway.id}`, {
-      onSuccess: () => {
-        successToast('Gateway deleted successfully.')
-      },
-    })
+    form.delete(
+      `/organizations/${params.organizationSlug}/applications/${params.applicationId}/gateways/${gateway.id}`,
+      {
+        onSuccess: () => {
+          successToast('Gateway deleted successfully.')
+        },
+      }
+    )
     onClose()
   }
 

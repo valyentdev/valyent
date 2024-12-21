@@ -11,6 +11,8 @@ import { useForm } from '@inertiajs/react'
 import Label from '#common/ui/components/label'
 import { Input } from '#common/ui/components/input'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
+import useSuccessToast from '#common/ui/hooks/use_success_toast'
+import useParams from '#common/ui/hooks/use_params'
 
 export type CreateGatewayDialogProps = {
   open: boolean
@@ -19,7 +21,8 @@ export type CreateGatewayDialogProps = {
 
 export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDialogProps) {
   const { currentOrganization } = useOrganizations()
-
+  const successToast = useSuccessToast()
+  const params = useParams()
   const form = useForm({
     name: '',
     targetPort: 0,
@@ -27,11 +30,16 @@ export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDial
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    form.post(`/organizations/${currentOrganization?.slug}/Gateways`, {
-      onSuccess: () => {
-        setOpen(false)
-      },
-    })
+    form.post(
+      `/organizations/${currentOrganization?.slug}/applications/${params.applicationId}/gateways`,
+      {
+        onSuccess: () => {
+          successToast('Gateway successfully created.')
+
+          setOpen(false)
+        },
+      }
+    )
   }
 
   return (

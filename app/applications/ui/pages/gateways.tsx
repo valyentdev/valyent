@@ -23,15 +23,8 @@ import { MoreHorizontal, Trash } from 'lucide-react'
 import DeleteGatewayDialog from '../components/delete_gateway_dialog'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import useParams from '#common/ui/hooks/use_params'
-import { Link } from '@inertiajs/react'
 
-export default function GatewaysPage({
-  fleet,
-  gateways,
-}: {
-  fleet: Fleet
-  gateways: Array<Gateway>
-}) {
+export default function GatewaysPage({ gateways }: { fleet: Fleet; gateways: Array<Gateway> }) {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
 
   return (
@@ -84,7 +77,7 @@ export default function GatewaysPage({
 function GatewayTableItem({ gateway }: { gateway: Gateway }) {
   const [openDeleteGatewayDialog, setOpenDeleteGatewayDialog] = React.useState(false)
   const { currentOrganization } = useOrganizations()
-  const params = useParams()
+
   return (
     <TableRow>
       <DeleteGatewayDialog
