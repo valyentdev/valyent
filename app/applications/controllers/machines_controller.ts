@@ -94,6 +94,60 @@ export default class MachinesController {
   }
 
   @bindOrganizationWithMember
+  async start({ params, response }: HttpContext, organization: Organization) {
+    /**
+     * Start machine.
+     */
+    const startMachineResult = await organization.ravelClient.machines.start(
+      params.applicationId,
+      params.machineId
+    )
+    if (!startMachineResult.success) {
+      logger.error(
+        {
+          reason: startMachineResult.reason,
+          organization,
+          applicationId: params.applicationId,
+          machineId: params.machineId,
+        },
+        'Failed to start machine.'
+      )
+      return response.internalServerError()
+    }
+
+    return response.redirect().back()
+  }
+
+  @bindOrganizationWithMember
+  async stop({ params, response }: HttpContext, organization: Organization) {
+    /**
+     * Stop machine.
+     */
+    const stopMachineResult = await organization.ravelClient.machines.stop(
+      params.applicationId,
+      params.machineId,
+      {
+        timeout: 0,
+        signal: 'SIGKILL',
+      }
+    )
+    if (!stopMachineResult.success) {
+      logger.error(
+        {
+          reason: stopMachineResult.reason,
+          organization,
+          applicationId: params.applicationId,
+          machineId: params.machineId,
+        },
+        'Failed to stop machine.'
+      )
+      return response.internalServerError()
+    }
+
+    return response.redirect().back()
+  }
+
+  @bindOrganizationWithMember
   async destroy({ params, response }: HttpContext, organization: Organization) {
     /**
      * Delete machine.

@@ -24,6 +24,20 @@ router
   })
   .use('*', middleware.auth())
 
+router
+  .post('/organizations/:organizationSlug/applications/:applicationId/machines/:machineId/start', [
+    MachinesController,
+    'start',
+  ])
+  .use(middleware.auth())
+
+router
+  .post('/organizations/:organizationSlug/applications/:applicationId/machines/:machineId/stop', [
+    MachinesController,
+    'stop',
+  ])
+  .use(middleware.auth())
+
 const LogsController = () => import('./controllers/logs_controller.js')
 
 router
