@@ -1,12 +1,9 @@
-import Button from '#common/ui/components/button'
 import DashboardLayout, { DashboardLayoutProps } from '#common/ui/components/dashboard_layout'
 import useParams from '#common/ui/hooks/use_params'
 import usePath from '#common/ui/hooks/use_path'
 import { cn } from '#common/ui/lib/cn'
 import { Link } from '@inertiajs/react'
-import { PlusCircleIcon, SparkleIcon } from 'lucide-react'
 import React from 'react'
-import CreateApplicationDialog from './create_application_dialog'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { BreadcrumbsProps } from '#common/ui/components/breadcrumb'
 
@@ -15,7 +12,6 @@ export interface ApplicationsLayoutProps extends DashboardLayoutProps {
 }
 
 export default function ApplicationsLayout({ breadcrumbs, children }: ApplicationsLayoutProps) {
-  const [createApplicationDialogOpen, setCreateApplicationDialogOpen] = React.useState(false)
   const { currentOrganization } = useOrganizations()
   const basePath = `/organizations/${currentOrganization?.slug}`
 
@@ -47,22 +43,7 @@ export default function ApplicationsLayout({ breadcrumbs, children }: Applicatio
   const layoutBreadcrumbs = [...initialBreadcrumbs, ...breadcrumbs]
 
   return (
-    <DashboardLayout
-      breadcrumbs={layoutBreadcrumbs}
-      title="Applications"
-      actionButton={
-        <Button
-          onClick={() => setCreateApplicationDialogOpen(true)}
-          icon={<PlusCircleIcon className="h-4 w-4" />}
-        >
-          Create Application
-        </Button>
-      }
-    >
-      <CreateApplicationDialog
-        open={createApplicationDialogOpen}
-        setOpen={setCreateApplicationDialogOpen}
-      />
+    <DashboardLayout breadcrumbs={layoutBreadcrumbs} title="Applications">
       <div className="grid sm:grid-cols-4 lg:grid-cols-5 my-8">
         <div>
           <ApplicationsLayoutNav />

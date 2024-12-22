@@ -26,7 +26,7 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
           <p className="mr-1">View and manage the virtual machines orchestrated by Ravel.</p>
           <a
             className="text-blue-600 hover:text-blue-800 transition-colors flex items-center space-x-1"
-            href="https://docs.valyent.cloud/concepts/machine"
+            href="https://docs.valyent.cloud/glossary#machine"
             target="_blank"
           >
             <span>Learn more about Valyent Machines.</span>

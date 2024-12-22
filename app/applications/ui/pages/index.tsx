@@ -4,13 +4,32 @@ import type { Fleet } from 'valyent.ts'
 import { Link } from '@inertiajs/react'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Card, CardContent } from '#common/ui/components/card'
-import { SparkleIcon } from 'lucide-react'
+import { PlusCircleIcon, SparkleIcon } from 'lucide-react'
 import { formatDistanceToNow, parseISO } from 'date-fns'
+import Button from '#common/ui/components/button'
+import CreateApplicationDialog from '../components/create_application_dialog'
 
 export default function IndexPage({ fleets }: { fleets: Array<Fleet> }) {
+  const [createApplicationDialogOpen, setCreateApplicationDialogOpen] = React.useState(false)
+
   return (
     <ApplicationsLayout breadcrumbs={[{ label: 'List' }]}>
-      <div className="grid lg:grid-cols-3 gap-4">
+      <CreateApplicationDialog
+        open={createApplicationDialogOpen}
+        setOpen={setCreateApplicationDialogOpen}
+      />
+      <div className="flex items-center space-x-4">
+        <h1 className="text-2xl sm:text-3xl tracking-tight font-serif text-black">
+          List of Applications
+        </h1>
+        <Button
+          onClick={() => setCreateApplicationDialogOpen(true)}
+          icon={<PlusCircleIcon className="h-4 w-4" />}
+        >
+          Create Application
+        </Button>
+      </div>
+      <div className="grid lg:grid-cols-3 gap-4 mt-8">
         {fleets.map((fleet) => (
           <FleetCard fleet={fleet} key={fleet.id} />
         ))}
