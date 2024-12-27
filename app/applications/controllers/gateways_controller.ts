@@ -7,25 +7,27 @@ export default class GatewaysController {
   @bindOrganizationWithMember
   async index({ inertia, params, response }: HttpContext, organization: Organization) {
     /**
-     * Get fleet.
+     * Get application.
      */
-    const getFleetResult = await organization.ravelClient.fleets.get(params.applicationId)
-    if (!getFleetResult.success) {
-      logger.error({ reason: getFleetResult.reason, organization }, 'Failed to get fleet.')
-      return response.internalServerError()
-    }
+    const application = await organization
+      .related('applications')
+      .query()
+      .where('id', params.applicationId)
+      .firstOrFail()
+    await application.load('organization')
+    await application.loadFleet()
 
     /**
      * List gateways.
      */
-    const listGatewaysResult = await organization.ravelClient.gateways.list(params.applicationId)
+    const listGatewaysResult = await organization.ravelClient.gateways.list(application.fleet!.id)
     if (!listGatewaysResult.success) {
       logger.error({ reason: listGatewaysResult.reason, organization }, 'Failed to list gateways.')
       return response.internalServerError()
     }
 
     return inertia.render('applications/gateways', {
-      fleet: getFleetResult.value,
+      application,
       gateways: listGatewaysResult.value,
     })
   }

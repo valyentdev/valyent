@@ -7,18 +7,20 @@ export default class MachinesController {
   @bindOrganizationWithMember
   async index({ inertia, params, response }: HttpContext, organization: Organization) {
     /**
-     * Get fleet.
+     * Get application.
      */
-    const getFleetResult = await organization.ravelClient.fleets.get(params.applicationId)
-    if (!getFleetResult.success) {
-      logger.error({ reason: getFleetResult.reason, organization }, 'Failed to get fleet.')
-      return response.internalServerError()
-    }
+    const application = await organization
+      .related('applications')
+      .query()
+      .where('id', params.applicationId)
+      .firstOrFail()
+    await application.load('organization')
+    await application.loadFleet()
 
     /**
      * Retrieve machines.
      */
-    const listMachinesResult = await organization.ravelClient.machines.list(params.applicationId)
+    const listMachinesResult = await organization.ravelClient.machines.list(application.fleet!.id)
     if (!listMachinesResult.success) {
       logger.error(
         {
@@ -32,7 +34,7 @@ export default class MachinesController {
     }
 
     return inertia.render('applications/machines', {
-      fleet: getFleetResult.value,
+      application,
       machines: listMachinesResult.value,
     })
   }

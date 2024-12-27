@@ -6,26 +6,25 @@ import logger from '@adonisjs/core/services/logger'
 export default class LogsController {
   @bindOrganizationWithMember
   async index({ inertia, params, response }: HttpContext, organization: Organization) {
-    /**
-     * Get fleet.
-     */
-    const getFleetResult = await organization.ravelClient.fleets.get(params.applicationId)
-    if (!getFleetResult.success) {
-      logger.error({ reason: getFleetResult.reason, organization }, 'Failed to get fleet.')
-      return response.internalServerError()
-    }
+    const application = await organization
+      .related('applications')
+      .query()
+      .where('id', params.applicationId)
+      .firstOrFail()
+    await application.load('organization')
+    await application.loadFleet()
 
     /**
      * List machines.
      */
-    const listMachinesResult = await organization.ravelClient.machines.list(getFleetResult.value.id)
+    const listMachinesResult = await organization.ravelClient.machines.list(application.fleet!.id)
     if (!listMachinesResult.success) {
       logger.error({ reason: listMachinesResult.reason, organization }, 'Failed to list machines.')
       return response.internalServerError()
     }
 
     return inertia.render('applications/logs', {
-      fleet: getFleetResult.value,
+      application,
       machines: listMachinesResult.value,
     })
   }
