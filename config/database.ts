@@ -21,6 +21,7 @@ const dbConfig = defineConfig({
           './app/organizations/database/migrations',
           './app/api_keys/database/migrations',
           './app/ai/database/migrations',
+          './app/applications/database/migrations',
         ],
       },
       seeders: {

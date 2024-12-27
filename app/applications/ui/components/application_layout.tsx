@@ -1,3 +1,4 @@
+import Application from '#applications/database/models/application'
 import { CardTitle } from '#common/ui/components/card'
 import DashboardLayout, { DashboardLayoutProps } from '#common/ui/components/dashboard_layout'
 import usePageProps from '#common/ui/hooks/use_page_props'
@@ -25,7 +26,7 @@ export default function ApplicationLayout({
 }: ApplicationLayoutProps) {
   const { currentOrganization } = useOrganizations()
   const basePath = `/organizations/${currentOrganization?.slug}`
-  const { fleet } = usePageProps<{ fleet: Fleet }>()
+  const { application } = usePageProps<{ application: Application }>()
   const initialBreadcrumbs = [
     {
       label: (
@@ -51,11 +52,11 @@ export default function ApplicationLayout({
       label: 'Applications',
     },
     {
-      href: basePath + '/applications/' + fleet.id,
+      href: basePath + '/applications/' + application.id,
       label: (
         <div className="flex items-center space-x-2">
           <SparkleIcon className="h-4 w-4 text-zinc-600" />
-          <span>{fleet.name}</span>
+          <span>{application.name}</span>
         </div>
       ),
     },
@@ -80,31 +81,31 @@ export default function ApplicationLayout({
 
 function ApplicationLayoutNav() {
   const params = useParams()
-  const { fleet } = usePageProps<{ fleet: Fleet }>()
+  const { application } = usePageProps<{ application: Application }>()
   return (
     <nav className="grid gap-2 text-sm text-muted-foreground">
       <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${fleet.id}`}
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}`}
         label="Overview"
         Icon={InfoIcon}
       />
       <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${fleet.id}/machines`}
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/machines`}
         label="Machines"
         Icon={CpuIcon}
       />
       <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${fleet.id}/gateways`}
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/gateways`}
         label="Gateways"
         Icon={NetworkIcon}
       />
       <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${fleet.id}/logs`}
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/logs`}
         label="Logs"
         Icon={LogsIcon}
       />
       <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${fleet.id}/edit`}
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/edit`}
         label="Settings"
         Icon={Settings2Icon}
       />

@@ -11,7 +11,7 @@ import {
 import Button from '#common/ui/components/button'
 import DeleteApplicationDialog from '../components/delete_application_dialog'
 
-export default function EditPage({ fleet }: { fleet: Fleet }) {
+export default function EditPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)
   return (
     <ApplicationLayout title="Settings" breadcrumbs={[{ label: 'Settings' }]}>

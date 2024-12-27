@@ -19,6 +19,7 @@ import logger from '@adonisjs/core/services/logger'
 import BaseModel from '#common/database/models/base_model'
 import { Client } from 'valyent.ts'
 import Sandbox from '#ai/database/models/sandbox'
+import Application from '#applications/database/models/application'
 
 export default class Organization extends BaseModel {
   static apiKeys = DbAccessTokensProvider.forModel(Organization, {
@@ -72,6 +73,12 @@ export default class Organization extends BaseModel {
     localKey: 'id',
   })
   declare sandboxes: HasMany<typeof Sandbox>
+
+  @hasMany(() => Application, {
+    foreignKey: 'organizationId',
+    localKey: 'id',
+  })
+  declare applications: HasMany<typeof Application>
 
   /**
    * Hooks.
