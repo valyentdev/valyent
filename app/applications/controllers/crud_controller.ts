@@ -57,17 +57,16 @@ export default class CrudController {
   }
 
   @bindOrganizationWithMember
-  async edit({ inertia, params, response }: HttpContext, organization: Organization) {
-    const result = await organization.ravelClient.fleets.get(params.applicationId)
-    if (!result.success) {
-      logger.error(
-        { reason: result.reason, organization, applicationId: params.applicationId },
-        'Failed to retrieve fleet.'
-      )
-      return response.internalServerError()
-    }
+  async edit({ inertia, params }: HttpContext, organization: Organization) {
+    const application = await organization
+      .related('applications')
+      .query()
+      .where('id', params.applicationId)
+      .firstOrFail()
+    await application.load('organization')
+    await application.loadFleet()
 
-    return inertia.render('applications/edit', { fleet: result.value })
+    return inertia.render('applications/edit', { application })
   }
 
   @bindOrganizationWithMember
