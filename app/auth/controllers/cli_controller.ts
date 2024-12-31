@@ -1,4 +1,3 @@
-import ApiKey from '#api_keys/database/models/api_key'
 import User from '#common/database/models/user'
 import Organization from '#organizations/database/models/organization'
 import { cuid } from '@adonisjs/core/helpers'

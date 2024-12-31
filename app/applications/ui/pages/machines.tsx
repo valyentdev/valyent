@@ -22,7 +22,7 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
     <ApplicationLayout breadcrumbs={[{ label: 'Machines' }]}>
       <div className="sm:col-span-3 lg:col-span-4">
         <CardTitle>Machines</CardTitle>
-        <CardDescription className="flex flex-wrap">
+        <CardDescription className="flex flex-wrap mt-1">
           <p className="mr-1">View and manage the virtual machines orchestrated by Ravel.</p>
           <a
             className="text-blue-600 hover:text-blue-800 transition-colors flex items-center space-x-1"
@@ -45,6 +45,12 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
                 </TableRow>
               </TableHeader>
               <TableBody>
+                {machines.length === 0 ? (
+                  <TableCell>
+                    <p className="text-sm italic text-zinc-900">No machine yet...</p>
+                  </TableCell>
+                ) : null}
+
                 {machines.map((machine) => (
                   <MachineTableItem machine={machine} key={machine.id} />
                 ))}

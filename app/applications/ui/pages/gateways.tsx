@@ -62,6 +62,11 @@ export default function GatewaysPage({ gateways }: { fleet: Fleet; gateways: Arr
               </TableRow>
             </TableHeader>
             <TableBody>
+              {gateways.length === 0 ? (
+                <TableCell>
+                  <p className="text-sm italic text-zinc-900">No gateway yet...</p>
+                </TableCell>
+              ) : null}
               {gateways.map((gateway) => (
                 <GatewayTableItem gateway={gateway} key={gateway.id} />
               ))}
