@@ -45,6 +45,7 @@ export default defineConfig({
     () => import('@adonisjs/mail/mail_provider'),
     () => import('./app/common/providers/app_provider.js'),
     () => import('@adonisjs/redis/redis_provider'),
+    () => import('@adonisjs/ally/ally_provider')
   ],
 
   /*

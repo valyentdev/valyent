@@ -3,7 +3,7 @@ import { sessionGuard, sessionUserProvider } from '@adonisjs/auth/session'
 import type { InferAuthEvents, Authenticators as RawAuthenticators } from '@adonisjs/auth/types'
 import { tokensGuard, tokensUserProvider } from '@adonisjs/auth/access_tokens'
 
-export const AFTER_AUTH_REDIRECT_URL = '/organizations'
+export const afterAuthRedirectUrl = '/organizations'
 
 const authConfig = defineConfig({
   default: 'web',

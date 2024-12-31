@@ -64,3 +64,12 @@ router
     gateways: 'gatewayId',
   })
   .use('*', middleware.auth())
+
+const DeploymentsController = () => import('./controllers/deployments_controller.js')
+
+router
+  .get('/organizations/:organizationSlug/applications/:applicationId/deployments', [
+    DeploymentsController,
+    'index',
+  ])
+  .use(middleware.auth())

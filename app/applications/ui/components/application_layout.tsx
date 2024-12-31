@@ -7,7 +7,16 @@ import usePath from '#common/ui/hooks/use_path'
 import { cn } from '#common/ui/lib/cn'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Link } from '@inertiajs/react'
-import { CpuIcon, InfoIcon, LogsIcon, NetworkIcon, Settings2Icon, SparkleIcon } from 'lucide-react'
+import { IconRocket } from '@tabler/icons-react'
+import {
+  CpuIcon,
+  InfoIcon,
+  LogsIcon,
+  NetworkIcon,
+  PlaneIcon,
+  Settings2Icon,
+  SparkleIcon,
+} from 'lucide-react'
 import React from 'react'
 import { Fleet } from 'valyent.ts'
 
@@ -88,6 +97,11 @@ function ApplicationLayoutNav() {
         href={`/organizations/${params.organizationSlug}/applications/${application.id}`}
         label="Overview"
         Icon={InfoIcon}
+      />
+      <NavItem
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
+        label="Deployments"
+        Icon={IconRocket}
       />
       <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/machines`}

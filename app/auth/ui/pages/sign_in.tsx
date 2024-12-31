@@ -5,6 +5,7 @@ import useError from '#common/ui/hooks/use_error'
 import InputField from '#common/ui/components/input_field'
 import SubmitButton from '#common/ui/components/submit_button'
 import Button from '#common/ui/components/button'
+import ContinueWithGithub from '../components/continue_with_github'
 
 interface SignInProps {}
 
@@ -41,6 +42,8 @@ const SignIn: React.FunctionComponent<SignInProps> = () => {
         </>
       }
     >
+      <ContinueWithGithub />
+
       <form className="space-y-4 mt-6" onSubmit={handleSubmit}>
         <InputField
           id="email"

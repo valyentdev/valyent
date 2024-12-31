@@ -39,6 +39,9 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare role: 'admin' | 'user'
 
+  @column()
+  declare githubId: string
+
   /**
    * Hooks.
    */

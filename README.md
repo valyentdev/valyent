@@ -19,6 +19,14 @@ You can signal bugs or request a feature by opening an issue and/or a pull reque
 
 ## Development Setup
 
+### Requirements
+
+- [Node.js](https://nodejs.org/) - JavaScript runtime
+- [npm](https://www.npmjs.com/) - Node.js package manager
+- [Docker](https://www.docker.com/) - A containerization platform
+
+#### Installation
+
 ```bash
 # Clone the Git repository on your machine
 git clone https://github.com/valyentdev/valyent
@@ -41,6 +49,27 @@ node ace db:seed
 # Run the development server
 npm run dev
 ```
+
+### Set up GitHub OAuth
+
+1. Go to [GitHub Developer Settings](https://github.com/settings/apps) and create some new OAuth/regular app.
+
+2. Fill in the form with the following values :
+
+- Application name : `Valyent Console`
+- Homepage URL : `http://127.0.0.1:3333`
+- Callback URL : `http://127.0.0.1:3333/auth/github/callback`
+
+3. Once the app is created, you will be able to see the `Client ID` and `Client Secret`. Add them to the `.env` file :
+
+```env
+GITHUB_CLIENT_ID=<your_client_id>
+GITHUB_CLIENT_SECRET=<your_client_secret>
+```
+
+You now should be able to log in with GitHub.
+
+Please remember to use `http://127.0.0.1:3333` as your development URL, instead of `http://localhost:3333`.
 
 ## Star History
 

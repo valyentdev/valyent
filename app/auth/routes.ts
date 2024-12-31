@@ -59,3 +59,11 @@ router
     router.post('/auth/cli/:sessionID', [CliController, 'handle'])
   })
   .use(middleware.auth())
+
+/**
+ * Github-related routes.
+ */
+const AuthGithubController = () => import('#auth/controllers/github_controller')
+
+router.get('/auth/github/redirect', [AuthGithubController, 'redirect'])
+router.get('/auth/github/callback', [AuthGithubController, 'callback'])

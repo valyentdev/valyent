@@ -1,7 +1,7 @@
 import User from '#common/database/models/user'
 import { signUpValidator } from '#auth/validators/sign_up_validator'
 import type { HttpContext } from '@adonisjs/core/http'
-import { AFTER_AUTH_REDIRECT_URL } from '#config/auth'
+import { afterAuthRedirectUrl } from '#config/auth'
 
 export default class SignUpController {
   async show({ inertia }: HttpContext) {
@@ -22,6 +22,6 @@ export default class SignUpController {
 
     await auth.use('web').login(user)
 
-    return response.redirect(AFTER_AUTH_REDIRECT_URL)
+    return response.redirect(afterAuthRedirectUrl)
   }
 }

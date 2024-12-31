@@ -15,6 +15,8 @@ export default class extends BaseSchema {
       table.string('fleet_id').nullable().index().unique({
         deferrable: 'deferred',
       })
+      table.string('github_repository').nullable()
+      table.string('github_branch').nullable()
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

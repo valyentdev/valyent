@@ -1,7 +1,7 @@
 import User from '#common/database/models/user'
 import { signInValidator } from '#auth/validators/sign_in_validator'
 import type { HttpContext } from '@adonisjs/core/http'
-import { AFTER_AUTH_REDIRECT_URL } from '#config/auth'
+import { afterAuthRedirectUrl } from '#config/auth'
 
 export default class SignInController {
   async show({ inertia }: HttpContext) {
@@ -19,6 +19,6 @@ export default class SignInController {
       return response.redirect().toPath(nextPath)
     }
 
-    return response.redirect().toPath(AFTER_AUTH_REDIRECT_URL)
+    return response.redirect().toPath(afterAuthRedirectUrl)
   }
 }

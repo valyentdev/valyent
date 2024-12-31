@@ -1,8 +1,9 @@
 import BaseModel from '#common/database/models/base_model'
 import Organization from '#organizations/database/models/organization'
-import { afterFetch, afterFind, belongsTo, column, computed } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import type { Fleet } from 'valyent.ts'
+import Deployment from './deployment.js'
 
 export default class Application extends BaseModel {
   private fleetValue: Fleet | null = null
@@ -22,11 +23,20 @@ export default class Application extends BaseModel {
   @belongsTo(() => Organization)
   declare organization: BelongsTo<typeof Organization>
 
+  @hasMany(() => Deployment)
+  declare deployments: HasMany<typeof Deployment>
+
   @column()
   declare organizationId: string
 
   @column()
   declare name: string
+
+  @column()
+  declare githubRepository: string | null
+
+  @column()
+  declare githubBranch: string | null
 
   /**
    * Load the fleet for the application.

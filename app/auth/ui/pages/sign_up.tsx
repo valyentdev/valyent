@@ -4,6 +4,7 @@ import { Link, useForm } from '@inertiajs/react'
 import useError from '#common/ui/hooks/use_error'
 import InputField from '#common/ui/components/input_field'
 import SubmitButton from '#common/ui/components/submit_button'
+import ContinueWithGithub from '../components/continue_with_github'
 
 interface SignUpProps {}
 
@@ -33,6 +34,8 @@ const SignUp: React.FunctionComponent<SignUpProps> = () => {
         </>
       }
     >
+      <ContinueWithGithub />
+
       <form className="space-y-4" onSubmit={handleSubmit}>
         <InputField
           id="fullName"
