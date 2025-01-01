@@ -68,6 +68,9 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
+                {machines.length === 0 ? (
+                  <SelectLabel className="font-normal italic">No machine to select</SelectLabel>
+                ) : null}
                 {currentMachine ? (
                   <SelectLabel>
                     <div className="flex items-center space-x-2 font-medium">

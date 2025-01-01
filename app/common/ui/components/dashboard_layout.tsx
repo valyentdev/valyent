@@ -111,11 +111,11 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                 `/organizations/${params.organizationSlug}/api_keys` === path
               }
             />
-            <Tab
+            {/* <Tab
               href={`/organizations/${params.organizationSlug}/ai/overview`}
               active={path.startsWith(`/organizations/${params.organizationSlug}/ai`)}
               label="AI"
-            />
+            /> */}
             <Tab
               href={`/organizations/${params.organizationSlug}/settings`}
               active={

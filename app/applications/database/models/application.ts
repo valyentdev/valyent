@@ -32,22 +32,23 @@ export default class Application extends BaseModel {
   @column()
   declare name: string
 
+  /**
+   * GitHub-related columns.
+   */
   @column()
   declare githubRepository: string | null
 
   @column()
   declare githubBranch: string | null
 
+  @column()
+  declare githubInstallationId: number | null
+
   /**
    * Load the fleet for the application.
    * (Requires the organization to be loaded.)
    */
   async loadFleet() {
-    const result = await this.organization.ravelClient.fleets.get(this.fleetId)
-    if (!result.success) {
-      throw new Error('Failed to fetch fleet.')
-    }
-
-    this.fleet = result.value
+    this.fleet = await this.organization.ravelClient.fleets.get(this.fleetId)
   }
 }

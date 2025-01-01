@@ -1,9 +1,3 @@
-import Driver from '#drivers/driver'
-import Application from '#models/application'
-import { DeploymentStatus } from '#models/deployment'
-import User from '#models/user'
-import CodeArchiveUploaderService from '#services/code_archive_uploader_service'
-import OctokitService from '#services/octokit_service'
 import { inject } from '@adonisjs/core'
 import type { HttpContext } from '@adonisjs/core/http'
 import emitter from '@adonisjs/core/services/emitter'
@@ -11,10 +5,7 @@ import type { EmitterWebhookEvent } from '@octokit/webhooks'
 
 @inject()
 export default class GitHubDeploymentsController {
-  constructor(
-    private octokitService: OctokitService,
-    private codeArchiveUploaderService: CodeArchiveUploaderService
-  ) {}
+  constructor(private octokitService: OctokitService) {}
 
   async handleWebhooks(ctx: HttpContext) {
     const isValidEvent = await this.octokitService.checkOctokitEventIsValid(ctx.request)
