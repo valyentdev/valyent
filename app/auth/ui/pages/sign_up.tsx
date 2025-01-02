@@ -21,8 +21,8 @@ const SignUp: React.FunctionComponent<SignUpProps> = () => {
   const error = useError('auth.error')
   return (
     <AuthLayout
-      title="Sign Up"
-      description={
+      title="Create an account"
+      action={
         <>
           Already Signed Up?{' '}
           <Link

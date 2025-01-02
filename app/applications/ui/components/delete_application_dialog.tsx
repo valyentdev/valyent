@@ -1,5 +1,11 @@
 import Button from '#common/ui/components/button'
-import { Dialog, DialogContent, DialogTitle, DialogHeader } from '#common/ui/components/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogFooter,
+} from '#common/ui/components/dialog'
 import useParams from '#common/ui/hooks/use_params'
 import useSuccessToast from '#common/ui/hooks/use_success_toast'
 import { useForm } from '@inertiajs/react'
@@ -30,20 +36,20 @@ const DeleteApplicationDialog: React.FunctionComponent<DeleteApplicationDialogPr
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <DialogHeader>
+        <div className="px-6 pt-2">
           <DialogTitle>Delete Application</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-[15px] pt-2">
             <p>
               Are you sure you want to <strong>delete</strong> the application?
             </p>
             <p>You won't be able to recover it.</p>
           </DialogDescription>
-        </DialogHeader>
-        <div className="px-6">
+        </div>
+        <DialogFooter className="px-6">
           <Button variant="destructive" type="button" onClick={handleDelete}>
             Delete Application
           </Button>
-        </div>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

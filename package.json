@@ -16,7 +16,6 @@
     "fresh": "node ace migration:fresh && node ace db:seed"
   },
   "imports": {
-    "#ai/*": "./app/ai/*.js",
     "#applications/*": "./app/applications/*.js",
     "#organizations/*": "./app/organizations/*.js",
     "#controllers/*": "./app/controllers/*.js",

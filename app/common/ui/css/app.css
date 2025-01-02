@@ -80,9 +80,12 @@
 }
 
 @layer components {
-  .btn-primary {
-    @apply btn;
-    @apply bg-blue-700 border-transparent text-white [box-shadow:hsl(219,_93%,_30%)_0_-2px_0_0_inset,_hsl(219,_93%,_95%)_0_1px_3px_0] hover:bg-[hsl(219,_93%,_35%)] active:[box-shadow:none] hover:[box-shadow:none] px-3 h-9 data-[kbd]:pr-1.5 w-full sm:w-fit;
+  .btn {
+    @apply font-sans font-medium text-sm tracking-tight cursor-pointer disabled:cursor-not-allowed;
+    @apply flex gap-1 items-center justify-center;
+    @apply transition duration-75 disabled:opacity-50 rounded border;
+    @apply px-3 py-1 w-full sm:w-fit;
+    @apply active:[box-shadow:none] hover:[box-shadow:none];
   }
 
   .btn-purple {
@@ -100,12 +103,26 @@
     @apply bg-red-600 border-transparent text-white [box-shadow:hsl(0,_93%,_25%)_0_-2px_0_0_inset,_hsl(0,_93%,_95%)_0_1px_3px_0] hover:bg-[hsl(0,_93%,_30%)] active:[box-shadow:none] hover:[box-shadow:none] px-3 h-9 data-[kbd]:pr-1.5 w-full sm:w-fit;
   }
 
+  .btn-primary {
+    @apply btn;
+    @apply select-none text-sm tracking-tight flex items-center justify-center rounded border transition-colors duration-75 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-blue-700 border-transparent text-white [box-shadow:hsl(219,_93%,_30%)_0_-3px_0_0_inset,_hsl(219,_93%,_95%)_0_1px_3px_0] hover:bg-[hsl(219,_93%,_35%)] active:[box-shadow:none] hover:[box-shadow:none] px-3 h-9 data-[kbd]:pr-1.5 w-full sm:w-fit;
+  }
+
   .btn-secondary {
     @apply btn;
     @apply text-gray-700 border-gray-300 bg-gray-50;
     @apply hover:bg-gray-100;
-    @apply [box-shadow:rgba(0,0,0,0.1)_0_-2px_0_0_inset];
+    @apply [box-shadow:rgba(0,0,0,0.1)_0_-3px_0_0_inset];
     @apply hover:[box-shadow:none];
+  }
+
+  .title {
+    @apply text-wrap !leading-[1.25] text-4xl md:text-5xl font-serif text-zinc-900;
+  }
+
+  section .title {
+    @apply font-medium;
   }
 }
 

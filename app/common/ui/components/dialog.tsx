@@ -55,7 +55,7 @@ DialogContent.displayName = DialogPrimitive.Content.displayName
 const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={clsx(
-      'flex flex-col justify-center space-y-1.5 text-center sm:text-left border-b border-accent px-6 pt-2 pb-6',
+      'flex flex-col justify-center space-y-1.5 text-center sm:text-left border-b border-zinc-200 px-6 pt-2 pb-6',
       className
     )}
     {...props}
@@ -66,7 +66,7 @@ DialogHeader.displayName = 'DialogHeader'
 const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={clsx(
-      'flex flex-col-reverse sm:flex-row sm:space-x-2 px-6 pt-4 border-t border-accent',
+      'flex flex-col-reverse sm:flex-row sm:space-x-2 px-6 pt-4 border-t bg-zinc-50/80',
       className
     )}
     {...props}

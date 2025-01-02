@@ -7,9 +7,8 @@ import Step from '#common/ui/components/step'
 import Stepper from '#common/ui/components/stepper'
 import AddAPIKeyStep from '#api_keys/ui/components/add_api_key_step'
 import BillingInformationStep from '#common/ui/components/billing_information_step'
-import ApplicationsLayout from '../components/applications_layout'
 
-export default function OverviewPage() {
+export default function Onboarding() {
   const query = useQuery()
   const [loaded, setLoaded] = React.useState(false)
 
@@ -18,7 +17,7 @@ export default function OverviewPage() {
   }, [])
 
   return (
-    <ApplicationsLayout breadcrumbs={[{ label: 'Overview' }]}>
+    <div>
       <h1 className="pb-2 order-1 text-2xl sm:text-3xl tracking-tight font-serif text-black">
         Start deploying your applications.
       </h1>
@@ -47,7 +46,7 @@ export default function OverviewPage() {
           </Step>
         </Stepper>
       </div>
-    </ApplicationsLayout>
+    </div>
   )
 }
 

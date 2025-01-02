@@ -1,5 +1,4 @@
 import React from 'react'
-import ApplicationsLayout from '../components/applications_layout'
 import { Link } from '@inertiajs/react'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Card, CardContent } from '#common/ui/components/card'
@@ -8,33 +7,39 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 import Button from '#common/ui/components/button'
 import CreateApplicationDialog from '../components/create_application_dialog'
 import Application from '#applications/database/models/application'
+import Onboarding from '../components/onboarding'
+import DashboardLayout from '#common/ui/components/dashboard_layout'
 
 export default function IndexPage({ applications }: { applications: Array<Application> }) {
   const [createApplicationDialogOpen, setCreateApplicationDialogOpen] = React.useState(false)
 
   return (
-    <ApplicationsLayout breadcrumbs={[{ label: 'List' }]}>
-      <CreateApplicationDialog
-        open={createApplicationDialogOpen}
-        setOpen={setCreateApplicationDialogOpen}
-      />
-      <div className="flex items-center space-x-4">
-        <h1 className="text-2xl sm:text-3xl tracking-tight font-serif text-black">
-          List of Applications
-        </h1>
+    <DashboardLayout
+      actionButton={
         <Button
           onClick={() => setCreateApplicationDialogOpen(true)}
           icon={<PlusCircleIcon className="h-4 w-4" />}
         >
           Create Application
         </Button>
-      </div>
-      <div className="grid lg:grid-cols-3 gap-4 mt-8">
-        {applications.map((application) => (
-          <ApplicationCard application={application} key={application.id} />
-        ))}
-      </div>
-    </ApplicationsLayout>
+      }
+      breadcrumbs={[{ label: 'Applications' }]}
+      title="Applications"
+    >
+      <CreateApplicationDialog
+        open={createApplicationDialogOpen}
+        setOpen={setCreateApplicationDialogOpen}
+      />
+      {applications.length > 0 ? (
+        <div className="grid lg:grid-cols-3 gap-4">
+          {applications.map((application) => (
+            <ApplicationCard application={application} key={application.id} />
+          ))}
+        </div>
+      ) : (
+        <Onboarding />
+      )}
+    </DashboardLayout>
   )
 }
 

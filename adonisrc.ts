@@ -63,7 +63,6 @@ export default defineConfig({
     () => import('#billing/routes'),
     () => import('#applications/routes'),
     () => import('#organizations/routes'),
-    () => import('#ai/routes'),
     () => import('#start/kernel'),
     () => import('#start/events'),
     () => import('#organizations/events'),

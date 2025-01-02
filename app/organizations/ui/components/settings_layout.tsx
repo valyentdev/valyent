@@ -45,7 +45,7 @@ const SettingsLayout: React.FunctionComponent<SettingsLayoutProps> = ({
 
   return (
     <DashboardLayout breadcrumbs={layoutBreadcrumbs} title="Settings">
-      <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-5 my-8">
+      <div className="grid gap-5 sm:grid-cols-4 lg:grid-cols-5">
         <div>
           <SettingsNav />
         </div>

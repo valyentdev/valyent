@@ -29,8 +29,8 @@ const SignIn: React.FunctionComponent<SignInProps> = () => {
 
   return (
     <AuthLayout
-      title="Sign In"
-      description={
+      title="Welcome back!"
+      action={
         <>
           Not Signed Up Yet?{' '}
           <Link

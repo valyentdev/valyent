@@ -1,11 +1,6 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
-router
-  .on('/organizations/:organizationSlug/applications/overview')
-  .renderInertia('applications/overview')
-  .use(middleware.auth())
-
 const CrudController = () => import('./controllers/crud_controller.js')
 
 router

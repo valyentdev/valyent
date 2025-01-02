@@ -17,16 +17,19 @@ import {
   BreadcrumbSeparator,
   BreadcrumbPage,
 } from './breadcrumb'
+import useOrganizations from '#organizations/ui/hooks/use_organizations'
+
+type Breadcrumb = {
+  label: string | React.ReactNode
+  href?: string
+  isCurrent?: boolean
+}
 
 export interface DashboardLayoutProps extends React.PropsWithChildren {
   actionButton?: React.ReactNode
   title?: string | React.ReactNode
   description?: string
-  breadcrumbs?: Array<{
-    label: string | React.ReactNode
-    href?: string
-    isCurrent?: boolean
-  }>
+  breadcrumbs?: Array<Breadcrumb>
 }
 
 const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
@@ -41,6 +44,33 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
   const error = useError('global')
   const { toast: errorToast } = useToast()
   const path = usePath()
+  const { currentOrganization } = useOrganizations()
+
+  const initialBreadcrumbs: Breadcrumb[] = [
+    {
+      label: (
+        <div className="flex items-center space-x-2">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-zinc-600">
+            <g bufferred-rendering="static">
+              <path
+                d="M10.032 6.499A3.525 3.525 0 006.532 10a3.525 3.525 0 003.5 3.501A3.526 3.526 0 0013.533 10a3.526 3.526 0 00-3.501-3.501z"
+                fillOpacity="1"
+              ></path>
+              <path
+                d="M8.582 15.386a2.537 2.537 0 00-1.11 2.084 2.547 2.547 0 002.53 2.53 2.546 2.546 0 002.527-2.53 2.532 2.532 0 00-1.091-2.072c-.45.119-.921.184-1.407.185-.5-.001-.987-.07-1.449-.197zm8.89-7.916a2.538 2.538 0 00-2.057 1.069c.129.466.198.956.199 1.461a5.51 5.51 0 01-.199 1.461 2.538 2.538 0 002.057 1.069A2.546 2.546 0 0020.001 10a2.546 2.546 0 00-2.529-2.53zm-14.943 0A2.547 2.547 0 00-.001 10a2.547 2.547 0 002.53 2.53 2.541 2.541 0 002.103-1.136A5.532 5.532 0 014.451 10c.001-.481.064-.948.181-1.394A2.541 2.541 0 002.529 7.47zM10.002 0a2.547 2.547 0 00-2.53 2.53A2.538 2.538 0 008.58 4.614c.463-.127.95-.196 1.451-.197.486.001.958.066 1.408.185a2.536 2.536 0 001.09-2.072A2.546 2.546 0 0010.002 0z"
+                fillOpacity=".45"
+              ></path>
+            </g>
+          </svg>{' '}
+          <span>{currentOrganization?.name}</span>
+        </div>
+      ),
+    },
+  ]
+  const layoutBreadcrumbs = [
+    ...initialBreadcrumbs,
+    ...(breadcrumbs ? breadcrumbs : ([] as Array<Breadcrumb>)),
+  ]
 
   React.useEffect(() => {
     setLoaded(true)
@@ -104,18 +134,10 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
           </div>
           <div className="scrollbar-hide relative flex gap-x-2 overflow-x-auto transition-all">
             <Tab
-              href={`/organizations/${params.organizationSlug}/applications/overview`}
+              href={`/organizations/${params.organizationSlug}/applications`}
               label="Applications"
-              active={
-                path.startsWith(`/organizations/${params.organizationSlug}/applications`) ||
-                `/organizations/${params.organizationSlug}/api_keys` === path
-              }
-            />
-            {/* <Tab
-              href={`/organizations/${params.organizationSlug}/ai/overview`}
-              active={path.startsWith(`/organizations/${params.organizationSlug}/ai`)}
-              label="AI"
-            /> */}
+            />{' '}
+            <Tab href={`/organizations/${params.organizationSlug}/api_keys`} label="API Keys" />
             <Tab
               href={`/organizations/${params.organizationSlug}/settings`}
               active={
@@ -127,12 +149,12 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
           </div>
         </div>
       </div>
-      {breadcrumbs && breadcrumbs.length > 0 && (
+      {layoutBreadcrumbs && layoutBreadcrumbs.length > 0 && (
         <div className="border-b">
           <div className="mx-auto w-full max-w-screen-xl px-5 py-4.5 lg:px-24">
             <Breadcrumb>
               <BreadcrumbList>
-                {breadcrumbs.map((breadcrumb, index) => (
+                {layoutBreadcrumbs.map((breadcrumb, index) => (
                   <React.Fragment key={index}>
                     <BreadcrumbItem>
                       {breadcrumb.href ? (
@@ -140,7 +162,8 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                       ) : (
                         <BreadcrumbPage
                           className={
-                            breadcrumbs[breadcrumbs.length - 1].label !== breadcrumb.label
+                            layoutBreadcrumbs[layoutBreadcrumbs.length - 1].label !==
+                            breadcrumb.label
                               ? 'text-muted-foreground'
                               : ''
                           }
@@ -149,7 +172,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                         </BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
-                    {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
+                    {index < layoutBreadcrumbs.length - 1 && <BreadcrumbSeparator />}
                   </React.Fragment>
                 ))}
               </BreadcrumbList>
@@ -159,7 +182,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
       )}
       {(title || description) && (
         <div className="border-b border-zinc-200 bg-white">
-          <div className="mx-auto w-full max-w-screen-xl px-6 lg:px-24 flex flex-col-reverse py-8">
+          <div className="mx-auto w-full max-w-screen-xl px-6 lg:px-24 flex flex-col py-8">
             <div className="pb-2 flex items-center space-x-4">
               {title && (
                 <h1 className="text-2xl sm:text-3xl tracking-tight font-serif text-black">
@@ -173,7 +196,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
         </div>
       )}
       <div className="flex w-full items-center">
-        <div className="mx-auto w-full max-w-screen-xl px-6 lg:px-24 flex flex-col gap-y-3">
+        <div className="mx-auto w-full max-w-screen-xl px-6 lg:px-24 flex flex-col gap-y-3 my-8">
           {children}
         </div>
       </div>

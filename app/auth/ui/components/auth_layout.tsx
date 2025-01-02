@@ -1,33 +1,38 @@
 import * as React from 'react'
-import { Head, Link } from '@inertiajs/react'
+import { Head } from '@inertiajs/react'
 import Logo from '#common/ui/components/logo'
+import { Card, CardContent, CardFooter } from '#common/ui/components/card'
 
 interface AuthLayoutProps extends React.PropsWithChildren {
   title: string
-  description?: string | React.ReactNode
+  action?: string | React.ReactNode
 }
 
-const AuthLayout: React.FunctionComponent<AuthLayoutProps> = ({ title, description, children }) => {
+const AuthLayout: React.FunctionComponent<AuthLayoutProps> = ({ title, action, children }) => {
   return (
     <>
       <Head title={title} />
-      <div className="flex min-h-screen flex-1 flex-col justify-center">
-        <div className="space-y-6 rounded-lg sm:mx-auto sm:w-full sm:max-w-sm px-6 py-12 lg:px-8">
-          <header>
-            <div className="flex justify-center w-full hover:opacity-85 transition-opacity">
-              <a href="https://www.valyent.cloud">
-                <Logo className="h-16 w-16" width={80} height={80} />
-              </a>
-            </div>
-            <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
-              {title}
-            </h2>
-            {description ? (
-              <h3 className="text-sm text-center font-medium text-neutral-500">{description}</h3>
-            ) : null}
-          </header>
-          <main>{children}</main>
+      <div className="flex min-h-screen flex-1 space-y-6 flex-col justify-center sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="flex justify-center">
+          <a href="https://www.valyent.cloud">
+            <Logo className="h-12 w-12" width={48} height={48} />
+          </a>
         </div>
+
+        <Card>
+          <CardContent>
+            <header>
+              <div className="flex justify-center w-full hover:opacity-85 transition-opacity"></div>
+              <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
+                {title}
+              </h2>
+            </header>
+          </CardContent>
+          <CardFooter className="block py-6">{children}</CardFooter>
+        </Card>
+        {action ? (
+          <p className="text-sm text-center font-medium text-neutral-500">{action}</p>
+        ) : null}
       </div>
     </>
   )

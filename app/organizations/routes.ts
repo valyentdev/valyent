@@ -15,7 +15,7 @@ const SettingsController = () => import('./controllers/settings_controller.js')
 
 router
   .get('/organizations/:organizationSlug', ({ params, response }) => {
-    return response.redirect(`/organizations/${params.organizationSlug}/applications/overview`)
+    return response.redirect(`/organizations/${params.organizationSlug}/applications`)
   })
   .use(middleware.auth())
   .as('organizations.show')

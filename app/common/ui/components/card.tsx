@@ -25,7 +25,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex flex-col p-6 border-b border-zinc-600/20', className)}
+      className={cn('flex flex-col px-6 py-5 border-b border-zinc-600/20', className)}
       {...props}
     />
   )
@@ -69,7 +69,7 @@ const CardContent = React.forwardRef<HTMLDivElement, CardContentProps>(
 CardContent.displayName = 'CardContent'
 
 const cardFooterVariants = cva(
-  'flex items-center p-6 border-t border-zinc-600/20 rounded-b-md bg-accent',
+  'flex items-center px-6 py-4 border-t border-zinc-600/20 rounded-b-md bg-zinc-50/80',
   {
     variants: {
       variant: {
