@@ -27,6 +27,9 @@ export default class Application extends BaseModel {
   declare deployments: HasMany<typeof Deployment>
 
   @column()
+  declare environmentVariables: Record<string, string>
+
+  @column()
   declare organizationId: string
 
   @column()

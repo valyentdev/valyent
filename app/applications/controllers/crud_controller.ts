@@ -95,7 +95,6 @@ export default class CrudController {
 
   @bindOrganizationWithMember
   async delete({ response, params }: HttpContext, organization: Organization) {
-    console.log('here', params)
     const application = await organization
       .related('applications')
       .query()

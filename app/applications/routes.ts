@@ -75,3 +75,23 @@ router
 router
   .delete('/v1/fleets/:fleetId', [CrudController, 'delete'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
+
+/**
+ * Environment variables.
+ */
+
+const EnvironmentVariablesController = () =>
+  import('./controllers/environment_variables_controller.js')
+
+router
+  .get('/organizations/:organizationSlug/applications/:applicationId/env', [
+    EnvironmentVariablesController,
+    'edit',
+  ])
+  .use([middleware.auth()])
+router
+  .patch('/organizations/:organizationSlug/applications/:applicationId/env', [
+    EnvironmentVariablesController,
+    'update',
+  ])
+  .use([middleware.auth({ guards: ['web', 'api'] })])
