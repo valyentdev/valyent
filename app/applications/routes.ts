@@ -73,3 +73,10 @@ router
     'index',
   ])
   .use(middleware.auth())
+
+router
+  .post('/v1/fleets', [CrudController, 'store'])
+  .use(middleware.auth({ guards: ['web', 'api'] }))
+router
+  .delete('/v1/fleets/:fleetId', [CrudController, 'delete'])
+  .use(middleware.auth({ guards: ['web', 'api'] }))

@@ -45,7 +45,7 @@ export default defineConfig({
     () => import('@adonisjs/mail/mail_provider'),
     () => import('./app/common/providers/app_provider.js'),
     () => import('@adonisjs/redis/redis_provider'),
-    () => import('@adonisjs/ally/ally_provider')
+    () => import('@adonisjs/ally/ally_provider'),
   ],
 
   /*
@@ -61,8 +61,8 @@ export default defineConfig({
     () => import('#auth/routes'),
     () => import('#api_keys/routes'),
     () => import('#billing/routes'),
-    () => import('#organizations/routes'),
     () => import('#applications/routes'),
+    () => import('#organizations/routes'),
     () => import('#ai/routes'),
     () => import('#start/kernel'),
     () => import('#start/events'),

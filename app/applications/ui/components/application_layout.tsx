@@ -98,11 +98,11 @@ function ApplicationLayoutNav() {
         label="Overview"
         Icon={InfoIcon}
       />
-      <NavItem
+      {/* <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
         label="Deployments"
         Icon={IconRocket}
-      />
+      /> */}
       <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/machines`}
         label="Machines"

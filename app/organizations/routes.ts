@@ -26,7 +26,7 @@ router
 const ProxyController = () => import('#organizations/controllers/proxy_controller')
 
 router
-  .any('/v1/fleets', [ProxyController, 'handleRequest'])
+  .get('/v1/fleets', [ProxyController, 'handleRequest'])
   .withDomain(env.get('API_BASE_URL'))
   .use(middleware.auth({ guards: ['api'] }))
 

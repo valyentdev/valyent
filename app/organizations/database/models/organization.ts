@@ -110,7 +110,7 @@ export default class Organization extends BaseModel {
         throw new Error(response.statusText)
       }
     } catch (error) {
-      logger.error(`Error creating namespace for ${organization.name}:`, error)
+      logger.error({ error }, `Error creating namespace for ${organization.name}:`)
     }
   }
 
