@@ -76,7 +76,7 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
       
       */}
 
-      <Card className="mx-10">
+      <Card>
         <CardHeader>
           <CardTitle>Manage environment variables</CardTitle>
         </CardHeader>

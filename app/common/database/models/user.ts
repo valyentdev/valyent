@@ -9,6 +9,7 @@ import Organization from '#organizations/database/models/organization'
 import OrganizationMember from '#organizations/database/models/organization_member'
 import OrganizationCreated from '#organizations/events/organization_created'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import DiscordWebhooksService from '#common/services/discord_webhooks_service'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -47,6 +48,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
    */
   @afterCreate()
   static async triggerCreationEvent(user: User) {
+    await DiscordWebhooksService.send(`User ${user.email} just signed up to Valyent!`)
+
     await UserSignedUp.dispatch(user)
   }
 

@@ -14,13 +14,13 @@ const AuthLayout: React.FunctionComponent<AuthLayoutProps> = ({ title, action, c
       <Head title={title} />
       <div className="flex min-h-screen flex-1 space-y-6 flex-col justify-center sm:mx-auto sm:w-full sm:max-w-sm">
         <div className="flex justify-center">
-          <a href="https://www.valyent.cloud">
+          <a href="https://www.valyent.cloud" className="flex items-center space-x-4">
             <Logo className="h-12 w-12" width={48} height={48} />
           </a>
         </div>
 
         <Card>
-          <CardContent>
+          <CardContent className="py-4">
             <header>
               <div className="flex justify-center w-full hover:opacity-85 transition-opacity"></div>
               <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">

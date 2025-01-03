@@ -51,7 +51,7 @@ router.post('/auth/reset_password', [ResetPasswordController, 'handle'])
 const CliController = () => import('#auth/controllers/cli_controller')
 
 router.get('/auth/cli/session', [CliController, 'getSession'])
-router.get('/auth/cli/check', [CliController, 'check'])
+router.get('/auth/check', [CliController, 'check'])
 router.get('/auth/cli/:sessionID/wait', [CliController, 'wait'])
 router
   .group(() => {
