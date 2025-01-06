@@ -34,7 +34,7 @@ const SignIn: React.FunctionComponent<SignInProps> = () => {
         <>
           Not Signed Up Yet?{' '}
           <Link
-            className="leading-6 text-zinc-900 hover:text-zinc-700 hover:opacity-75 font-medium"
+            className="leading-6 text-blue-600 hover:text-blue-800 transition-all font-medium"
             href="/auth/sign_up"
           >
             Sign Up

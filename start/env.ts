@@ -68,4 +68,17 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   RAVEL_API_ENDPOINT: Env.schema.string(),
   RAVEL_API_SECRET: Env.schema.string(),
+
+  /*
+  |----------------------------------------------------------
+  | Variables for configuring the drive package
+  |----------------------------------------------------------
+  */
+  DRIVE_DISK: Env.schema.enum(['s3'] as const),
+
+  S3_ACCESS_KEY_ID: Env.schema.string(),
+  S3_SECRET_ACCESS_KEY: Env.schema.string(),
+  S3_REGION: Env.schema.string(),
+  S3_BUCKET: Env.schema.string(),
+  S3_ENDPOINT: Env.schema.string(),
 })

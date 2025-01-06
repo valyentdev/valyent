@@ -67,7 +67,15 @@ router
     DeploymentsController,
     'index',
   ])
-  .use(middleware.auth())
+  .use(middleware.auth({ guards: ['web', 'api'] }))
+
+router
+  .post('/organizations/:organizationSlug/applications/:applicationId/deployments', [
+    DeploymentsController,
+    'store',
+  ])
+  .use(middleware.auth({ guards: ['web', 'api'] }))
+  .as('deployments.store')
 
 router
   .post('/v1/fleets', [CrudController, 'store'])

@@ -1,4 +1,7 @@
 import router from '@adonisjs/core/services/router'
+import transmit from '@adonisjs/transmit/services/main'
+
+transmit.registerRoutes()
 
 const HealthChecksController = () => import('#common/controllers/health_checks_controller')
 

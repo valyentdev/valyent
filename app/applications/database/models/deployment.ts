@@ -1,9 +1,16 @@
 import BaseModel from '#common/database/models/base_model'
-import { belongsTo, column } from '@adonisjs/lucid/orm'
+import { afterSave, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Application from './application.js'
+import transmit from '@adonisjs/transmit/services/main'
 
 export default class Deployment extends BaseModel {
+  @column()
+  declare origin: 'cli' | 'github'
+
+  @column()
+  declare status: DeploymentStatus
+
   /**
    * GitHub-related fields.
    */
@@ -24,4 +31,27 @@ export default class Deployment extends BaseModel {
 
   @belongsTo(() => Application)
   declare application: BelongsTo<typeof Application>
+
+  /**
+   * Hooks
+   */
+  @afterSave()
+  static async emitUpdatedEvent(deployment: Deployment) {
+    await deployment.loadOnce('application')
+    await deployment.application.loadOnce('organization')
+
+    transmit.broadcast(
+      `/organizations/${deployment.application.organization.slug}/applications/${deployment.application.id}/deployments/updates`,
+      deployment.serialize()
+    )
+  }
+}
+
+export enum DeploymentStatus {
+  Building = 'building',
+  BuildFailed = 'build-failed',
+  Deploying = 'deploying',
+  DeploymentFailed = 'deployment-failed',
+  Stopped = 'stopped',
+  Success = 'success',
 }

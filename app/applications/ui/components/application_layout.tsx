@@ -71,15 +71,15 @@ function ApplicationLayoutNav() {
         Icon={InfoIcon}
       />
       <NavItem
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
+        label="Deployments"
+        Icon={IconRocket}
+      />
+      <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/env`}
         label="Environment Variables"
         Icon={IconVariable}
       />
-      {/* <NavItem
-        href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
-        label="Deployments"
-        Icon={IconRocket}
-      /> */}
       <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/machines`}
         label="Machines"

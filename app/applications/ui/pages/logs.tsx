@@ -111,7 +111,7 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
               ))}
             </ul>
           ) : (
-            <p className="text-sm italic">Select a machine...</p>
+            <p className="text-sm italic text-muted-foreground">Select a machine...</p>
           )}
         </CardContent>
       </Card>

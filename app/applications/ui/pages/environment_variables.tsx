@@ -6,7 +6,14 @@ import useParams from '#common/ui/hooks/use_params'
 import { useForm } from '@inertiajs/react'
 import ApplicationLayout from '../components/application_layout'
 import Button from '#common/ui/components/button'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '#common/ui/components/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardFooter,
+  CardDescription,
+} from '#common/ui/components/card'
 import Input from '#common/ui/components/input'
 import { IconCircleMinus, IconCirclePlus } from '@tabler/icons-react'
 import Label from '#common/ui/components/label'
@@ -76,10 +83,11 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
       
       */}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Manage environment variables</CardTitle>
-        </CardHeader>
+      <CardTitle>Manage environment variables</CardTitle>
+      <CardDescription>
+        Set application-wide environment variables that will be injected on machine creation.
+      </CardDescription>
+      <Card className="mt-4">
         <CardContent>
           <div className="flex items-center space-x-4 mb-1 text-zinc-900">
             <Label className="w-1/2">Key</Label>

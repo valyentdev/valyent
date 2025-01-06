@@ -47,7 +47,7 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
               <TableBody>
                 {machines.length === 0 ? (
                   <TableCell>
-                    <p className="text-sm italic text-zinc-900">No machine yet...</p>
+                    <p className="text-sm italic text-muted-foreground">No machine yet...</p>
                   </TableCell>
                 ) : null}
 

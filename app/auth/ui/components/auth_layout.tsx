@@ -20,10 +20,10 @@ const AuthLayout: React.FunctionComponent<AuthLayoutProps> = ({ title, action, c
         </div>
 
         <Card>
-          <CardContent className="py-4">
+          <CardContent>
             <header>
               <div className="flex justify-center w-full hover:opacity-85 transition-opacity"></div>
-              <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-900">
+              <h2 className="mt-2 text-center text-3xl italic leading-9 tracking-tight text-neutral-800 font-instrument">
                 {title}
               </h2>
             </header>

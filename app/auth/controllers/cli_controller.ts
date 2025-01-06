@@ -74,7 +74,9 @@ export default class CliController {
     try {
       await auth.use('api').authenticate()
 
-      return response.json({ authenticated: true })
+      const namespace = (auth.user! as Organization).slug
+
+      return response.json({ authenticated: true, namespace })
     } catch {
       return response.json({ authenticated: false })
     }

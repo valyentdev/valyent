@@ -46,6 +46,8 @@ export default defineConfig({
     () => import('./app/common/providers/app_provider.js'),
     () => import('@adonisjs/redis/redis_provider'),
     () => import('@adonisjs/ally/ally_provider'),
+    () => import('@adonisjs/transmit/transmit_provider'),
+    () => import('@adonisjs/drive/drive_provider')
   ],
 
   /*

@@ -26,7 +26,7 @@ const SignUp: React.FunctionComponent<SignUpProps> = () => {
         <>
           Already Signed Up?{' '}
           <Link
-            className="leading-6 text-zinc-900 hover:text-zinc-700 hover:opacity-75 font-medium"
+            className="leading-6 text-blue-600 hover:text-blue-800 transition-all font-medium"
             href="/auth/sign_in"
           >
             Sign In

@@ -52,6 +52,15 @@ export default {
         },
       },
       fontFamily: {
+        instrument: [
+          'Instrument Serif',
+          'Georgia',
+          'Bitstream Charter',
+          'Charis SIL',
+          'Utopia',
+          'URW Bookman L',
+          'serif',
+        ],
         serif: ['Georgia', 'Bitstream Charter', 'Charis SIL', 'Utopia', 'URW Bookman L', 'serif'],
       },
       borderRadius: {

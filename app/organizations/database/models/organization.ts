@@ -129,6 +129,6 @@ export default class Organization extends BaseModel {
   }
 
   get ravelClient(): Client {
-    return new Client(this.slug, env.get('RAVEL_API_SECRET'), env.get('RAVEL_API_ENDPOINT'))
+    return new Client(env.get('RAVEL_API_SECRET'), this.slug, env.get('RAVEL_API_ENDPOINT'))
   }
 }

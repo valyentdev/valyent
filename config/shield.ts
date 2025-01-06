@@ -18,7 +18,9 @@ const shieldConfig = defineConfig({
   csrf: {
     enabled: true,
     exceptRoutes: ({ request }) =>
-      request.url().startsWith('/stripe/webhooks') || request.url().startsWith('/v1'),
+      request.matchesRoute('deployments.store') ||
+      request.url().startsWith('/stripe/webhooks') ||
+      request.url().startsWith('/v1'),
     enableXsrfCookie: true,
     methods: ['POST', 'PUT', 'PATCH', 'DELETE'],
   },
