@@ -3,7 +3,7 @@ import Organization from '#organizations/database/models/organization'
 import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
 import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
-import { RestartPolicy } from 'valyent.ts'
+import { Machine, RestartPolicy, FetchErrorWithPayload } from 'valyent.ts'
 
 export default class DeploymentsController {
   @bindOrganizationWithMember
@@ -58,35 +58,45 @@ export default class DeploymentsController {
     /**
      * Save file to S3.
      */
-    const key = `${organization.slug}/${application.name}.tar.gz`
-    await tarball.moveToDisk(key, 's3')
+    const fileName = `${organization.slug}/${application.name}.tar.gz`
+    await tarball.moveToDisk(fileName, 's3')
 
     /**
      * Ignite builder machine.
      */
-    const machine = await organization.ravelClient.machines.create(application.name, {
-      region: request.input('region'),
-      config: {
-        image: env.get('BUILDER_IMAGE', 'valyent/builder:latest'),
-        guest: { cpu_kind: 'standard', cpus: 4, memory_mb: 4096 },
-        workload: {
-          env: [
-            `S3_ENDPOINT=${env.get('S3_ENDPOINT')}`,
-            `S3_BUCKET_NAME=${env.get('S3_BUCKET')}`,
-            `S3_ACCESS_KEY_ID=${env.get('S3_ACCESS_KEY')}`,
-            `S3_SECRET_ACCESS_KEY=${env.get('S3_SECRET_KEY')}`,
-            `FILE_NAME=${application.name}.tar.gz`,
-            `IMAGE_NAME=${application.name}`,
-            `REGISTRY_HOST='registry.fly.io'`,
-            `REGISTRY_TOKEN=${env.get('REGISTRY_TOKEN')}`,
-          ],
-          init: { user: 'root' },
-          restart: { policy: RestartPolicy.Never },
+    let machine: Machine
+    try {
+      machine = await organization.ravelClient.machines.create(application.name, {
+        region: request.input('region'),
+        config: {
+          image: env.get('BUILDER_IMAGE', 'valyent/builder:latest'),
+          guest: { cpu_kind: 'eco', cpus: 1, memory_mb: 1024 },
+          workload: {
+            env: [
+              `S3_ENDPOINT=${env.get('S3_ENDPOINT')}`,
+              `S3_BUCKET_NAME=${env.get('S3_BUCKET')}`,
+              `S3_ACCESS_KEY_ID=${env.get('S3_ACCESS_KEY_ID')}`,
+              `S3_SECRET_ACCESS_KEY=${env.get('S3_SECRET_ACCESS_KEY')}`,
+              `FILE_NAME=${fileName}`,
+              `IMAGE_NAME=${application.name}`,
+              `REGISTRY_HOST=${env.get('REGISTRY_HOST')}`,
+              `REGISTRY_TOKEN=${env.get('REGISTRY_TOKEN')}`,
+            ],
+            init: { user: 'root' },
+            restart: { policy: RestartPolicy.Never },
+          },
+          auto_destroy: true,
         },
-        auto_destroy: true,
-      },
-      skip_start: false,
-    })
+        skip_start: false,
+      })
+    } catch (error) {
+      if (error instanceof FetchErrorWithPayload) {
+        console.log('FetchErrorWithPayload', error.payload)
+      } else {
+        console.log('not FetchErrorWithPayload')
+      }
+      return
+    }
 
     /**
      * Save deployment in the database.

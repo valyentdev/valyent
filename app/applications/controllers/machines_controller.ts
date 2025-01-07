@@ -1,21 +1,13 @@
-import Organization from '#organizations/database/models/organization'
-import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
+import Application from '#applications/database/models/application'
+import bindApplication from '#applications/decorators/bind_application'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
 import { Fleet, Machine, MachineEvent } from 'valyent.ts'
 
 export default class MachinesController {
-  @bindOrganizationWithMember
-  async index({ inertia, params, response }: HttpContext, organization: Organization) {
-    /**
-     * Get application.
-     */
-    const application = await organization
-      .related('applications')
-      .query()
-      .where('id', params.applicationId)
-      .firstOrFail()
-    await application.load('organization')
+  @bindApplication
+  async index({ inertia, params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
     await application.loadFleet()
 
     /**
@@ -23,12 +15,12 @@ export default class MachinesController {
      */
     let machines: Array<Machine>
     try {
-      machines = await organization.ravelClient.machines.list(application.fleet!.id)
+      machines = await application.organization.ravelClient.machines.list(application.fleet!.id)
     } catch (error) {
       logger.error(
         {
           error,
-          organization,
+          organization: application.organization,
           applicationId: params.applicationId,
         },
         'Failed to get list of machines.'
@@ -42,16 +34,17 @@ export default class MachinesController {
     })
   }
 
-  @bindOrganizationWithMember
-  async show({ inertia, params, response }: HttpContext, organization: Organization) {
+  @bindApplication
+  async show({ inertia, params, response }: HttpContext, application: Application) {
     /**
      * Get fleet.
      */
     let fleet: Fleet
     try {
-      fleet = await organization.ravelClient.fleets.get(params.applicationId)
+      await application.loadOnce('organization')
+      fleet = await application.organization.ravelClient.fleets.get(application.fleetId)
     } catch (error) {
-      logger.error({ error, organization }, 'Failed to get fleet.')
+      logger.error({ error, organization: application.organization }, 'Failed to get fleet.')
       return response.internalServerError()
     }
 
@@ -60,10 +53,13 @@ export default class MachinesController {
      */
     let machine: Machine
     try {
-      machine = await organization.ravelClient.machines.get(params.applicationId, params.machineId)
+      machine = await application.organization.ravelClient.machines.get(
+        application.fleetId,
+        params.machineId
+      )
     } catch (error) {
       logger.error(
-        { error, organization, applicationId: params.applicationId },
+        { error, organization: application.organization, applicationId: params.applicationId },
         'Failed to get machine.'
       )
       return response.internalServerError()
@@ -74,15 +70,15 @@ export default class MachinesController {
      */
     let events: Array<MachineEvent>
     try {
-      events = await organization.ravelClient.machines.listEvents(
-        params.applicationId,
+      events = await application.organization.ravelClient.machines.listEvents(
+        application.fleetId,
         params.machineId
       )
     } catch (error) {
       logger.error(
         {
           error,
-          organization,
+          organization: application.organization,
           applicationId: params.applicationId,
         },
         'Failed to list events.'
@@ -91,35 +87,49 @@ export default class MachinesController {
     }
 
     return inertia.render('applications/machine', {
+      application,
       fleet,
       machine,
       events,
     })
   }
 
-  @bindOrganizationWithMember
-  async start({ params, response }: HttpContext, organization: Organization) {
-    await organization.ravelClient.machines.start(params.applicationId, params.machineId)
+  @bindApplication
+  async start({ params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+    await application.organization.ravelClient.machines.start(application.fleetId, params.machineId)
 
     return response.redirect().back()
   }
 
-  @bindOrganizationWithMember
-  async stop({ params, response }: HttpContext, organization: Organization) {
-    await organization.ravelClient.machines.stop(params.applicationId, params.machineId, {
-      timeout: 0,
-      signal: 'SIGKILL',
-    })
+  @bindApplication
+  async stop({ params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+    await application.organization.ravelClient.machines.stop(
+      application.fleetId,
+      params.machineId,
+      {
+        timeout: 0,
+        signal: 'SIGKILL',
+      }
+    )
 
     return response.redirect().back()
   }
 
-  @bindOrganizationWithMember
-  async destroy({ params, response }: HttpContext, organization: Organization) {
-    await organization.ravelClient.machines.delete(params.applicationId, params.machineId, true)
+  @bindApplication
+  async destroy({ params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+    await application.organization.ravelClient.machines.delete(
+      application.fleetId,
+      params.machineId,
+      true
+    )
 
     return response
       .redirect()
-      .toPath(`/organizations/${organization.slug}/applications/${params.applicationId}/machines`)
+      .toPath(
+        `/organizations/${application.organization.slug}/applications/${params.applicationId}/machines`
+      )
   }
 }

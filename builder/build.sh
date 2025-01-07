@@ -50,7 +50,7 @@ startBuildkitd
 waitForBuildkitd
 
 
-envs=("S3_ACCESS_KEY_ID" "S3_SECRET_ACCESS_KEY" "S3_ENDPOINT" "S3_BUCKET_NAME" "FILE_NAME" "IMAGE_NAME" "REGISTRY_HOST")
+envs=("ORGANIZATION" "S3_ACCESS_KEY_ID" "S3_SECRET_ACCESS_KEY" "S3_ENDPOINT" "S3_BUCKET_NAME" "FILE_NAME" "IMAGE_NAME" "REGISTRY_HOST")
 
 # Loop through each environment variable
 for env in "${envs[@]}"
@@ -69,12 +69,13 @@ mkdir -p /tmp/builder
 cd /tmp/builder
 
 # Configure AWS CLI
-aws configure set S3_access_key_id $S3_ACCESS_KEY_ID
-aws configure set S3_secret_access_key $S3_SECRET_ACCESS_KEY
-aws configure set default.region $S3_REGION
+export AWS_ACCESS_KEY_ID="$S3_ACCESS_KEY_ID"
+export AWS_SECRET_ACCESS_KEY="$S3_SECRET_ACCESS_KEY"
+export AWS_DEFAULT_REGION="$S3_REGION"
 
 # Download tar file from S3 bucket without printing to stdout
 echo "Downloading contents..."
+mkdir $ORGANIZATION
 aws s3api get-object --bucket $S3_BUCKET_NAME --key $FILE_NAME --endpoint-url $S3_ENDPOINT $FILE_NAME > /dev/null
 echo "Downloaded contents."
 

@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "fresh": "node ace migration:fresh && node ace db:seed"
+    "fresh": "node ace migration:fresh && node ace db:seed",
+    "proxy": "smee -u https://smee.io/S1v6TfUa5IAvuPo -t http://localhost:3333"
   },
   "imports": {
     "#applications/*": "./app/applications/*.js",
@@ -127,6 +128,7 @@
     "react-tooltip": "^5.28.0",
     "reflect-metadata": "^0.2.2",
     "slug": "^9.1.0",
+    "smee-client": "^2.0.4",
     "stripe": "^16.7.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",

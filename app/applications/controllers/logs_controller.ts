@@ -1,3 +1,5 @@
+import Application from '#applications/database/models/application'
+import bindApplication from '#applications/decorators/bind_application'
 import Organization from '#organizations/database/models/organization'
 import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
 import { HttpContext } from '@adonisjs/core/http'
@@ -32,10 +34,11 @@ export default class LogsController {
     })
   }
 
-  @bindOrganizationWithMember
-  async getLogs({ params, response }: HttpContext, organization: Organization) {
-    const logEntries = await organization.ravelClient.machines.getLogs(
-      params.applicationId,
+  @bindApplication
+  async getLogs({ params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+    const logEntries = await application.organization.ravelClient.machines.getLogs(
+      application.fleetId,
       params.machineId
     )
 
