@@ -11,6 +11,9 @@ export default class Deployment extends BaseModel {
   @column()
   declare status: DeploymentStatus
 
+  @column()
+  declare builderMachineId: string | null
+
   /**
    * GitHub-related fields.
    */

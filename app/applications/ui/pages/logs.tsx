@@ -34,7 +34,7 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
       const entries = (await response.json()) as Array<LogEntry>
       setEntries(entries)
     } catch (error) {
-      console.log(error)
+      console.log('failed to get logs', error)
     }
   }
 

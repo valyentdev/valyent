@@ -46,7 +46,7 @@ export default function IndexPage({ applications }: { applications: Array<Applic
 function ApplicationCard({ application }: { application: Application }) {
   const { currentOrganization } = useOrganizations()
   const baseApplicationPath = `/organizations/${currentOrganization?.slug}/applications/${application.id}`
-  console.log('application', application)
+
   return (
     <Link className="group" href={baseApplicationPath}>
       <Card className="group-hover:border-zinc-600/40 transition-colors">

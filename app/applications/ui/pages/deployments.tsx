@@ -42,9 +42,6 @@ export default function DeploymentsPage({
         baseUrl: window.location.origin,
       })
 
-      console.log(
-        `/organizations/${params.organizationSlug}/applications/${params.applicationId}/deployments/updates`
-      )
       subscription = transmit.subscription(
         `/organizations/${params.organizationSlug}/applications/${params.applicationId}/deployments/updates`
       )

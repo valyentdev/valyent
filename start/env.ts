@@ -76,6 +76,20 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   DRIVE_DISK: Env.schema.enum(['s3'] as const),
 
+  /**
+   * The Docker registry configuration.
+   */
+  REGISTRY_HOST: Env.schema.string(),
+  REGISTRY_TOKEN: Env.schema.string(),
+
+  /**
+   * The image made to run machine builders for deployments.
+   */
+  BUILDER_IMAGE: Env.schema.string.optional(),
+
+  /**
+   * S3-configuration, used to store code for deployments.
+   */
   S3_ACCESS_KEY_ID: Env.schema.string(),
   S3_SECRET_ACCESS_KEY: Env.schema.string(),
   S3_REGION: Env.schema.string(),
