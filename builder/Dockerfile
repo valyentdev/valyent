@@ -7,4 +7,4 @@ COPY build.sh ./build.sh
 
 RUN chmod +x ./build.sh
 
-ENTRYPOINT [ "./build.sh" ]
+ENTRYPOINT [ "bash", "./build.sh" ]
