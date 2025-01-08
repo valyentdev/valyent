@@ -1,8 +1,9 @@
 import { cuid } from '@adonisjs/core/helpers'
-import { BaseModel as AdonisBaseModel, beforeCreate, column } from '@adonisjs/lucid/orm'
+import { beforeCreate, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
+import ModelWithTimestamps from './model_with_timestamps.js'
 
-export default class BaseModel extends AdonisBaseModel {
+export default class BaseModel extends ModelWithTimestamps {
   /**
    * Cuid primary key.
    */

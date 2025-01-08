@@ -47,7 +47,7 @@ export default defineConfig({
     () => import('@adonisjs/redis/redis_provider'),
     () => import('@adonisjs/ally/ally_provider'),
     () => import('@adonisjs/transmit/transmit_provider'),
-    () => import('@adonisjs/drive/drive_provider')
+    () => import('@adonisjs/drive/drive_provider'),
   ],
 
   /*
@@ -59,6 +59,7 @@ export default defineConfig({
   |
   */
   preloads: [
+    () => import('#start/transmit'),
     () => import('#common/routes'),
     () => import('#auth/routes'),
     () => import('#api_keys/routes'),

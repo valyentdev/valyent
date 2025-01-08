@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "fresh": "node ace migration:fresh && node ace db:seed",
-    "proxy": "smee -u https://smee.io/S1v6TfUa5IAvuPo -t http://localhost:3333"
+    "proxy": "smee -u https://smee.io/S1v6TfUa5IAvuPo -t http://localhost:3333/deployments/webhooks"
   },
   "imports": {
     "#applications/*": "./app/applications/*.js",

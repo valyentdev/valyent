@@ -9,7 +9,13 @@ export default class Deployment extends BaseModel {
   declare origin: 'cli' | 'github'
 
   @column()
+  declare config: Record<string, string | Record<string, string>>
+
+  @column()
   declare status: DeploymentStatus
+
+  @column()
+  declare errorMessage: string | null
 
   @column()
   declare builderMachineId: string | null

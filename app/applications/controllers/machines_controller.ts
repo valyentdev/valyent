@@ -42,7 +42,7 @@ export default class MachinesController {
     let fleet: Fleet
     try {
       await application.loadOnce('organization')
-      fleet = await application.organization.ravelClient.fleets.get(application.fleetId)
+      fleet = await application.organization.ravelClient.fleets.get(application.id)
     } catch (error) {
       logger.error({ error, organization: application.organization }, 'Failed to get fleet.')
       return response.internalServerError()
@@ -54,7 +54,7 @@ export default class MachinesController {
     let machine: Machine
     try {
       machine = await application.organization.ravelClient.machines.get(
-        application.fleetId,
+        application.id,
         params.machineId
       )
     } catch (error) {
@@ -71,7 +71,7 @@ export default class MachinesController {
     let events: Array<MachineEvent>
     try {
       events = await application.organization.ravelClient.machines.listEvents(
-        application.fleetId,
+        application.id,
         params.machineId
       )
     } catch (error) {
@@ -97,7 +97,7 @@ export default class MachinesController {
   @bindApplication
   async start({ params, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
-    await application.organization.ravelClient.machines.start(application.fleetId, params.machineId)
+    await application.organization.ravelClient.machines.start(application.id, params.machineId)
 
     return response.redirect().back()
   }
@@ -105,14 +105,10 @@ export default class MachinesController {
   @bindApplication
   async stop({ params, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
-    await application.organization.ravelClient.machines.stop(
-      application.fleetId,
-      params.machineId,
-      {
-        timeout: 0,
-        signal: 'SIGKILL',
-      }
-    )
+    await application.organization.ravelClient.machines.stop(application.id, params.machineId, {
+      timeout: 0,
+      signal: 'SIGKILL',
+    })
 
     return response.redirect().back()
   }
@@ -121,7 +117,7 @@ export default class MachinesController {
   async destroy({ params, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
     await application.organization.ravelClient.machines.delete(
-      application.fleetId,
+      application.id,
       params.machineId,
       true
     )

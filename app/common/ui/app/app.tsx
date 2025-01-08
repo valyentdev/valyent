@@ -9,7 +9,7 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 const appName = import.meta.env.VITE_APP_NAME || 'Valyent'
 
 createInertiaApp({
-  progress: { color: 'black' },
+  progress: { color: '#1d4ed8' },
 
   title: (title) => (title ? `${title} - ${appName}` : appName),
 
@@ -18,7 +18,7 @@ createInertiaApp({
     const rest = name.split('/').slice(1).join('/')
     return resolvePageComponent(
       `../../../${firstPart}/ui/pages/${rest}.tsx`,
-      import.meta.glob('../../../*/ui/pages/*.tsx')
+      import.meta.glob('../../../**/ui/pages/*.tsx')
     )
   },
 

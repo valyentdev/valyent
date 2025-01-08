@@ -12,9 +12,6 @@ export default class extends BaseSchema {
         .references('organizations.id')
         .onDelete('CASCADE')
       table.string('name').notNullable()
-      table.string('fleet_id').nullable().index().unique({
-        deferrable: 'deferred',
-      })
       table.string('github_repository').nullable()
       table.string('github_branch').nullable()
 

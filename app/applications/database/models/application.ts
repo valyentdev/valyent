@@ -4,12 +4,15 @@ import { belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import type { Fleet } from 'valyent.ts'
 import Deployment from './deployment.js'
+import ModelWithTimestamps from '#common/database/models/model_with_timestamps'
 
-export default class Application extends BaseModel {
+export default class Application extends ModelWithTimestamps {
+  static selfAssignPrimaryKey = true
+
+  @column({ isPrimary: true })
+  declare id: string
+
   private fleetValue: Fleet | null = null
-
-  @column()
-  declare fleetId: string
 
   public set fleet(fleet: Fleet) {
     this.fleetValue = fleet
@@ -52,6 +55,6 @@ export default class Application extends BaseModel {
    * (Requires the organization to be loaded.)
    */
   async loadFleet() {
-    this.fleet = await this.organization.ravelClient.fleets.get(this.fleetId)
+    this.fleet = await this.organization.ravelClient.fleets.get(this.id)
   }
 }

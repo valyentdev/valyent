@@ -1,22 +1,15 @@
-import { DeploymentStatus } from '#applications/database/models/deployment'
-import Organization from '#organizations/database/models/organization'
-import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
+import Application from '#applications/database/models/application'
+import Deployment, { DeploymentStatus } from '#applications/database/models/deployment'
+import bindApplication from '#applications/decorators/bind_application'
 import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
+import logger from '@adonisjs/core/services/logger'
 import { Machine, RestartPolicy, FetchErrorWithPayload } from 'valyent.ts'
+import jwt from 'jsonwebtoken'
 
 export default class DeploymentsController {
-  @bindOrganizationWithMember
-  async index({ params, inertia }: HttpContext, organization: Organization) {
-    /**
-     * Get application.
-     */
-    const application = await organization
-      .related('applications')
-      .query()
-      .where('id', params.applicationId)
-      .firstOrFail()
-
+  @bindApplication
+  async index({ inertia }: HttpContext, application: Application) {
     /**
      * Retrieve deployments.
      */
@@ -32,16 +25,10 @@ export default class DeploymentsController {
     })
   }
 
-  @bindOrganizationWithMember
-  async store({ request, response, params }: HttpContext, organization: Organization) {
-    /**
-     * Get application.
-     */
-    const application = await organization
-      .related('applications')
-      .query()
-      .where('fleetId', params.applicationId)
-      .firstOrFail()
+  @bindApplication
+  async store({ request, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+    const organization = application.organization
 
     /**
      * Retrieve incoming tarball.
@@ -60,6 +47,24 @@ export default class DeploymentsController {
      */
     const fileName = `${organization.slug}/${application.name}.tar.gz`
     await tarball.moveToDisk(fileName, 's3')
+
+    /**
+     * Save deployment in the database.
+     */
+    const deployment = await application
+      .related('deployments')
+      .create({ origin: 'cli', status: DeploymentStatus.Building })
+
+    const token = jwt.sign({ deploymentId: deployment.id }, env.get('APP_KEY'))
+    console.log('token', token)
+
+    /**
+     * Compute webhook URL.
+     */
+    let webhookURL =
+      env.get('NODE_ENV') === 'production'
+        ? `${env.get('APP_URL')}/deployments/updates`
+        : env.get('WEBHOOK_URL', 'https://smee.io/S1v6TfUa5IAvuPo')
 
     /**
      * Ignite builder machine.
@@ -82,6 +87,9 @@ export default class DeploymentsController {
               `REGISTRY_HOST=${env.get('REGISTRY_HOST')}`,
               `REGISTRY_TOKEN=${env.get('REGISTRY_TOKEN')}`,
               `ORGANIZATION=${organization.slug}`,
+              `DEPLOYMENT_ID=${deployment.id}`,
+              `API_TOKEN=${token}`,
+              `WEBHOOK_URL=${webhookURL}`,
             ],
             init: { user: 'root' },
             restart: { policy: RestartPolicy.Never },
@@ -92,20 +100,86 @@ export default class DeploymentsController {
       })
     } catch (error) {
       if (error instanceof FetchErrorWithPayload) {
-        console.log('FetchErrorWithPayload', error.payload)
+        logger.error({ payload: error.payload, deployment }, `Failed to create machine.`)
       } else {
-        console.log('not FetchErrorWithPayload')
+        logger.error({ error }, `Failed to create machine.`)
       }
       return
     }
 
     /**
-     * Save deployment in the database.
+     * Save builder machine id in the database, on the deployment model.
      */
-    const deployment = await application
-      .related('deployments')
-      .create({ origin: 'cli', status: DeploymentStatus.Building, builderMachineId: machine.id })
+    deployment.builderMachineId = machine.id
+    await deployment.save()
 
     return deployment
+  }
+
+  async handleWebhook({ request, response }: HttpContext) {
+    /**
+     * Check that there is an authorization header (we expect a JWT to be set there!).
+     */
+    const header = request.header('Authorization')
+    if (!header) {
+      return response.unauthorized('No valid authorization header found.')
+    }
+
+    /**
+     * Try to split the header, to retrieve the JWT.
+     */
+    let token: string
+    try {
+      token = header.replace('Bearer ', '')
+
+      if (token === '') {
+        throw new Error('Empty JWT.')
+      }
+    } catch (error) {
+      return response.unauthorized('No valid JWT found.')
+    }
+
+    /**
+     * Try to retrieve the deployment from the JWT.
+     */
+    let deploymentId: string
+    try {
+      const result = jwt.verify(token, env.get('APP_KEY'))
+      if (result === null || typeof result === 'string') {
+        throw new Error('Invalid result.')
+      }
+      deploymentId = (result as { deploymentId: string }).deploymentId
+    } catch (error) {
+      return response.unauthorized('No deployment ID found in the JWT.')
+    }
+
+    /**
+     * Try to retrieve the deployment from the database.
+     */
+    const deployment = await Deployment.findBy('id', deploymentId)
+    if (deployment === null) {
+      return response.notFound('Deployment not found.')
+    }
+
+    /**
+     * Retrieve body.
+     */
+    const { success, error_message } = request.body()
+
+    /**
+     * If the build is unsuccessful, we set the deployment status as BuildFailed.
+     */
+    if (success === false) {
+      deployment.status = DeploymentStatus.BuildFailed
+      deployment.errorMessage = error_message
+      await deployment.save()
+
+      return response.ok('Deployment status saved.')
+    }
+
+    deployment.status = DeploymentStatus.Deploying
+    await deployment.save()
+
+    return response.ok('Deployment status saved.')
   }
 }

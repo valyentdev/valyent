@@ -63,6 +63,10 @@ router
 const DeploymentsController = () => import('./controllers/deployments_controller.js')
 
 router
+  .post('/deployments/webhooks', [DeploymentsController, 'handleWebhook'])
+  .as('deployments.webhooks')
+
+router
   .get('/organizations/:organizationSlug/applications/:applicationId/deployments', [
     DeploymentsController,
     'index',
@@ -81,7 +85,7 @@ router
   .post('/v1/fleets', [CrudController, 'store'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
 router
-  .delete('/v1/fleets/:fleetId', [CrudController, 'delete'])
+  .delete('/v1/fleets/:applicationId', [CrudController, 'delete'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
 
 /**

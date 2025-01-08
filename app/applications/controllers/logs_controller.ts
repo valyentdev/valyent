@@ -1,20 +1,13 @@
 import Application from '#applications/database/models/application'
 import bindApplication from '#applications/decorators/bind_application'
-import Organization from '#organizations/database/models/organization'
-import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
 import { Machine } from 'valyent.ts'
 
 export default class LogsController {
-  @bindOrganizationWithMember
-  async index({ inertia, params, response }: HttpContext, organization: Organization) {
-    const application = await organization
-      .related('applications')
-      .query()
-      .where('id', params.applicationId)
-      .firstOrFail()
-    await application.load('organization')
+  @bindApplication
+  async index({ inertia, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
     await application.loadFleet()
 
     /**
@@ -22,9 +15,9 @@ export default class LogsController {
      */
     let machines: Array<Machine>
     try {
-      machines = await organization.ravelClient.machines.list(application.fleet!.id)
+      machines = await application.organization.ravelClient.machines.list(application.fleet!.id)
     } catch (error) {
-      logger.error({ error, organization }, 'Failed to list machines.')
+      logger.error({ error, application }, 'Failed to list machines.')
       return response.internalServerError()
     }
 
@@ -37,8 +30,9 @@ export default class LogsController {
   @bindApplication
   async getLogs({ params, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
+
     const logEntries = await application.organization.ravelClient.machines.getLogs(
-      application.fleetId,
+      application.id,
       params.machineId
     )
 

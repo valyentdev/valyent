@@ -1,3 +1,5 @@
+import Application from '#applications/database/models/application'
+import bindApplication from '#applications/decorators/bind_application'
 import Organization from '#organizations/database/models/organization'
 import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
 import type { HttpContext } from '@adonisjs/core/http'
@@ -5,17 +7,9 @@ import logger from '@adonisjs/core/services/logger'
 import { Gateway } from 'valyent.ts'
 
 export default class GatewaysController {
-  @bindOrganizationWithMember
-  async index({ inertia, params, response }: HttpContext, organization: Organization) {
-    /**
-     * Get application.
-     */
-    const application = await organization
-      .related('applications')
-      .query()
-      .where('id', params.applicationId)
-      .firstOrFail()
-    await application.load('organization')
+  @bindApplication
+  async index({ inertia, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
     await application.loadFleet()
 
     /**
@@ -23,16 +17,13 @@ export default class GatewaysController {
      */
     let gateways: Array<Gateway>
     try {
-      gateways = await organization.ravelClient.gateways.list(application.fleet!.id)
+      gateways = await application.organization.ravelClient.gateways.list(application.fleet!.id)
     } catch (error) {
-      logger.error({ error, organization }, 'Failed to list gateways.')
+      logger.error({ error, application }, 'Failed to list gateways.')
       return response.internalServerError()
     }
 
-    return inertia.render('applications/gateways', {
-      application,
-      gateways,
-    })
+    return inertia.render('applications/gateways', { application, gateways })
   }
 
   @bindOrganizationWithMember

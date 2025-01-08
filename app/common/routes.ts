@@ -1,7 +1,12 @@
+import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import transmit from '@adonisjs/transmit/services/main'
 
-transmit.registerRoutes()
+transmit.registerRoutes((route) => {
+  // Ensure you are authenticated to register your client
+  route.middleware(middleware.auth())
+  return
+})
 
 const HealthChecksController = () => import('#common/controllers/health_checks_controller')
 
