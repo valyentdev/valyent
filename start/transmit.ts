@@ -6,7 +6,6 @@ import Organization from '#organizations/database/models/organization'
 transmit.authorize<{ organizationSlug: string }>(
   `organizations/:organizationSlug/:applicationId/deployments/updates`,
   async (ctx: HttpContext, { organizationSlug }) => {
-    console.log('organizationSlug', organizationSlug)
     try {
       const organization = await Organization.findByOrFail('slug', organizationSlug)
       await OrganizationMember.query()

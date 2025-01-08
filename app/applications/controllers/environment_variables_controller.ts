@@ -9,7 +9,7 @@ export default class EnvironmentVariablesController {
   @bindApplication
   public async edit({ request, inertia }: HttpContext, application: Application) {
     if (request.wantsJSON()) {
-      return { env: application.environmentVariables }
+      return { env: application.env }
     }
 
     return inertia.render('applications/environment_variables', { application })
@@ -17,15 +17,15 @@ export default class EnvironmentVariablesController {
 
   @bindApplication
   public async update({ response, request }: HttpContext, application: Application) {
-    const oldEnvironmentVariables = { ...application.environmentVariables }
+    const oldEnv = { ...application.env }
 
     if (request.wantsJSON()) {
-      application.environmentVariables = {
-        ...oldEnvironmentVariables,
+      application.env = {
+        ...oldEnv,
         ...request.body(),
       }
     } else {
-      application.environmentVariables =
+      application.env =
         this.environmentVariablesService.parseEnvironmentVariablesFromRequest(request)
     }
 

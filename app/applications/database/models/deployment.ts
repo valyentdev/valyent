@@ -3,13 +3,14 @@ import { afterSave, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Application from './application.js'
 import transmit from '@adonisjs/transmit/services/main'
+import type { CreateMachinePayload } from 'valyent.ts'
 
 export default class Deployment extends BaseModel {
   @column()
   declare origin: 'cli' | 'github'
 
   @column()
-  declare config: Record<string, string | Record<string, string>>
+  declare machineConfig: CreateMachinePayload
 
   @column()
   declare status: DeploymentStatus

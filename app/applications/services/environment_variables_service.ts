@@ -4,17 +4,17 @@ export default class EnvironmentVariablesService {
   public parseEnvironmentVariablesFromRequest(request: Request): Record<string, string> {
     const requestBody = request.body()
 
-    const environmentVariables: Record<string, string> = {}
+    const env: Record<string, string> = {}
 
-    for (const environmentVariable of requestBody.environmentVariables) {
+    for (const environmentVariable of requestBody.env) {
       if (!environmentVariable || !environmentVariable.key || !environmentVariable.value) {
         continue
       }
 
-      environmentVariables[environmentVariable.key] = environmentVariable.value
+      env[environmentVariable.key] = environmentVariable.value
     }
 
-    return environmentVariables
+    return env
   }
 
   haveEnvironmentVariablesChanged(

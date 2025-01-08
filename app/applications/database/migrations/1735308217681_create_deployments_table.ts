@@ -6,6 +6,9 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.string('id').primary()
+      table.string('builder_machine_id').nullable()
+      table.string('error_message').nullable()
+      table.json('machine_config').defaultTo('{}')
       table.string('application_id').notNullable().references('applications.id').onDelete('CASCADE')
       table
         .enum('status', [

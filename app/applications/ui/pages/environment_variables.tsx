@@ -41,19 +41,16 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
   }
 
   const form = useForm({
-    environmentVariables: formatEnvironmentVariables(application.environmentVariables),
+    env: formatEnvironmentVariables(application.env),
   })
 
   function addEnvironmentVariable() {
-    form.setData('environmentVariables', [
-      ...form.data.environmentVariables,
-      { key: '', value: '' },
-    ])
+    form.setData('env', [...form.data.env, { key: '', value: '' }])
   }
 
   function removeEnvironmentVariable(index: number) {
-    const variables = form.data.environmentVariables.filter((_, i) => i !== index)
-    form.setData('environmentVariables', variables)
+    const variables = form.data.env.filter((_, i) => i !== index)
+    form.setData('env', variables)
   }
 
   function saveEnvironmentVariables() {
@@ -96,7 +93,7 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
           </div>
 
           <div className="flex flex-col gap-x-8 gap-y-2">
-            {form.data.environmentVariables.map(
+            {form.data.env.map(
               (variable, index) =>
                 variable && (
                   <div className="flex space-x-4 items-center" key={index}>
@@ -104,22 +101,22 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
                       className="w-full"
                       name={`key--${index}`}
                       placeholder="DATABASE_URI"
-                      value={form.data.environmentVariables[index].key}
+                      value={form.data.env[index].key}
                       onChange={(e) => {
-                        const updatedEnvironmentVariables = [...form.data.environmentVariables]
-                        updatedEnvironmentVariables[index].key = e.target.value
-                        form.setData('environmentVariables', updatedEnvironmentVariables)
+                        const updatedEnv = [...form.data.env]
+                        updatedEnv[index].key = e.target.value
+                        form.setData('env', updatedEnv)
                       }}
                     />
                     <Input
                       className="w-full"
                       name={`value--${index}`}
                       placeholder="postgresql://user:password@host:port/database"
-                      value={form.data.environmentVariables[index].value}
+                      value={form.data.env[index].value}
                       onChange={(e) => {
-                        const updatedEnvironmentVariables = [...form.data.environmentVariables]
-                        updatedEnvironmentVariables[index].value = e.target.value
-                        form.setData('environmentVariables', updatedEnvironmentVariables)
+                        const updatedEnv = [...form.data.env]
+                        updatedEnv[index].value = e.target.value
+                        form.setData('env', updatedEnv)
                       }}
                     />
                     <button

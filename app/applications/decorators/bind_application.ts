@@ -16,17 +16,20 @@ export default function bindApplication(
     const { params, response } = ctx
 
     let organization: Organization
-    let organizationMember: OrganizationMember | null = null
     let application: Application
 
     try {
-      if (ctx.request.header('Authorization')) {
+      if (ctx.auth.authenticatedViaGuard === 'api') {
         organization = ctx.auth.user as Organization
       } else {
         organization = await Organization.query()
           .where('slug', params.organizationSlug)
           .firstOrFail()
-        organizationMember = await OrganizationMember.query()
+
+        /**
+         * We check whether the currently authenticated user
+         */
+        await OrganizationMember.query()
           .where('user_id', (ctx.auth.user as User)!.id)
           .andWhere('organization_id', organization.id)
           .firstOrFail()

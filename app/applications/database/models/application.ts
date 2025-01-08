@@ -1,4 +1,3 @@
-import BaseModel from '#common/database/models/base_model'
 import Organization from '#organizations/database/models/organization'
 import { belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
@@ -30,7 +29,7 @@ export default class Application extends ModelWithTimestamps {
   declare deployments: HasMany<typeof Deployment>
 
   @column()
-  declare environmentVariables: Record<string, string>
+  declare env: Record<string, string>
 
   @column()
   declare organizationId: string

@@ -4,8 +4,9 @@ import bindApplication from '#applications/decorators/bind_application'
 import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
-import { Machine, RestartPolicy, FetchErrorWithPayload } from 'valyent.ts'
+import { Machine, RestartPolicy, FetchErrorWithPayload, Client } from 'valyent.ts'
 import jwt from 'jsonwebtoken'
+import DeploymentSuccessfulBuild from '#applications/events/deployment_successful_build'
 
 export default class DeploymentsController {
   @bindApplication
@@ -51,12 +52,13 @@ export default class DeploymentsController {
     /**
      * Save deployment in the database.
      */
-    const deployment = await application
-      .related('deployments')
-      .create({ origin: 'cli', status: DeploymentStatus.Building })
+    const deployment = await application.related('deployments').create({
+      origin: 'cli',
+      status: DeploymentStatus.Building,
+      machineConfig: JSON.parse(request.input('machine')),
+    })
 
     const token = jwt.sign({ deploymentId: deployment.id }, env.get('APP_KEY'))
-    console.log('token', token)
 
     /**
      * Compute webhook URL.
@@ -69,10 +71,16 @@ export default class DeploymentsController {
     /**
      * Ignite builder machine.
      */
+    const adminClient = new Client(
+      env.get('RAVEL_API_SECRET'),
+      env.get('RAVEL_ADMIN_NAMESPACE', 'admin'),
+      env.get('RAVEL_API_ENDPOINT')
+    )
+
     let machine: Machine
     try {
-      machine = await organization.ravelClient.machines.create(application.name, {
-        region: request.input('region'),
+      machine = await adminClient.machines.create(env.get('RAVEL_BUILDERS_FLEET', 'builders'), {
+        region: deployment.machineConfig.region,
         config: {
           image: env.get('BUILDER_IMAGE', 'valyent/builder:latest'),
           guest: { cpu_kind: 'eco', cpus: 1, memory_mb: 1024 },
@@ -177,8 +185,16 @@ export default class DeploymentsController {
       return response.ok('Deployment status saved.')
     }
 
+    /**
+     * Save the status in the database.
+     */
     deployment.status = DeploymentStatus.Deploying
     await deployment.save()
+
+    /**
+     * Let's dispatch the successful build event.
+     */
+    await DeploymentSuccessfulBuild.dispatch(deployment)
 
     return response.ok('Deployment status saved.')
   }

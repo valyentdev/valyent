@@ -69,6 +69,7 @@ export default defineConfig({
     () => import('#start/kernel'),
     () => import('#start/events'),
     () => import('#organizations/events'),
+    () => import('#applications/events'),
   ],
 
   /*
