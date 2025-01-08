@@ -28,8 +28,7 @@ export default class DeploymentSuccessfulBuildListener {
     /**
      * Create new machine(s).
      */
-    console.log('creating machines...')
-    const machine = await organization.ravelClient.machines.create(application.id, {
+    await organization.ravelClient.machines.create(application.id, {
       ...deployment.machineConfig,
       config: {
         ...deployment.machineConfig.config,
