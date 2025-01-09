@@ -97,6 +97,23 @@ export default class CrudController {
   }
 
   @bindApplication
+  async update({ request, response }: HttpContext, application: Application) {
+    /**
+     * Update GitHub-related fields.
+     */
+    application.githubRepository = request.input('githubRepository')
+    application.githubInstallationId = request.input('githubInstallationId')
+    application.githubBranch = request.input('githubBranch')
+
+    /**
+     * Save record in the database.
+     */
+    await application.save()
+
+    return response.redirect().back()
+  }
+
+  @bindApplication
   async delete({ response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
     /**

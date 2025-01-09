@@ -26,8 +26,8 @@ export default class OctokitService {
       await this.octokitApp.webhooks.verifyAndReceive({
         id: request.header('X-GitHub-Delivery')!,
         name: request.header('X-GitHub-Event') as any,
-        signature: request.header('X-Hub-Signature')!,
-        payload: JSON.stringify(request.body()),
+        payload: request.raw()!,
+        signature: request.header('X-Hub-Signature-256')!,
       })
       return true
     } catch {

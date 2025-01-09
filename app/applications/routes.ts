@@ -8,6 +8,17 @@ router
   .params({ organizations: 'organizationSlug', applications: 'applicationId' })
   .use('*', middleware.auth())
 
+const GithubWebhooksController = () => import('./controllers/github_webhooks_controller.js')
+router.post('/github/webhooks', [GithubWebhooksController, 'handleWebhooks']).as('github.webhooks')
+
+const GitHubController = () => import('./controllers/github_controller.js')
+router
+  .get('/organizations/:organizationSlug/github/repositories', [
+    GitHubController,
+    'listRepositories',
+  ])
+  .middleware(middleware.auth({ guards: ['web', 'api'] }))
+
 const MachinesController = () => import('./controllers/machines_controller.js')
 
 router

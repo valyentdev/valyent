@@ -32,4 +32,4 @@ router
   .use(middleware.auth())
   .as('billing.initiatePaymentMethodChange')
 
-router.post('/stripe/webhooks', [StripeWebhooksController, 'handleWebhook'])
+router.post('/stripe/webhooks', [StripeWebhooksController, 'handleWebhook']).as('stripe.webhooks')

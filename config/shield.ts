@@ -20,7 +20,8 @@ const shieldConfig = defineConfig({
     exceptRoutes: ({ request }) =>
       request.matchesRoute('deployments.store') ||
       request.matchesRoute('deployments.webhooks') ||
-      request.url().startsWith('/stripe/webhooks') ||
+      request.matchesRoute('github.webhooks') ||
+      request.matchesRoute('stripe.webhooks') ||
       request.url().startsWith('/v1'),
     enableXsrfCookie: true,
     methods: ['POST', 'PUT', 'PATCH', 'DELETE'],
