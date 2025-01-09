@@ -32,6 +32,7 @@ import { useForm } from '@inertiajs/react'
 import { IconGitBranch, IconLock } from '@tabler/icons-react'
 import Button from '#common/ui/components/button'
 import useSuccessToast from '#common/ui/hooks/use_success_toast'
+import Spinner from '#common/ui/components/spinner'
 
 export default function DeploymentsPage({
   application,
@@ -41,6 +42,7 @@ export default function DeploymentsPage({
   deployments: Deployment[]
 }) {
   const [githubOwner, setGithubOwner] = React.useState('public')
+  const [loading, setLoading] = React.useState(false)
   const [deployments, setDeployments] = React.useState<Deployment[]>(initialDeployments)
   const [repos, setRepos] = React.useState<GithubRepositoriesRecord>({})
   const [owners, setOwners] = React.useState<GithubRepositoryOwnersRecord>({})
@@ -58,6 +60,7 @@ export default function DeploymentsPage({
   }
 
   async function loadGitHubData() {
+    setLoading(true)
     try {
       const res = await fetch(
         '/organizations/' + params.organizationSlug + '/github/repositories',
@@ -74,6 +77,7 @@ export default function DeploymentsPage({
     } catch (error) {
       console.log('some error occured while loading github data...', error)
     }
+    setLoading(false)
   }
 
   React.useEffect(() => {
@@ -178,6 +182,16 @@ export default function DeploymentsPage({
                 </SelectContent>
               </Select>
             </CardContent>
+            {loading ? (
+              <CardFooter className="bg-white space-y-2 flex flex-col items-center justify-center !py-6">
+                <Spinner className="text-blue-700" />
+                <p className="font-medium font-serif leading-none tracking-tight text-xl">
+                  Loading repositories...
+                </p>
+                <p className="text-sm text-muted-foreground">It can take a few seconds.</p>
+              </CardFooter>
+            ) : null}
+
             {githubOwner !== 'public' && (
               <CardFooter className="bg-white grid sm:grid-cols-2 gap-x-8 gap-y-4 max-h-64 overflow-y-auto">
                 {githubOwner
