@@ -28,14 +28,35 @@ export default class LogsController {
   }
 
   @bindApplication
-  async getLogs({ params, response }: HttpContext, application: Application) {
+  async streamLogs({ params, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
 
-    const logEntries = await application.organization.ravelClient.machines.getLogs(
+    /**
+     * Set SSE Headers.
+     */
+    response.response.setHeader('Content-Type', 'text/event-stream')
+    response.response.setHeader('Cache-Control', 'no-cache')
+    response.response.setHeader('Connection', 'keep-alive')
+    response.response.setHeader('Access-Control-Allow-Origin', '*')
+    response.response.flushHeaders()
+
+    const logEntries = application.organization.ravelClient.machines.getLogsStream(
       application.id,
       params.machineId
     )
+    for await (const logEntry of logEntries) {
+      /**
+       * Send log entry to client, through a SSE.
+       */
+      response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
+      logger.info({ logEntry, application }, 'Received log entry.')
 
-    return response.json(logEntries)
+      /**
+       * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.
+       */
+      response.response.flushHeaders()
+    }
+
+    response.response.end()
   }
 }

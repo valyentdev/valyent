@@ -25,24 +25,28 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
   )
   const [entries, setEntries] = React.useState<Array<LogEntry>>([])
 
-  async function fetchLogs(machine: Machine) {
-    try {
-      const response = await fetch(
-        `/organizations/${params.organizationSlug}/applications/${params.applicationId}/machines/${machine.id}/logs`
-      )
-
-      const entries = (await response.json()) as Array<LogEntry>
-      setEntries(entries)
-    } catch (error) {
-      console.log('failed to get logs', error)
-    }
-  }
-
   React.useEffect(() => {
     if (!currentMachine) {
       return
     }
-    fetchLogs(currentMachine)
+
+    const es = new EventSource(
+      `/organizations/${params.organizationSlug}/applications/${params.applicationId}/machines/${currentMachine.id}/logs`
+    )
+
+    es.onmessage = ({ data }) => {
+      try {
+        const logEntry = JSON.parse(data) as LogEntry
+        if (!logEntry) {
+          return
+        }
+        setEntries((entries) => [...entries, logEntry])
+      } catch (error) {}
+    }
+
+    return () => {
+      es.close()
+    }
   }, [currentMachine])
 
   return (

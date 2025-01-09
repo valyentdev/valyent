@@ -45,7 +45,7 @@ router
 router
   .get('/organizations/:organizationSlug/applications/:applicationId/machines/:machineId/logs', [
     LogsController,
-    'getLogs',
+    'streamLogs',
   ])
   .use(middleware.auth())
 
