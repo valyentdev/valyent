@@ -28,7 +28,7 @@ type Breadcrumb = {
 export interface DashboardLayoutProps extends React.PropsWithChildren {
   actionButton?: React.ReactNode
   title?: string | React.ReactNode
-  description?: string
+  description?: string | React.ReactNode
   breadcrumbs?: Array<Breadcrumb>
 }
 
@@ -136,7 +136,12 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
             <Tab
               href={`/organizations/${params.organizationSlug}/applications`}
               label="Applications"
-            />{' '}
+            />
+            <Tab
+              href={`/organizations/${params.organizationSlug}/ai`}
+              label="AI"
+              active={path.startsWith(`/organizations/${params.organizationSlug}/ai`)}
+            />
             <Tab href={`/organizations/${params.organizationSlug}/api_keys`} label="API Keys" />
             <Tab
               href={`/organizations/${params.organizationSlug}/settings`}

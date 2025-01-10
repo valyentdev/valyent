@@ -18,6 +18,7 @@
     "proxy:github": "smee -u https://smee.io/1E96WpqbsekMGsKE -t http://localhost:3333/github/webhooks"
   },
   "imports": {
+    "#ai/*": "./app/ai/*.js",
     "#applications/*": "./app/applications/*.js",
     "#organizations/*": "./app/organizations/*.js",
     "#controllers/*": "./app/controllers/*.js",
