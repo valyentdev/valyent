@@ -120,7 +120,7 @@ export default function DeploymentsPage({
 
       <Card className="mt-4">
         <CardHeader className="">
-          <div className="flex items-start justify-between space-x-8">
+          <div className="flex flex-col lg:flex-row items-start justify-between space-y-2 lg:space-x-8">
             <div>
               <CardTitle>Connected GitHub Repository</CardTitle>
               <CardDescription>

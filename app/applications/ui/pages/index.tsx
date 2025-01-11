@@ -37,7 +37,10 @@ export default function IndexPage({ applications }: { applications: Array<Applic
           ))}
         </div>
       ) : (
-        <Onboarding />
+        <Onboarding
+          title="Start deploying your applications."
+          description="Follow the steps below to start deploying your applications with Valyent."
+        />
       )}
     </DashboardLayout>
   )

@@ -22,6 +22,7 @@ const shieldConfig = defineConfig({
       request.matchesRoute('deployments.webhooks') ||
       request.matchesRoute('github.webhooks') ||
       request.matchesRoute('stripe.webhooks') ||
+      request.matchesRoute('ai.sandboxes.store') ||
       request.url().startsWith('/v1'),
     enableXsrfCookie: true,
     methods: ['POST', 'PUT', 'PATCH', 'DELETE'],

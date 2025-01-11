@@ -111,7 +111,7 @@ router
     EnvironmentVariablesController,
     'edit',
   ])
-  .use([middleware.auth()])
+  .use([middleware.auth({ guards: ['web', 'api'] })])
 router
   .patch('/organizations/:organizationSlug/applications/:applicationId/env', [
     EnvironmentVariablesController,

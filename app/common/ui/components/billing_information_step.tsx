@@ -42,7 +42,7 @@ export default function BillingInformationStep() {
           </div>
         </div>
         {paymentMethodAdded ? (
-          <div className="flex items-center text-emerald-600 font-semibold">
+          <div className="flex items-center text-emerald-700 font-medium">
             <IconCreditCard className="h-5 w-5 mr-2" />
             <span>Payment method added successfully!</span>
           </div>

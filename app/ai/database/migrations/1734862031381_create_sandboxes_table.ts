@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.string('id').primary().notNullable()
       table.timestamp('started_at')
       table.timestamp('ended_at')
+      table.string('type')
       table
         .string('organization_id')
         .references('organizations.id')

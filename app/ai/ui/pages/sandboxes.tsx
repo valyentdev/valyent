@@ -1,6 +1,7 @@
 import React from 'react'
 import AILayout from '../components/ai_layout'
 import { IconExternalLink } from '@tabler/icons-react'
+import Onboarding from '#applications/ui/components/onboarding'
 
 export default function Index({}: {}) {
   return (
@@ -17,6 +18,11 @@ export default function Index({}: {}) {
         </a>
       }
       breadcrumbs={[{ label: 'Sandboxes' }]}
-    ></AILayout>
+    >
+      <Onboarding
+        title="Start executing LLM-generated code"
+        description="Follow the steps below to start executing LLM-generated code with Valyent."
+      />
+    </AILayout>
   )
 }

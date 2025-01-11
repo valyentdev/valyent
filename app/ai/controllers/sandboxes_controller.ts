@@ -4,7 +4,6 @@ import env from '#start/env'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
 import { DateTime, Duration } from 'luxon'
-import { exec } from 'node:child_process'
 
 export default class SandboxesController {
   @bindOrganizationWithMember
@@ -52,27 +51,11 @@ export default class SandboxesController {
     const sandbox = await organization.related('sandboxes').create({
       startedAt: now,
       endedAt: now.plus(Duration.fromObject({ minutes: 5 })),
+      type: 'code-interpreter',
     })
 
-    exec(
-      'docker run -P --platform linux/amd64 e2bdev/code-interpreter:latest',
-      (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`)
-          return
-        }
-        console.log(`stdout: ${stdout}`)
-        console.error(`stderr: ${stderr}`)
-      }
-    )
+    return { ...sandbox.serialize(), url: `http://localhost:49999` }
 
-    return {
-      sandbox: sandbox.serialize(),
-      url: `http://localhost:49999`,
-    }
-    // const fleet = await organization.ravelClient.fleets.create({
-    //   name: sandbox.id,
-    // })
     // const machine = await organization.ravelClient.machines.create(fleet.id, {
     //   region: 'gra-1',
     //   config: {

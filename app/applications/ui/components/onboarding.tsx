@@ -8,7 +8,13 @@ import Stepper from '#common/ui/components/stepper'
 import AddAPIKeyStep from '#api_keys/ui/components/add_api_key_step'
 import BillingInformationStep from '#common/ui/components/billing_information_step'
 
-export default function Onboarding() {
+export default function Onboarding({
+  title,
+  description,
+}: {
+  title?: string
+  description?: string
+}) {
   const query = useQuery()
   const [loaded, setLoaded] = React.useState(false)
 
@@ -18,12 +24,12 @@ export default function Onboarding() {
 
   return (
     <div>
-      <h1 className="pb-2 order-1 text-2xl sm:text-3xl tracking-tight font-serif text-black">
-        Start deploying your applications.
-      </h1>
-      <h2 className="pb-8 text-sm text-zinc-600 font-normal">
-        Follow the steps below to start deploying your applications with Valyent.
-      </h2>
+      {title && (
+        <h1 className="pb-2 order-1 text-2xl sm:text-3xl tracking-tight font-serif text-black">
+          {title}
+        </h1>
+      )}
+      {description && <h2 className="pb-8 text-sm text-zinc-600 font-normal">{description}</h2>}
       <div>
         {loaded && query.payment_success === 'true' && (
           <div className="absolute inset-0 z-50 pointer-events-none">
@@ -40,7 +46,7 @@ export default function Onboarding() {
           <AddAPIKeyStep />
           <Step
             title="Explore and Build"
-            description="Dive into our documentation and start building your infrastructure on Ravel."
+            description="Dive into our documentation and start building your infrastructure on Valyent."
           >
             <ExploreAndBuildOnboarding />
           </Step>
@@ -70,7 +76,7 @@ function ExploreAndBuildOnboarding() {
         </Button>
       </div>
       <p className="mt-2 text-xs text-zinc-500">
-        Get inspired by examples and start creating your infrastructure on Ravel.
+        Get inspired by examples and start creating your infrastructure on Valyent.
       </p>
     </div>
   )

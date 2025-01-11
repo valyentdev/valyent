@@ -15,10 +15,7 @@ export default class Sandbox extends BaseModel {
   declare endedAt: DateTime
 
   @column()
-  declare url: string
-
-  @column()
-  declare type: ''
+  declare type: SandboxType
 
   /**
    * Relationships.
