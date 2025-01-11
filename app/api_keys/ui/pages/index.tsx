@@ -4,6 +4,7 @@ import Button from '#common/ui/components/button'
 import CreateApiKeyDialog from '../components/create_api_key_dialog'
 import { IconCirclePlus } from '@tabler/icons-react'
 import DashboardLayout from '#common/ui/components/dashboard_layout'
+import SaveApiKeyDialog from '../components/save_api_key_dialog'
 
 export default function Index() {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = React.useState(false)
@@ -22,6 +23,7 @@ export default function Index() {
         </Button>
       }
     >
+      <SaveApiKeyDialog />
       <CreateApiKeyDialog
         isOpen={isCreateDialogOpen}
         onClose={() => setIsCreateDialogOpen(false)}

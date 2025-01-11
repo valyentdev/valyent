@@ -1,5 +1,6 @@
+import BaseModel from '#common/database/models/base_model'
 import Organization from '#organizations/database/models/organization'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import { DateTime } from 'luxon'
 
@@ -13,6 +14,12 @@ export default class Sandbox extends BaseModel {
   @column.dateTime()
   declare endedAt: DateTime
 
+  @column()
+  declare url: string
+
+  @column()
+  declare type: ''
+
   /**
    * Relationships.
    */
@@ -22,3 +29,5 @@ export default class Sandbox extends BaseModel {
   @belongsTo(() => Organization)
   declare organization: BelongsTo<typeof Organization>
 }
+
+export type SandboxType = 'code-interpreter' | 'computer-use'

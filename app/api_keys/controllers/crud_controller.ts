@@ -33,7 +33,7 @@ export default class APIKeysController {
     /**
      * Check if the limit has been reached.
      */
-    if (count >= 10) {
+    if (count >= 100) {
       /**
        * Flash a new error message to the session, informing the user that the threre is no more space for API keys.
        */
