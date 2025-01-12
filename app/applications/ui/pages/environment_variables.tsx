@@ -27,7 +27,7 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
 }) => {
   const successToast = useSuccessToast()
   const query = useQuery()
-  const [showRedeployDialog, setShowRedeployDialog] = React.useState(!!query.showRedeployChoice)
+  const [showRedeployDialog, setShowRedeployDialog] = React.useState(!!query.redeploy)
   const params = useParams()
 
   function formatEnvironmentVariables(
@@ -60,10 +60,10 @@ const EnvironmentVariables: React.FunctionComponent<EnvironmentVariablesProps> =
   }
 
   React.useEffect(() => {
-    if (query.showRedeployChoice) {
+    if (query.redeploy) {
       setShowRedeployDialog(true)
     }
-  }, [query.showRedeployChoice])
+  }, [query.redeploy])
 
   return (
     <ApplicationLayout breadcrumbs={[{ label: 'Environment Variables' }]}>

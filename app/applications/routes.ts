@@ -118,3 +118,4 @@ router
     'update',
   ])
   .use([middleware.auth({ guards: ['web', 'api'] })])
+  .as('applications.env.update')
