@@ -21,6 +21,11 @@ router
   .use(middleware.auth())
 
 router
+  .get('/organizations/:organizationSlug/ai/sandboxes/:sandboxId', [SandboxesController, 'show'])
+  .use(middleware.auth({ guards: ['api'] }))
+  .as('ai.sandboxes.show')
+
+router
   .post('/organizations/:organizationSlug/ai/sandboxes', [SandboxesController, 'store'])
   .use(middleware.auth({ guards: ['api'] }))
   .as('ai.sandboxes.store')

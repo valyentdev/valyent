@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from '@inertiajs/react'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Card, CardContent } from '#common/ui/components/card'
-import { PlusCircleIcon, SparkleIcon } from 'lucide-react'
+import { BrainCircuitIcon, PlusCircleIcon, SparkleIcon } from 'lucide-react'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import Button from '#common/ui/components/button'
 import CreateApplicationDialog from '../components/create_application_dialog'
@@ -55,7 +55,11 @@ function ApplicationCard({ application }: { application: Application }) {
       <Card className="group-hover:border-zinc-600/40 transition-colors">
         <CardContent className="space-y-3 flex flex-col !py-5">
           <div className="flex items-center gap-x-1">
-            <SparkleIcon className="h-4.5 w-4.5 text-blue-700" />
+            {application.name === 'sandboxes' ? (
+              <BrainCircuitIcon className="h-4.5 w-4.5 text-purple-700" />
+            ) : (
+              <SparkleIcon className="h-4.5 w-4.5 text-blue-700" />
+            )}
             <span className="font-semibold text-zinc-600 text-sm hover:underline">
               {application.name}
             </span>

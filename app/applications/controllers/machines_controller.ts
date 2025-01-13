@@ -2,7 +2,7 @@ import Application from '#applications/database/models/application'
 import bindApplication from '#applications/decorators/bind_application'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
-import { Fleet, Machine, MachineEvent } from 'valyent.ts'
+import { Fleet, MachineEvent, MachineRecord } from 'valyent.ts'
 
 export default class MachinesController {
   @bindApplication
@@ -13,9 +13,11 @@ export default class MachinesController {
     /**
      * Retrieve machines.
      */
-    let machines: Array<Machine>
+    let machines: Array<MachineRecord>
     try {
-      machines = await application.organization.ravelClient.machines.list(application.fleet!.id)
+      machines = await application.organization.ravelClient.machines.listRecords(
+        application.fleet!.id
+      )
     } catch (error) {
       logger.error(
         {
@@ -51,9 +53,9 @@ export default class MachinesController {
     /**
      * Get machine.
      */
-    let machine: Machine
+    let machine: MachineRecord
     try {
-      machine = await application.organization.ravelClient.machines.get(
+      machine = await application.organization.ravelClient.machines.getRecord(
         application.id,
         params.machineId
       )

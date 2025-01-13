@@ -92,7 +92,7 @@ function GatewayTableItem({ gateway }: { gateway: Gateway }) {
 
       <TableCell>
         <a
-          href={`https://${gateway.name}-${currentOrganization?.slug}.valyent.app`}
+          href={`https://${gateway.name}.valyent.app`}
           className="font-medium text-blue-600 hover:text-blue-800 transition-colors"
           target="_blank"
         >

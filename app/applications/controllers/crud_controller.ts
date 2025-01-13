@@ -53,9 +53,9 @@ export default class CrudController {
     }
 
     /**
-     * Store associated application in the database.
+     * Store associated application record in the database.
      */
-    const application: Application = new Application()
+    const application = new Application()
     application.id = fleet.id
     application.name = request.input('name')
     application.organizationId = organization.id

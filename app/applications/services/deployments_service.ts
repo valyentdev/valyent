@@ -1,7 +1,7 @@
 import Deployment, { DeploymentStatus } from '#applications/database/models/deployment'
 import env from '#start/env'
 import logger from '@adonisjs/core/services/logger'
-import * as jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { Client, FetchErrorWithPayload, Machine, RestartPolicy } from 'valyent.ts'
 
 export default class DeploymentsService {

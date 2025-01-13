@@ -2,7 +2,7 @@ import Application from '#applications/database/models/application'
 import bindApplication from '#applications/decorators/bind_application'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
-import { Machine } from 'valyent.ts'
+import { MachineRecord } from 'valyent.ts'
 
 export default class LogsController {
   @bindApplication
@@ -13,9 +13,11 @@ export default class LogsController {
     /**
      * List machines.
      */
-    let machines: Array<Machine>
+    let machines: Array<MachineRecord>
     try {
-      machines = await application.organization.ravelClient.machines.list(application.fleet!.id)
+      machines = await application.organization.ravelClient.machines.listRecords(
+        application.fleet!.id
+      )
     } catch (error) {
       logger.error({ error, application }, 'Failed to list machines.')
       return response.internalServerError()
@@ -49,7 +51,7 @@ export default class LogsController {
        * Send log entry to client, through a SSE.
        */
       response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
-      logger.info({ logEntry, application }, 'Received log entry.')
+      logger.debug({ logEntry, application }, 'Received log entry.')
 
       /**
        * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.
