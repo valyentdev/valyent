@@ -71,22 +71,9 @@
   }
 }
 
-.btn {
-  @apply !font-sans font-semibold text-sm tracking-tight cursor-pointer disabled:cursor-not-allowed;
-  @apply flex items-center justify-center gap-x-2;
-  @apply transition duration-75 disabled:opacity-50 rounded border;
-  @apply px-3 h-9 w-full sm:w-fit;
-  @apply active:[box-shadow:none] hover:[box-shadow:none];
-}
-
 @layer components {
   .btn {
-    @apply font-sans font-medium text-sm tracking-tight cursor-pointer disabled:cursor-not-allowed;
-    @apply flex gap-1 items-center justify-center;
-    @apply transition duration-75 disabled:opacity-50 rounded border;
-    @apply px-3 py-1 w-full sm:w-fit;
-    @apply active:[box-shadow:none] hover:[box-shadow:none];
-    @apply min-h-9;
+    @apply font-sans font-medium text-sm tracking-tight cursor-pointer disabled:cursor-not-allowed flex gap-1 items-center justify-center transition duration-75 disabled:opacity-50 rounded border px-3 py-1 w-full sm:w-fit active:[box-shadow:none] hover:[box-shadow:none] min-h-9;
   }
 
   .btn-purple {

@@ -141,4 +141,55 @@ export default class DeploymentsController {
 
     return response.ok('Deployment status saved.')
   }
+
+  @bindApplication
+  async streamBuilderLogs({ params, response }: HttpContext, application: Application) {
+    await application.loadOnce('organization')
+
+    /**
+     * Try to retrieve deployment.
+     */
+    const deployment = await application
+      .related('deployments')
+      .query()
+      .where('id', params.deploymentId)
+      .first()
+    if (deployment === null) {
+      return response.notFound('Deployment not found.')
+    }
+
+    /**
+     * Ensure that a builder machine id is associated to the deployment.
+     */
+    if (deployment.builderMachineId === null) {
+      return response.notFound('Builder machine ID not found.')
+    }
+
+    /**
+     * Set SSE Headers.
+     */
+    response.response.setHeader('Content-Type', 'text/event-stream')
+    response.response.setHeader('Cache-Control', 'no-cache')
+    response.response.setHeader('Connection', 'keep-alive')
+    response.response.setHeader('Access-Control-Allow-Origin', '*')
+    response.response.flushHeaders()
+
+    const logEntries = application.organization.ravelClient.machines.getLogsStream(
+      application.id,
+      deployment.builderMachineId
+    )
+    for await (const logEntry of logEntries) {
+      /**
+       * Send log entry to client, through a SSE.
+       */
+      response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
+
+      /**
+       * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.
+       */
+      response.response.flushHeaders()
+    }
+
+    response.response.end()
+  }
 }

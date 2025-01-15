@@ -93,6 +93,14 @@ router
   .as('deployments.store')
 
 router
+  .get(
+    '/organizations/:organizationSlug/applications/:applicationId/deployments/:deploymentId/builder/logs',
+    [DeploymentsController, 'streamBuilderLogs']
+  )
+  .use(middleware.auth({ guards: ['web', 'api'] }))
+  .as('deployments.streamBuilderLogs')
+
+router
   .post('/v1/fleets', [CrudController, 'store'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
 router
