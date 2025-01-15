@@ -7,6 +7,8 @@ import jwt from 'jsonwebtoken'
 import DeploymentSuccessfulBuild from '#applications/events/deployment_successful_build'
 import { inject } from '@adonisjs/core'
 import DeploymentsService from '#applications/services/deployments_service'
+import { Client } from 'valyent.ts'
+import logger from '@adonisjs/core/services/logger'
 
 @inject()
 export default class DeploymentsController {
@@ -144,8 +146,6 @@ export default class DeploymentsController {
 
   @bindApplication
   async streamBuilderLogs({ params, response }: HttpContext, application: Application) {
-    await application.loadOnce('organization')
-
     /**
      * Try to retrieve deployment.
      */
@@ -174,15 +174,36 @@ export default class DeploymentsController {
     response.response.setHeader('Access-Control-Allow-Origin', '*')
     response.response.flushHeaders()
 
-    const logEntries = application.organization.ravelClient.machines.getLogsStream(
-      application.id,
+    /**
+     * Ignite builder machine.
+     */
+    const adminClient = new Client(
+      env.get('RAVEL_API_SECRET'),
+      env.get('RAVEL_ADMIN_NAMESPACE', 'admin'),
+      env.get('RAVEL_API_ENDPOINT')
+    )
+
+    try {
+      await adminClient.machines.wait(
+        env.get('RAVEL_BUILDERS_FLEET', 'builders'),
+        deployment.builderMachineId,
+        'running',
+        10 // in seconds
+      )
+    } catch (error) {
+      logger.debug({ error }, 'Timeout exceeded')
+      return response.badRequest('Timeout exceeded')
+    }
+
+    const logEntries = adminClient.machines.getLogsStream(
+      env.get('RAVEL_BUILDERS_FLEET', 'builders'),
       deployment.builderMachineId
     )
     for await (const logEntry of logEntries) {
       /**
        * Send log entry to client, through a SSE.
        */
-      response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
+      response.response.write(JSON.stringify(logEntry) + '\n')
 
       /**
        * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.

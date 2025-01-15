@@ -50,7 +50,7 @@ export default class LogsController {
       /**
        * Send log entry to client, through a SSE.
        */
-      response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
+      response.response.write(JSON.stringify(logEntry))
       logger.debug({ logEntry, application }, 'Received log entry.')
 
       /**
