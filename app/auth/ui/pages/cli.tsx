@@ -33,7 +33,7 @@ const Cli: React.FunctionComponent<CliProps> = ({ organizations, success }) => {
   if (success) {
     return (
       <AuthLayout title="CLI Authenticated">
-        <div className="mb-4 p-4 bg-emerald-50 border border-emerald-300 rounded-md flex items-start">
+        <div className="mb-4 p-4 bg-emerald-50 border border-emerald-300 rounded-sm flex items-start">
           <IconCircleCheck className="h-5 w-5 text-emerald-500 mr-2 mt-0.5 flex-shrink-0" />
           <div className="text-sm text-emerald-700">
             <p className="font-semibold mb-1">Successfully authenticated</p>

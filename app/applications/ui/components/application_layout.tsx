@@ -142,7 +142,7 @@ function NavItem({
         path === href ? 'font-bold text-blue-800 bg-blue-100/50' : 'text-zinc-900'
       )}
     >
-      <span className="lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-md lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
+      <span className="lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-sm lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
         {Icon ? <Icon className="h-4 w-4 text-blue-800" /> : null}
       </span>
       <span className="group-hover:text-blue-800 transition-colors font-medium">{label}</span>

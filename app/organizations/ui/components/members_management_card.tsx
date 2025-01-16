@@ -37,7 +37,7 @@ const MembersManagementCard: React.FunctionComponent<MembersManagementCardProps>
                   <span className="font-medium">{member.user.fullName}</span>
                   <span
                     className={clsx(
-                      'text-xs px-1 rounded-md border',
+                      'text-xs px-1 rounded-sm border',
                       member.role === 'owner'
                         ? 'bg-accent border-blue-600/20 text-blue-950'
                         : 'bg-emerald-50 border-emerald-100 text-emerald-800'

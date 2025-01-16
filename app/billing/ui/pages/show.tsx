@@ -41,7 +41,7 @@ const Show: React.FunctionComponent<ShowProps> = ({ invoices, upcomingInvoice })
           <CardHeader>
             <CardTitle>Preview invoice</CardTitle>
           </CardHeader>
-          <CardContent className="bg-white !rounded-md">
+          <CardContent className="bg-white !rounded-sm">
             {upcomingInvoice ? (
               <>
                 <div className="flex justify-between space-x-2">

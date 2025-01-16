@@ -35,7 +35,7 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
         </CardDescription>
         <Card className="mt-8">
           <CardContent className="p-0">
-            <Table className="rounded-md">
+            <Table className="rounded-sm">
               <TableHeader>
                 <TableRow>
                   <TableHead>Machine</TableHead>
@@ -81,7 +81,7 @@ function MachineTableItem({ machine }: { machine: Machine }) {
         </Link>
       </TableCell>
       <TableCell>
-        <span className="inline-flex items-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 rounded-md border border-blue-200 text-blue-600 font-medium px-2 text-sm font-mono py-1 min-w-max">
+        <span className="inline-flex items-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 rounded-sm border border-blue-200 text-blue-600 font-medium px-2 text-sm font-mono py-1 min-w-max">
           {machine.region}
         </span>
       </TableCell>

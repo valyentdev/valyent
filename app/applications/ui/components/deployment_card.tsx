@@ -61,12 +61,12 @@ const DeploymentCard: React.FunctionComponent<DeploymentCardProps> = ({
     <li className="flex items-center space-x-4 px-6 py-6">
       <span
         hidden
-        className="bg-emerald-500 bg-red-500 bg-yellow-500 bg-emerald-400 bg-red-400 bg-yellow-400 rounded-md shadow-sm animate-pulse"
+        className="bg-emerald-500 bg-red-500 bg-yellow-500 bg-emerald-400 bg-red-400 bg-yellow-400 rounded-sm shadow-sm animate-pulse"
       ></span>
       <div className="min-w-0 flex-auto">
         <div className="flex items-center gap-x-3">
-          <div className={'flex-none rounded-md p-1 ' + getColorClass(deployment.status)}>
-            <div className={clsx('h-2 w-2 rounded-md bg-current', pulse && 'animate-pulse')}></div>
+          <div className={'flex-none rounded-sm p-1 ' + getColorClass(deployment.status)}>
+            <div className={clsx('h-2 w-2 rounded-sm bg-current', pulse && 'animate-pulse')}></div>
           </div>
 
           <h2 className="min-w-0 text-sm font-semibold leading-6 text-zinc-900">
@@ -79,7 +79,7 @@ const DeploymentCard: React.FunctionComponent<DeploymentCardProps> = ({
           <div
             className={clsx(
               getStatusTextColorClass(deployment.status),
-              'rounded-md flex-none py-1 px-2 text-xs font-semibold border ring-1 ring-inset ring-zinc-50'
+              'rounded-sm flex-none py-1 px-2 text-xs font-semibold border ring-1 ring-inset ring-zinc-50'
             )}
           >
             {capitalize(deployment.status.replace('-', ' '))}

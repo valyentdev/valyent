@@ -18,7 +18,7 @@ export default function PaymentMethodDialog() {
     <Dialog open={currentOrganization!.hasValidPaymentMethod}>
       <DialogContent
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="sm:max-w-[425px] rounded-md !gap-0 !p-0 !pt-4 border-zinc-300/20"
+        className="sm:max-w-[425px] rounded-sm !gap-0 !p-0 !pt-4 border-zinc-300/20"
         noClose
       >
         <DialogHeader>

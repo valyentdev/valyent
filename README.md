@@ -4,6 +4,8 @@
 
 [Valyent](https://valyent.cloud) is a developers-first cloud platform.
 
+It allows developers to deploy their Docker containers at scale, in secure and multi-region environments.
+
 At its core relies [Ravel](https://github.com/valyentdev/ravel.git), an open-source orchestrator.
 It turns Docker images into lightning-fast microVMs and orchestrates them into fleets — collections of machines that power your services at scale.
 

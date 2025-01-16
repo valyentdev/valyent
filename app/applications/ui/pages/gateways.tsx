@@ -52,7 +52,7 @@ export default function GatewaysPage({ gateways }: { fleet: Fleet; gateways: Arr
       </CardDescription>
       <Card className="sm:col-span-3 lg:col-span-4 mt-8">
         <CardContent className="p-0">
-          <Table className="rounded-md">
+          <Table className="rounded-sm">
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>

@@ -4,32 +4,26 @@ import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Card, CardContent } from '#common/ui/components/card'
 import { BrainCircuitIcon, PlusCircleIcon, SparkleIcon } from 'lucide-react'
 import { formatDistanceToNow, parseISO } from 'date-fns'
-import Button from '#common/ui/components/button'
-import CreateApplicationDialog from '../components/create_application_dialog'
 import Application from '#applications/database/models/application'
 import Onboarding from '../components/onboarding'
 import DashboardLayout from '#common/ui/components/dashboard_layout'
 
 export default function IndexPage({ applications }: { applications: Array<Application> }) {
-  const [createApplicationDialogOpen, setCreateApplicationDialogOpen] = React.useState(false)
-
+  const { currentOrganization } = useOrganizations()
   return (
     <DashboardLayout
       actionButton={
-        <Button
-          onClick={() => setCreateApplicationDialogOpen(true)}
-          icon={<PlusCircleIcon className="h-4 w-4" />}
+        <Link
+          className="btn-primary"
+          href={`/organizations/${currentOrganization?.slug}/applications/create`}
         >
-          Create Application
-        </Button>
+          <PlusCircleIcon className="h-4 w-4" />
+          <span>Create Application</span>
+        </Link>
       }
       breadcrumbs={[{ label: 'Applications' }]}
       title="Applications"
     >
-      <CreateApplicationDialog
-        open={createApplicationDialogOpen}
-        setOpen={setCreateApplicationDialogOpen}
-      />
       {applications.length > 0 ? (
         <div className="grid lg:grid-cols-3 gap-4">
           {applications.map((application) => (

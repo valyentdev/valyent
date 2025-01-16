@@ -23,6 +23,10 @@ export default class CrudController {
     return inertia.render('applications/index', { applications })
   }
 
+  async create({ inertia }: HttpContext) {
+    return inertia.render('applications/create')
+  }
+
   @bindApplication
   async show({ inertia, response }: HttpContext, application: Application) {
     await application.loadOnce('organization')

@@ -31,7 +31,7 @@ export default function Code({
 
   return (
     <div className={cn('flex flex-col space-y-2 w-full sm:w-auto', className)}>
-      <div className="relative rounded-md outline outline-[5px] outline-fuchsia-600/15 bg-zinc-900 shadow-lg">
+      <div className="relative rounded-sm outline outline-[5px] outline-fuchsia-600/15 bg-zinc-900 shadow-lg">
         {runtimes.length > 1 && (
           <div className="bg-black px-5 py-2.5 pb-0 flex space-x-4 rounded-t-md">
             {runtimes.map((runtime) => (

@@ -57,7 +57,7 @@ export default function MachinePage({
             <div className="sm:col-span-1">
               <dt className="font-medium text-sm text-foreground">Region</dt>
               <dd className="text-sm text-muted-foreground">
-                <span className="inline-flex items-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 rounded-md border border-blue-200 text-blue-600 font-medium px-2 text-sm font-mono py-1 min-w-max">
+                <span className="inline-flex items-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 rounded-sm border border-blue-200 text-blue-600 font-medium px-2 text-sm font-mono py-1 min-w-max">
                   {machine.region}
                 </span>
               </dd>
@@ -65,7 +65,7 @@ export default function MachinePage({
             <div className="sm:col-span-2">
               <dt className="font-medium text-sm text-foreground">Image</dt>
               <dd className="text-sm text-muted-foreground">
-                <div className="inline-flex space-x-1 w-full items-center lg:bg-gradient-to-b from-white/75 to-zinc-100/75 rounded-md border border-zinc-200 text-zinc-600 font-medium p-2 text-sm font-mono">
+                <div className="inline-flex space-x-1 w-full items-center lg:bg-gradient-to-b from-white/75 to-zinc-100/75 rounded-sm border border-zinc-200 text-zinc-600 font-medium p-2 text-sm font-mono">
                   <Hash className="h-4 w-4 text-zinc-600" />
                   <span>{machine.config.image.split('@')[0]}</span>
                 </div>
@@ -102,7 +102,7 @@ export default function MachinePage({
           <CardTitle>Machine Environment variables</CardTitle>
         </CardHeader>
         <CardContent className="p-0">
-          <Table className="rounded-md">
+          <Table className="rounded-sm">
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>

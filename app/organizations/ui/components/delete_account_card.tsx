@@ -39,7 +39,7 @@ export default function DeleteAccountCard() {
             <Button variant="destructive">Delete Account</Button>
           </DialogTrigger>
 
-          <DialogContent className="sm:max-w-[425px] rounded-md !gap-0 !p-0 !pt-4 border-red-100">
+          <DialogContent className="sm:max-w-[425px] rounded-sm !gap-0 !p-0 !pt-4 border-red-100">
             <DialogHeader>
               <DialogTitle>Delete Account</DialogTitle>
 

@@ -19,7 +19,7 @@ export default function CopyToClipboard({ value }: CopyToClipboardProps) {
 
   return (
     <button
-      className="bg-zinc-900 border-l-0 border-zinc-300/20 border rounded-md rounded-l-none px-2 flex items-center justify-center"
+      className="bg-zinc-900 border-l-0 border-zinc-300/20 border rounded-sm rounded-l-none px-2 flex items-center justify-center"
       onClick={copyToClipboardUri}
       type="button"
     >

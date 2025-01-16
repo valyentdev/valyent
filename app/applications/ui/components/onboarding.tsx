@@ -59,7 +59,7 @@ export default function Onboarding({
 function ExploreAndBuildOnboarding() {
   return (
     <div>
-      <div className="mb-4 p-4 bg-purple-50 border border-purple-300 rounded-md flex items-start">
+      <div className="mb-4 p-4 bg-purple-50 border border-purple-300 rounded-sm flex items-start">
         <IconBook className="h-5 w-5 text-purple-500 mr-2 mt-0.5 flex-shrink-0" />
         <div className="text-sm text-purple-700">
           <p className="font-semibold mb-1">Rich Documentation</p>

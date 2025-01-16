@@ -57,7 +57,7 @@ const CRUDTable = () => {
   return (
     <Card>
       <CardContent className="p-0">
-        <Table className="rounded-md">
+        <Table className="rounded-sm">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>

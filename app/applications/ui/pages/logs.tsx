@@ -62,7 +62,7 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
               <SelectValue
                 placeholder={
                   <div className="flex items-center space-x-2 font-medium">
-                    <span className="border lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-md lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
+                    <span className="border lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-sm lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
                       <CpuIcon className="h-4 w-4 text-blue-800" />
                     </span>
                     <span className="pr-1">Select a machine</span>
@@ -78,7 +78,7 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
                 {currentMachine ? (
                   <SelectLabel>
                     <div className="flex items-center space-x-2 font-medium">
-                      <span className="border lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-md lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
+                      <span className="border lg:w-6 lg:h-6 flex items-center justify-center lg:bg-gradient-to-b from-white/75 to-blue-100/75 lg:rounded-sm lg:shadow-sm shadow-blue-800/10 lg:ring-1 ring-blue-800/10">
                         <CpuIcon className="h-4 w-4 text-blue-800" />
                       </span>
                       <span>Select a machine</span>

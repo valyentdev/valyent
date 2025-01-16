@@ -22,7 +22,7 @@ const Tab: React.FunctionComponent<TabProps> = ({ className, href, label, active
 
   return (
     <Link className={cn('relative w-f', className)} href={href}>
-      <div className="mx-1 my-1.5 rounded-md px-3 py-1.5 transition-all duration-75 hover:bg-zinc-100 active:bg-zinc-200">
+      <div className="mx-1 my-1.5 rounded-sm px-3 py-1.5 transition-all duration-75 hover:bg-zinc-100 active:bg-zinc-200">
         <p className="text-sm text-zinc-600 font-medium hover:text-black">{label}</p>
       </div>
       {isActive && (
