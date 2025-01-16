@@ -99,8 +99,8 @@
 
   .btn-secondary {
     @apply btn;
-    @apply text-gray-700 border-gray-300 bg-white;
-    @apply hover:bg-gray-100;
+    @apply text-neutral-700 border-neutral-300 bg-white;
+    @apply hover:bg-neutral-100;
     @apply [box-shadow:rgba(0,0,0,0.1)_0_-3px_0_0_inset];
     @apply hover:[box-shadow:none];
   }

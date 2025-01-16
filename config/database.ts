@@ -20,7 +20,6 @@ const dbConfig = defineConfig({
           './app/common/database/migrations',
           './app/organizations/database/migrations',
           './app/api_keys/database/migrations',
-          './app/ai/database/migrations',
           './app/applications/database/migrations',
         ],
       },

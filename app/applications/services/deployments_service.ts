@@ -35,7 +35,7 @@ export default class DeploymentsService {
     let machine: Machine
     try {
       machine = await adminClient.machines.create(env.get('RAVEL_BUILDERS_FLEET', 'builders'), {
-        region: deployment.machineConfig.region,
+        region: deployment.application.region,
         config: {
           image: env.get('BUILDER_IMAGE', 'valyent/builder:latest'),
           guest: { cpu_kind: 'eco', cpus: 1, memory_mb: 1024 },

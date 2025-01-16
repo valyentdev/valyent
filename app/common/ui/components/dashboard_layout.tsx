@@ -137,20 +137,8 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
               href={`/organizations/${params.organizationSlug}/applications`}
               label="Applications"
             />
-            <Tab
-              href={`/organizations/${params.organizationSlug}/ai`}
-              label="AI"
-              active={path.startsWith(`/organizations/${params.organizationSlug}/ai`)}
-            />
             <Tab href={`/organizations/${params.organizationSlug}/api_keys`} label="API Keys" />
-            <Tab
-              href={`/organizations/${params.organizationSlug}/settings`}
-              active={
-                path.startsWith(`/organizations/${params.organizationSlug}/settings`) ||
-                path.endsWith('billing')
-              }
-              label="Settings"
-            />
+            <Tab href={`/organizations/${params.organizationSlug}/settings`} label="Settings" />
           </div>
         </div>
       </div>

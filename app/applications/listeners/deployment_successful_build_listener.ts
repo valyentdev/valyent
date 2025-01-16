@@ -29,9 +29,12 @@ export default class DeploymentSuccessfulBuildListener {
      * Create new machine(s).
      */
     await organization.ravelClient.machines.create(application.id, {
-      region: deployment.machineConfig.region || 'gra-1',
+      region: deployment.machineConfig.region || application.region || 'gra-1',
       config: {
-        ...deployment.machineConfig.config,
+        guest: {
+          ...application.guest,
+          ...deployment.machineConfig.config.guest,
+        },
         workload: {
           ...deployment.machineConfig.config.workload,
           env,

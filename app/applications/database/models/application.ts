@@ -1,7 +1,7 @@
 import Organization from '#organizations/database/models/organization'
 import { belongsTo, column, computed, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import type { CreateMachinePayload, Fleet, GuestConfig } from 'valyent.ts'
+import type { Fleet, GuestConfig } from 'valyent.ts'
 import Deployment from './deployment.js'
 import ModelWithTimestamps from '#common/database/models/model_with_timestamps'
 

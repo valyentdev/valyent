@@ -8,15 +8,7 @@ import { cn } from '#common/ui/lib/cn'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Link } from '@inertiajs/react'
 import { IconRocket, IconVariable } from '@tabler/icons-react'
-import {
-  BrainCircuitIcon,
-  CpuIcon,
-  InfoIcon,
-  LogsIcon,
-  NetworkIcon,
-  Settings2Icon,
-  SparkleIcon,
-} from 'lucide-react'
+import { CpuIcon, InfoIcon, LogsIcon, NetworkIcon, Settings2Icon, SparkleIcon } from 'lucide-react'
 import React from 'react'
 
 export interface ApplicationLayoutProps extends DashboardLayoutProps {
@@ -44,11 +36,7 @@ export default function ApplicationLayout({
       href: basePath + '/applications/' + application.id,
       label: (
         <div className="flex items-center space-x-2">
-          {application.name === 'sandboxes' ? (
-            <BrainCircuitIcon className="h-4 w-4 text-zinc-600" />
-          ) : (
-            <SparkleIcon className="h-4 w-4 text-zinc-600" />
-          )}
+          <SparkleIcon className="h-4 w-4 text-zinc-600" />
 
           <span>{application.name}</span>
         </div>
@@ -83,32 +71,26 @@ function ApplicationLayoutNav() {
         label="Overview"
         Icon={InfoIcon}
       />
-      {application.name !== 'sandboxes' && (
-        <NavItem
-          href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
-          label="Deployments"
-          Icon={IconRocket}
-        />
-      )}
-      {application.name !== 'sandboxes' && (
-        <NavItem
-          href={`/organizations/${params.organizationSlug}/applications/${application.id}/env`}
-          label="Environment Variables"
-          Icon={IconVariable}
-        />
-      )}
+      <NavItem
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/deployments`}
+        label="Deployments"
+        Icon={IconRocket}
+      />
+      <NavItem
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/env`}
+        label="Environment Variables"
+        Icon={IconVariable}
+      />
       <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/machines`}
         label="Machines"
         Icon={CpuIcon}
       />
-      {application.name !== 'sandboxes' && (
-        <NavItem
-          href={`/organizations/${params.organizationSlug}/applications/${application.id}/gateways`}
-          label="Gateways"
-          Icon={NetworkIcon}
-        />
-      )}
+      <NavItem
+        href={`/organizations/${params.organizationSlug}/applications/${application.id}/gateways`}
+        label="Gateways"
+        Icon={NetworkIcon}
+      />
       <NavItem
         href={`/organizations/${params.organizationSlug}/applications/${application.id}/logs`}
         label="Logs"

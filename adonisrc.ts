@@ -61,15 +61,12 @@ export default defineConfig({
   preloads: [
     () => import('#start/transmit'),
     () => import('#common/routes'),
-    () => import('#ai/routes'),
     () => import('#auth/routes'),
     () => import('#api_keys/routes'),
-    () => import('#billing/routes'),
     () => import('#applications/routes'),
     () => import('#organizations/routes'),
     () => import('#start/kernel'),
     () => import('#start/events'),
-    () => import('#organizations/events'),
     () => import('#applications/events'),
   ],
 

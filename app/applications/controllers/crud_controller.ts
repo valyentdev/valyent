@@ -123,7 +123,7 @@ export default class CrudController {
   }
 
   @bindApplication
-  async delete({ response }: HttpContext, application: Application) {
+  async destroy({ response }: HttpContext, application: Application) {
     await application.loadOnce('organization')
     /**
      * Delete the fleet from the Ravel cluster.

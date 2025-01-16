@@ -54,15 +54,6 @@ function SettingsNav() {
       >
         Account Settings
       </Link>
-      <Link
-        href={`/organizations/${params.organizationSlug}/billing`}
-        className={cn(
-          path === `/organizations/${params.organizationSlug}/billing` &&
-            'font-semibold text-primary'
-        )}
-      >
-        Billing
-      </Link>
     </nav>
   )
 }
