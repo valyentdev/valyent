@@ -65,6 +65,7 @@ const RadioCard = ({ children, checked, onChange, value, name, disabled = false 
 )
 
 const CreateApplicationForm = () => {
+  const { currentOrganization } = useOrganizations()
   const [cpuKind, setCpuKind] = React.useState('')
   const [vcpus, setVcpus] = React.useState(0)
   const [memoryMB, setMemoryMB] = React.useState(0)
@@ -73,13 +74,13 @@ const CreateApplicationForm = () => {
     name: '',
     region: '',
     cpu_kind: '',
-    vcpus: 0,
+    cpus: 0,
     memory_mb: 0,
   })
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    form.post('/organizations/applications', {
+    form.post(`/organizations/${currentOrganization?.slug}/applications`, {
       onSuccess: () => {
         // Handle success
       },
@@ -122,7 +123,9 @@ const CreateApplicationForm = () => {
                 type="text"
                 placeholder="Enter application name"
                 value={form.data.name}
-                onChange={(e) => form.setData('name', e.target.value)}
+                onChange={(e) =>
+                  form.setData('name', e.target.value.toLowerCase().replaceAll(' ', '-'))
+                }
                 required
               />
             </div>
@@ -193,7 +196,7 @@ const CreateApplicationForm = () => {
                         const vcpusValue = parseInt(e.target.value, 10)
                         setVcpus(vcpusValue)
                         setMemoryMB(0)
-                        form.setData('vcpus', vcpusValue)
+                        form.setData('cpus', vcpusValue)
                       }}
                     >
                       <div className="px-3 pb-1 font-mono">{v} vCPUs</div>

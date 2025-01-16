@@ -63,6 +63,11 @@ export default class CrudController {
     application.id = fleet.id
     application.name = request.input('name')
     application.organizationId = organization.id
+    application.guest = {
+      cpu_kind: request.input('cpu_kind', 'eco'),
+      memory_mb: parseInt(request.input('memory_mb', 512)),
+      cpus: parseInt(request.input('cpus', 1)),
+    }
 
     try {
       await application.save()

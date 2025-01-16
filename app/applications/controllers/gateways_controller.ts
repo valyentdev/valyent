@@ -28,9 +28,8 @@ export default class GatewaysController {
 
   @bindOrganizationWithMember
   async store({ request, params, response }: HttpContext, organization: Organization) {
-    await organization.ravelClient.gateways.create({
+    await organization.ravelClient.gateways.create(params.applicationId, {
       name: request.input('name'),
-      fleet: params.applicationId,
       target_port: request.input('targetPort'),
     })
 
@@ -39,7 +38,7 @@ export default class GatewaysController {
 
   @bindOrganizationWithMember
   async destroy({ params, response }: HttpContext, organization: Organization) {
-    await organization.ravelClient.gateways.delete(params.gatewayId)
+    await organization.ravelClient.gateways.delete(params.applicationId, params.gatewayId)
 
     return response.redirect().back()
   }
