@@ -18,6 +18,7 @@ import {
   BreadcrumbPage,
 } from './breadcrumb'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
+import { Info } from 'lucide-react'
 
 type Breadcrumb = {
   label: string | React.ReactNode
@@ -92,6 +93,13 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
   return (
     <main className="min-h-screen w-full">
       {loaded && <Toaster />}
+      <div className="inline-flex relative w-full justify-center items-center bg-blue-50 p-2 text-sm text-blue-700 border-b border-neutral-200">
+        <Info className="h-4 w-4 mr-1.5" />
+
+        <span className="font-medium">
+          This is an <strong>alpha</strong> demo. Any feedback will be appreciated.
+        </span>
+      </div>
       <div className="-top-16 z-20 border-b border-zinc-200 bg-white">
         <div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20">
           <div className="flex h-16 items-center justify-between mx-4">
