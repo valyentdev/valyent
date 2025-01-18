@@ -125,7 +125,8 @@
     "slug": "^9.1.0",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
-    "undici": "^6.19.8"
+    "undici": "^6.19.8",
+    "valyent.ts": "^0.1.1"
   },
   "hotHook": {
     "boundaries": [

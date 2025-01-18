@@ -104,7 +104,7 @@ router
   .post('/v1/fleets', [CrudController, 'store'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
 router
-  .delete('/v1/fleets/:applicationId', [CrudController, 'delete'])
+  .delete('/v1/fleets/:applicationId', [CrudController, 'destroy'])
   .use(middleware.auth({ guards: ['web', 'api'] }))
 
 /**

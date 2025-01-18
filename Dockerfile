@@ -1,19 +1,16 @@
-FROM node:20.12.2-alpine3.18 AS base
-
-# Install pnpm
-RUN npm install -g pnpm
+FROM node:23.6.0-alpine3.20 AS base
 
 # All deps stage
 FROM base AS deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
-RUN pnpm install
+ADD package.json package-lock.json ./
+RUN npm install
 
 # Production only deps stage
 FROM base AS production-deps
 WORKDIR /app
-ADD package.json pnpm-lock.yaml ./
-RUN pnpm install --prod
+ADD package.json package-lock.json ./
+RUN npm ci --omit=dev
 
 # Build stage
 FROM base AS build
