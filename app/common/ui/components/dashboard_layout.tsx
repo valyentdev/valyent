@@ -93,7 +93,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
   return (
     <main className="min-h-screen w-full">
       {loaded && <Toaster />}
-      <div className="inline-flex relative w-full justify-center items-center bg-blue-50 p-2 text-sm text-blue-700 border-b border-neutral-200">
+      <div className="inline-flex relative w-full justify-center items-center bg-blue-50 p-2 text-sm text-blue-700 border-b border-blue-500">
         <Info className="h-4 w-4 mr-1.5" />
 
         <span className="font-medium">

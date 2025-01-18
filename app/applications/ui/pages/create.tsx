@@ -50,7 +50,7 @@ const RadioCard = ({ children, checked, onChange, value, name, disabled = false 
       first:children:-mt-2 last:children:-mb-2 cursor-pointer
       peer-checked:border-blue-400 peer-checked:hover:border-blue-500 
       peer-checked:children:border-blue-200
-      peer-checked:text-blue-700 peer-checked:[&>*_.text-neutral-600]:text-blue-600
+      peer-checked:text-blue-900 peer-checked:[&>*_.text-neutral-600]:text-blue-600
       peer-disabled:cursor-not-allowed
       peer-disabled:bg-neutral-50 peer-disabled:peer-checked:bg-blue-50
       peer-checked:peer-disabled:hover:border-blue-400 peer-disabled:hover:border-neutral-200
@@ -163,7 +163,7 @@ const CreateApplicationForm = () => {
                   }}
                 >
                   <div className="px-3 flex py-1.5 items-center space-x-2 font-mono bg-neutral-50 rounded-t-sm font-medium">
-                    <Cpu className="w-4 h-4 text-blue-700" />
+                    <Cpu className="w-4 h-4 text-blue-900" />
                     <span className="font-medium">eco</span>
                   </div>
                   <div className="px-3 py-1.5 text-neutral-600">Optimized for cost</div>
@@ -180,7 +180,7 @@ const CreateApplicationForm = () => {
                   }}
                 >
                   <div className="px-3 flex py-1.5 items-center space-x-2 font-mono bg-neutral-50 rounded-t-sm font-medium">
-                    <Cpu className="w-4 h-4 text-blue-700" />
+                    <Cpu className="w-4 h-4 text-blue-900" />
                     <span className="font-medium">Standard</span>
                   </div>
                   <div className="px-3 py-1.5 text-neutral-600">Balanced performance</div>
@@ -232,7 +232,7 @@ const CreateApplicationForm = () => {
                       }}
                     >
                       <div className="px-3 flex py-1.5 items-center space-x-2 font-mono bg-neutral-50 rounded-t-sm font-medium">
-                        <MemoryStick className="w-4 h-4 text-blue-700" />
+                        <MemoryStick className="w-4 h-4 text-blue-900" />
                         <span>{m} MB</span>
                       </div>
                       <div className="px-3 py-1.5 text-neutral-600">Memory</div>

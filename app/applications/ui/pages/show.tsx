@@ -9,6 +9,7 @@ import {
 } from '#common/ui/components/card'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import Application from '#applications/database/models/application'
+import { Cpu, MemoryStick } from 'lucide-react'
 
 export default function ShowPage({ application }: { application: Application }) {
   return (
@@ -32,6 +33,31 @@ export default function ShowPage({ application }: { application: Application }) 
                     addSuffix: true,
                   })}
                 </dd>
+              </div>
+              <div className="sm:col-span-1">
+                <dt className="font-medium text-sm text-foreground">Region</dt>
+                <dd className="text-sm text-muted-foreground flex space-x-1 items-center">
+                  <img className="w-4 h-4" src="/ovh.svg" />
+                  <span>{application.region}</span>
+                </dd>
+              </div>
+              <div className="sm:col-span-1">
+                <dt className="font-medium text-sm text-foreground">RAM</dt>
+                <dd className="text-sm text-muted-foreground flex space-x-1 items-center">
+                  <MemoryStick className="w-4 h-4 text-blue-900" />
+                  <span>{application.guest.memory_mb}MB</span>
+                </dd>
+              </div>
+              <div className="sm:col-span-1">
+                <dt className="font-medium text-sm text-foreground">CPU Kind</dt>
+                <dd className="text-sm text-muted-foreground flex space-x-1 items-center">
+                  <Cpu className="w-4 h-4 text-blue-900" />
+                  <span>{application.guest.cpu_kind}</span>
+                </dd>
+              </div>
+              <div className="sm:col-span-1">
+                <dt className="font-medium text-sm text-foreground">VCPUs</dt>
+                <dd className="text-sm text-muted-foreground">{application.guest.cpus}</dd>
               </div>
             </div>
           </CardContent>
