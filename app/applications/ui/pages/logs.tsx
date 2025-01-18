@@ -35,7 +35,6 @@ export default function LogsPage({ machines }: { machines: Array<MachineRecord> 
     )
 
     es.onmessage = (ev) => {
-      console.log(ev)
       try {
         const logEntry = JSON.parse(ev.data) as LogEntry
         if (!logEntry) {

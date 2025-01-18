@@ -17,4 +17,4 @@ RUN go build -o ./webapp .
 EXPOSE 8080
 
 # Command to run the executable
-ENTRYPOINT ["./webapp"]
+ENTRYPOINT ["/app/webapp"]

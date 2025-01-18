@@ -2,7 +2,6 @@ import Application from '#applications/database/models/application'
 import bindApplication from '#applications/decorators/bind_application'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
-import { log } from 'console'
 import { MachineRecord } from 'valyent.ts'
 
 export default class LogsController {

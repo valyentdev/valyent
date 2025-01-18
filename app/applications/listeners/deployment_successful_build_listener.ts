@@ -5,7 +5,6 @@ import { inject } from '@adonisjs/core'
 export default class DeploymentSuccessfulBuildListener {
   @inject()
   async handle({ deployment }: { deployment: Deployment }) {
-    console.log('here')
     await deployment.loadOnce('application')
     await deployment.application.loadOnce('organization')
 
