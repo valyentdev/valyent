@@ -1,10 +1,15 @@
 import ApiKey from '#api_keys/database/models/api_key'
 import Button from '#common/ui/components/button'
-import { Dialog, DialogContent, DialogTitle, DialogHeader } from '#common/ui/components/dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogHeader,
+  DialogDescription,
+} from '#common/ui/components/dialog'
 import useParams from '#common/ui/hooks/use_params'
 import useSuccessToast from '#common/ui/hooks/use_success_toast'
 import { useForm } from '@inertiajs/react'
-import { DialogDescription } from '@radix-ui/react-dialog'
 import * as React from 'react'
 
 interface DeleteApiKeyDialogProps {

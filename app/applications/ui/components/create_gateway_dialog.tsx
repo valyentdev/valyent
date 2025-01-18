@@ -25,7 +25,7 @@ export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDial
   const params = useParams()
   const form = useForm({
     name: '',
-    targetPort: 0,
+    targetPort: 3000,
   })
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -79,6 +79,7 @@ export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDial
                 autoComplete="off"
                 value={form.data.targetPort}
                 placeholder="8080"
+                defaultValue="3000"
                 onChange={(e) => form.setData('targetPort', parseInt(e.target.value))}
                 minLength={0}
                 step={1}

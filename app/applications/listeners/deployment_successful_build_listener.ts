@@ -28,20 +28,26 @@ export default class DeploymentSuccessfulBuildListener {
     /**
      * Create new machine(s).
      */
-    await organization.ravelClient.machines.create(application.id, {
-      region: deployment.machineConfig.region || application.region || 'gra-1',
-      config: {
-        guest: {
-          ...application.guest,
-          ...deployment.machineConfig.config.guest,
+    try {
+      await organization.ravelClient.machines.create(application.id, {
+        region: deployment.machineConfig.region || application.region || 'gra-1',
+        config: {
+          guest: {
+            ...deployment.machineConfig.config.guest,
+            ...application.guest,
+          },
+          workload: {
+            ...deployment.machineConfig.config.workload,
+            env,
+          },
+          image: `${envv.get('REGISTRY_HOST')}/${organization.slug}/${application.name}`,
         },
-        workload: {
-          ...deployment.machineConfig.config.workload,
-          env,
-        },
-        image: `${envv.get('REGISTRY_HOST')}/${organization.slug}/${application.name}`,
-      },
-    })
+      })
+    } catch (error) {
+      deployment.status = DeploymentStatus.DeploymentFailed
+      await deployment.save()
+      return
+    }
 
     /**
      * Delete machines that were existing before the new deployment.

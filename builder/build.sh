@@ -50,11 +50,10 @@ send_webhook() {
 EOF
 )
 
-    # Send webhook with 5s timeout, suppress usual output
-    curl -s -S -X POST \
+    # Send webhook suppress usual output
+    curl -X POST \
          -H "Content-Type: application/json" \
          -d "$payload" \
-         --max-time 5 \
           -H "Authorization: Bearer ${API_TOKEN}" \
          "$WEBHOOK_URL" || echo "WARNING: Failed to send webhook" >&2
 }

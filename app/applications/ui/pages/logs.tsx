@@ -1,5 +1,5 @@
 import React from 'react'
-import { LogEntry, Machine } from 'valyent.ts'
+import { LogEntry, Machine, MachineRecord } from 'valyent.ts'
 import ApplicationLayout from '../components/application_layout'
 import { Card, CardContent, CardTitle } from '#common/ui/components/card'
 import {
@@ -17,10 +17,10 @@ import Ansi from '@curvenote/ansi-to-react'
 import { formatDate } from 'date-fns'
 import useQuery from '#common/ui/hooks/use_query'
 
-export default function LogsPage({ machines }: { machines: Array<Machine> }) {
+export default function LogsPage({ machines }: { machines: Array<MachineRecord> }) {
   const params = useParams()
   const query = useQuery()
-  const [currentMachine, setCurrentMachine] = React.useState<Machine | undefined>(
+  const [currentMachine, setCurrentMachine] = React.useState<MachineRecord | undefined>(
     query.machineId ? machines.find((machine) => machine.id === query.machineId) : undefined
   )
   const [entries, setEntries] = React.useState<Array<LogEntry>>([])
@@ -34,9 +34,10 @@ export default function LogsPage({ machines }: { machines: Array<Machine> }) {
       `/organizations/${params.organizationSlug}/applications/${params.applicationId}/machines/${currentMachine.id}/logs`
     )
 
-    es.onmessage = ({ data }) => {
+    es.onmessage = (ev) => {
+      console.log(ev)
       try {
-        const logEntry = JSON.parse(data) as LogEntry
+        const logEntry = JSON.parse(ev.data) as LogEntry
         if (!logEntry) {
           return
         }

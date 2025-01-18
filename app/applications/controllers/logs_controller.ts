@@ -2,6 +2,7 @@ import Application from '#applications/database/models/application'
 import bindApplication from '#applications/decorators/bind_application'
 import { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
+import { log } from 'console'
 import { MachineRecord } from 'valyent.ts'
 
 export default class LogsController {
@@ -50,9 +51,8 @@ export default class LogsController {
       /**
        * Send log entry to client, through a SSE.
        */
-      response.response.write(JSON.stringify(logEntry))
+      response.response.write(`data: ${JSON.stringify(logEntry)}\n\n`)
       logger.debug({ logEntry, application }, 'Received log entry.')
-
       /**
        * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.
        */
