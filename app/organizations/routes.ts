@@ -8,7 +8,6 @@
 */
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
-import env from '#start/env'
 
 const OrganizationsController = () => import('./controllers/organizations_controller.js')
 const SettingsController = () => import('./controllers/settings_controller.js')
