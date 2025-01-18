@@ -135,6 +135,7 @@ export default class DeploymentsController {
      */
     deployment.status = DeploymentStatus.Deploying
     await deployment.save()
+    console.log('there')
 
     /**
      * Let's dispatch the successful build event.
