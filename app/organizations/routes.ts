@@ -27,22 +27,18 @@ const ProxyController = () => import('#organizations/controllers/proxy_controlle
 
 router
   .get('/v1/fleets', [ProxyController, 'handleRequest'])
-  .withDomain(env.get('API_BASE_URL'))
   .use(middleware.auth({ guards: ['api'] }))
 
 router
   .any('/v1/gateways', [ProxyController, 'handleRequest'])
-  .withDomain(env.get('API_BASE_URL'))
   .use(middleware.auth({ guards: ['api'] }))
 
 router
   .any('/v1/fleets/*', [ProxyController, 'handleRequest'])
-  .withDomain(env.get('API_BASE_URL'))
   .use(middleware.auth({ guards: ['api'] }))
 
 router
   .any('/v1/gateways/*', [ProxyController, 'handleRequest'])
-  .withDomain(env.get('API_BASE_URL'))
   .use(middleware.auth({ guards: ['api'] }))
 
 router
