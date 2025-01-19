@@ -49,19 +49,22 @@ export default class DeploymentsController {
     }
 
     /**
-     * Save file to S3.
-     */
-    const fileName = `${organization.slug}/${application.name}.tar.gz`
-    await tarball.moveToDisk(fileName, 's3')
-
-    /**
      * Save deployment in the database.
      */
     const deployment = await application.related('deployments').create({
       origin: 'cli',
       status: DeploymentStatus.Building,
-      fileName,
+      fileName: '',
     })
+
+    /**
+     * Save file to S3.
+     */
+    const fileName = `${organization.slug}/${deployment.id}.tar.gz`
+    await tarball.moveToDisk(fileName, 's3')
+
+    deployment.fileName = fileName
+    await deployment.save()
 
     await this.deploymentsService.igniteBuilder(deployment)
 
