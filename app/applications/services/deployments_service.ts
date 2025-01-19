@@ -56,7 +56,7 @@ export default class DeploymentsService {
             ],
             init: { user: 'root' },
             restart: { policy: RestartPolicy.Never },
-            auto_destroy: true,
+            auto_destroy: false,
           },
         },
         skip_start: false,
