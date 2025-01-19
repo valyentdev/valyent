@@ -23,21 +23,16 @@ export default class DeploymentSuccessfulBuildListener {
     for (const key in application.env) {
       env.push(`${key}=${application.env[key]}`)
     }
-    env.push(...(deployment.machineConfig.config.workload.env || []))
 
     /**
      * Create new machine(s).
      */
     try {
       await organization.ravelClient.machines.create(application.id, {
-        region: deployment.machineConfig.region || application.region || 'gra-1',
+        region: application.region || 'gra-1',
         config: {
-          guest: {
-            ...deployment.machineConfig.config.guest,
-            ...application.guest,
-          },
+          guest: application.guest,
           workload: {
-            ...deployment.machineConfig.config.workload,
             env,
           },
           image: `${envv.get('REGISTRY_HOST')}/${organization.slug}/${application.name}`,

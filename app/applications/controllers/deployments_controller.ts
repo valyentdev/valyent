@@ -60,7 +60,6 @@ export default class DeploymentsController {
     const deployment = await application.related('deployments').create({
       origin: 'cli',
       status: DeploymentStatus.Building,
-      machineConfig: JSON.parse(request.input('machine')),
       fileName,
     })
 

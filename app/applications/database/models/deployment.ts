@@ -13,9 +13,6 @@ export default class Deployment extends BaseModel {
   declare fileName: string
 
   @column()
-  declare machineConfig: CreateMachinePayload
-
-  @column()
   declare status: DeploymentStatus
 
   @column()
