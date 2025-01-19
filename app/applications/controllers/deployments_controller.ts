@@ -7,11 +7,17 @@ import jwt from 'jsonwebtoken'
 import DeploymentSuccessfulBuild from '#applications/events/deployment_successful_build'
 import { inject } from '@adonisjs/core'
 import DeploymentsService from '#applications/services/deployments_service'
-import { Client } from 'valyent.ts'
+import { Client, LogEntry } from 'valyent.ts'
 import logger from '@adonisjs/core/services/logger'
 
 @inject()
 export default class DeploymentsController {
+  private adminClient = new Client(
+    env.get('RAVEL_API_SECRET'),
+    env.get('RAVEL_ADMIN_NAMESPACE', 'admin'),
+    env.get('RAVEL_API_ENDPOINT')
+  )
+
   constructor(private deploymentsService: DeploymentsService) {}
 
   @bindApplication
@@ -122,11 +128,38 @@ export default class DeploymentsController {
     const { success, error_message } = request.body()
 
     /**
+     * Retrieve the machine builder logs
+     */
+    let builderLogs: Array<LogEntry> = []
+    try {
+      builderLogs = await this.adminClient.machines.getLogs(
+        deployment.application.id,
+        env.get('RAVEL_BUILDERS_FLEET', 'builders')
+      )
+    } catch (error) {
+      logger.error({ error, deployment }, 'Failed to retrieve machine builder logs')
+    }
+
+    /**
+     * Delete the machine builder machine.
+     */
+    try {
+      await this.adminClient.machines.delete(
+        deployment.application.id,
+        env.get('RAVEL_BUILDERS_FLEET', 'builders'),
+        true
+      )
+    } catch (error) {
+      logger.error({ error, deployment }, 'Failed to delete machine builder machine')
+    }
+
+    /**
      * If the build is unsuccessful, we set the deployment status as BuildFailed.
      */
     if (success === false) {
       deployment.status = DeploymentStatus.BuildFailed
       deployment.errorMessage = error_message
+      deployment.builderLogs = builderLogs
       await deployment.save()
 
       return response.ok('Deployment status saved.')
@@ -176,17 +209,8 @@ export default class DeploymentsController {
     response.response.setHeader('Access-Control-Allow-Origin', '*')
     response.response.flushHeaders()
 
-    /**
-     * Ignite builder machine.
-     */
-    const adminClient = new Client(
-      env.get('RAVEL_API_SECRET'),
-      env.get('RAVEL_ADMIN_NAMESPACE', 'admin'),
-      env.get('RAVEL_API_ENDPOINT')
-    )
-
     try {
-      await adminClient.machines.wait(
+      await this.adminClient.machines.wait(
         env.get('RAVEL_BUILDERS_FLEET', 'builders'),
         deployment.builderMachineId,
         'running',
@@ -197,7 +221,7 @@ export default class DeploymentsController {
       return response.badRequest('Timeout exceeded')
     }
 
-    const logEntries = adminClient.machines.getLogsStream(
+    const logEntries = this.adminClient.machines.getLogsStream(
       env.get('RAVEL_BUILDERS_FLEET', 'builders'),
       deployment.builderMachineId
     )

@@ -3,6 +3,7 @@ import { afterSave, belongsTo, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Application from './application.js'
 import transmit from '@adonisjs/transmit/services/main'
+import { LogEntry } from 'valyent.ts'
 
 export default class Deployment extends BaseModel {
   @column()
@@ -13,6 +14,9 @@ export default class Deployment extends BaseModel {
 
   @column()
   declare status: DeploymentStatus
+
+  @column()
+  declare builderLogs: Array<LogEntry>
 
   @column()
   declare errorMessage: string | null
