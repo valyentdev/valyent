@@ -50,7 +50,7 @@ export default function LogsPage({ machines }: { machines: Array<MachineRecord> 
   }, [currentMachine])
 
   return (
-    <ApplicationLayout breadcrumbs={[{ label: 'Settings' }]}>
+    <ApplicationLayout breadcrumbs={[{ label: 'Logs' }]}>
       <div className="flex space-x-4 items-center">
         <CardTitle>Logs</CardTitle>
         <div>

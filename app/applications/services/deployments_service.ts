@@ -38,7 +38,7 @@ export default class DeploymentsService {
         region: deployment.application.region,
         config: {
           image: env.get('BUILDER_IMAGE', 'valyent/builder:latest'),
-          guest: { cpu_kind: 'eco', cpus: 1, memory_mb: 1024 },
+          guest: { cpu_kind: 'standard', cpus: 4, memory_mb: 4096 },
           workload: {
             env: [
               `S3_ENDPOINT=${env.get('S3_ENDPOINT')}`,

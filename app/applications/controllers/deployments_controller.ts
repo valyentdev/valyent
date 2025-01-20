@@ -209,6 +209,22 @@ export default class DeploymentsController {
     response.response.setHeader('Access-Control-Allow-Origin', '*')
     response.response.flushHeaders()
 
+    if (deployment.builderLogs) {
+      for await (const logEntry of deployment.builderLogs) {
+        /**
+         * Send log entry to client, through a SSE.
+         */
+        response.response.write(JSON.stringify(logEntry) + '\n')
+
+        /**
+         * Flush the buffer to ensure all data is sent immediately. This is necessary for SSE.
+         */
+        response.response.flushHeaders()
+      }
+      response.response.end()
+      return
+    }
+
     try {
       await this.adminClient.machines.wait(
         env.get('RAVEL_BUILDERS_FLEET', 'builders'),

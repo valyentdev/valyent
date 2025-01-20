@@ -4,6 +4,11 @@ import * as React from 'react'
 import getInitiatedXAgo from '#common/ui/lib/get_initiated_x_ago'
 import capitalize from '#common/ui/lib/capitalize'
 import clsx from 'clsx'
+import useOrganizations from '#organizations/ui/hooks/use_organizations'
+import Button from '#common/ui/components/button'
+import { LogsIcon } from 'lucide-react'
+import BuildLogsDialog from './build_logs_dialog'
+import useParams from '#common/ui/hooks/use_params'
 
 function getColorClass(status: DeploymentStatus) {
   switch (status) {
@@ -46,9 +51,12 @@ const DeploymentCard: React.FunctionComponent<DeploymentCardProps> = ({
   application,
   pulse,
 }) => {
+  const { currentOrganization } = useOrganizations()
   const [initiated, setInitiated] = React.useState<string>(
     getInitiatedXAgo(new Date(deployment.createdAt as unknown as string))
   )
+  const [showLogs, setShowLogs] = React.useState(false)
+  const params = useParams()
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -58,43 +66,60 @@ const DeploymentCard: React.FunctionComponent<DeploymentCardProps> = ({
   }, [])
 
   return (
-    <li className="flex items-center space-x-4 px-6 py-6">
-      <span
-        hidden
-        className="bg-emerald-500 bg-red-500 bg-yellow-500 bg-emerald-400 bg-red-400 bg-yellow-400 rounded-sm shadow-sm animate-pulse"
-      ></span>
-      <div className="min-w-0 flex-auto">
-        <div className="flex items-center gap-x-3">
-          <div className={'flex-none rounded-sm p-1 ' + getColorClass(deployment.status)}>
-            <div className={clsx('h-2 w-2 rounded-sm bg-current', pulse && 'animate-pulse')}></div>
-          </div>
+    <>
+      <li className="flex items-center space-x-4 px-6 py-6">
+        <span
+          hidden
+          className="bg-emerald-500 bg-red-500 bg-yellow-500 bg-emerald-400 bg-red-400 bg-yellow-400 rounded-sm shadow-sm animate-pulse"
+        ></span>
+        <div className="min-w-0 flex-auto">
+          <div className="flex items-center gap-x-3">
+            <div className={'flex-none rounded-sm p-1 ' + getColorClass(deployment.status)}>
+              <div
+                className={clsx('h-2 w-2 rounded-sm bg-current', pulse && 'animate-pulse')}
+              ></div>
+            </div>
 
-          <h2 className="min-w-0 text-sm font-semibold leading-6 text-zinc-900">
-            <p className="flex gap-x-2 text-zinc-900">
-              <span className="truncate">{application.name}</span>
-              <span className="text-zinc-400">/</span>
-              <span className="whitespace-nowrap">{application.name}</span>
+            <h2 className="min-w-0 text-sm font-semibold leading-6 text-zinc-900">
+              <p className="flex gap-x-2 text-zinc-900">
+                <span className="truncate">{currentOrganization?.name}</span>
+                <span className="text-zinc-400">/</span>
+                <span className="whitespace-nowrap">{application.name}</span>
+              </p>
+            </h2>
+            <div
+              className={clsx(
+                getStatusTextColorClass(deployment.status),
+                'rounded-sm flex-none py-1 px-2 text-xs font-semibold border ring-1 ring-inset ring-zinc-50'
+              )}
+            >
+              {capitalize(deployment.status.replace('-', ' '))}
+            </div>
+          </div>
+          <div className="mt-3 flex items-center gap-x-2.5 text-xs leading-5 text-muted-foreground">
+            <p className="truncate">
+              Deploys from {deployment.origin === 'cli' ? 'CLI' : 'GitHub'}
             </p>
-          </h2>
-          <div
-            className={clsx(
-              getStatusTextColorClass(deployment.status),
-              'rounded-sm flex-none py-1 px-2 text-xs font-semibold border ring-1 ring-inset ring-zinc-50'
-            )}
-          >
-            {capitalize(deployment.status.replace('-', ' '))}
+
+            <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 flex-none fill-zinc-300">
+              <circle cx="1" cy="1" r="1" />
+            </svg>
+            <p className="whitespace-nowrap">Initiated {initiated}</p>
           </div>
         </div>
-        <div className="mt-3 flex items-center gap-x-2.5 text-xs leading-5 text-muted-foreground">
-          <p className="truncate">Deploys from {deployment.origin === 'cli' ? 'CLI' : 'GitHub'}</p>
-
-          <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 flex-none fill-zinc-300">
-            <circle cx="1" cy="1" r="1" />
-          </svg>
-          <p className="whitespace-nowrap">Initiated {initiated}</p>
-        </div>
-      </div>
-    </li>
+        {deployment.builderLogs.length > 0 ? (
+          <Button
+            icon={<LogsIcon className="h-4 w-4" />}
+            variant="outline"
+            className="flex items-center"
+            onClick={() => setShowLogs(true)}
+          >
+            Show Build Logs
+          </Button>
+        ) : null}
+      </li>
+      <BuildLogsDialog open={showLogs} onOpenChange={setShowLogs} deployment={deployment} />
+    </>
   )
 }
 
