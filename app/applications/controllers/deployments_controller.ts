@@ -39,21 +39,6 @@ export default class DeploymentsController {
 
   @bindApplication
   async store({ request, response }: HttpContext, application: Application) {
-    await application.loadOnce('organization')
-    const organization = application.organization
-
-    /**
-     * Retrieve incoming tarball.
-     */
-    const tarball = request.file('tarball', {
-      size: '20mb',
-      extnames: ['tar.gz'],
-    })
-
-    if (tarball === null) {
-      return response.badRequest('No file uploaded.')
-    }
-
     /**
      * Save deployment in the database.
      */
@@ -64,9 +49,23 @@ export default class DeploymentsController {
     })
 
     /**
+     * Retrieve incoming tarball.
+     */
+    const tarball = request.file('tarball', {
+      size: '20mb',
+      extnames: ['tar.gz'],
+    })
+
+    if (tarball === null) {
+      await this.deploymentsService.igniteDeployment(deployment)
+      return response.json(deployment)
+    }
+
+    /**
      * Save file to S3.
      */
-    const fileName = `${organization.slug}/${deployment.id}.tar.gz`
+    await application.loadOnce('organization')
+    const fileName = `${application.organization.slug}/${deployment.id}.tar.gz`
     await tarball.moveToDisk(fileName, 's3')
 
     deployment.fileName = fileName
@@ -74,7 +73,7 @@ export default class DeploymentsController {
 
     await this.deploymentsService.igniteBuilder(deployment)
 
-    return deployment
+    return response.json(deployment)
   }
 
   async handleWebhook({ request, response }: HttpContext) {
