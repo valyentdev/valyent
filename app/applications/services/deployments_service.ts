@@ -1,9 +1,8 @@
 import Deployment, { DeploymentStatus } from '#applications/database/models/deployment'
-import env from '#start/env'
 import logger from '@adonisjs/core/services/logger'
 import jwt from 'jsonwebtoken'
 import { Client, FetchErrorWithPayload, Machine, RestartPolicy } from 'valyent.ts'
-import envv from '#start/env'
+import env from '#start/env'
 
 export default class DeploymentsService {
   async igniteBuilder(deployment: Deployment) {
@@ -97,9 +96,9 @@ export default class DeploymentsService {
     /**
      * Compute environment variables that the new machine(s) should adopt.
      */
-    const env: string[] = []
+    const environmentVariables: string[] = []
     for (const key in application.env) {
-      env.push(`${key}=${application.env[key]}`)
+      environmentVariables.push(`${key}=${application.env[key]}`)
     }
 
     /**
@@ -111,12 +110,16 @@ export default class DeploymentsService {
         config: {
           guest: application.guest,
           workload: {
-            env,
+            env: environmentVariables,
           },
-          image: `${envv.get('REGISTRY_HOST')}/${organization.slug}/${application.name}:latest`,
+          image: `${env.get('REGISTRY_HOST')}/${organization.slug}/${application.name}`,
         },
       })
     } catch (error) {
+      logger.error(
+        { error, deployment },
+        '[DeploymentsService.igniteDeployment] Machine creation failed.'
+      )
       deployment.status = DeploymentStatus.DeploymentFailed
       await deployment.save()
       return

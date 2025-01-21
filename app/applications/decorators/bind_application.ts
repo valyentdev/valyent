@@ -38,12 +38,22 @@ export default function bindApplication(
       /**
        * Query the application from the database.
        */
-      application = await organization
+      const app = await organization
         .related('applications')
         .query()
         .where('id', ctx.params.applicationId)
         .andWhere('organizationId', organization.id)
-        .firstOrFail()
+        .first()
+      if (app) {
+        application = app
+      } else {
+        application = await organization
+          .related('applications')
+          .query()
+          .where('name', ctx.params.applicationId)
+          .andWhere('organizationId', organization.id)
+          .firstOrFail()
+      }
     } catch (error) {
       logger.error({ error }, 'Failed to bind application')
       return response.notFound('Failed to find application')
