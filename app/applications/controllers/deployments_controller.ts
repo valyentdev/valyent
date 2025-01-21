@@ -9,6 +9,7 @@ import { inject } from '@adonisjs/core'
 import DeploymentsService from '#applications/services/deployments_service'
 import { Client, LogEntry } from 'valyent.ts'
 import logger from '@adonisjs/core/services/logger'
+import { MultipartFile } from '@adonisjs/core/bodyparser'
 
 @inject()
 export default class DeploymentsController {
@@ -51,11 +52,23 @@ export default class DeploymentsController {
     /**
      * Retrieve incoming tarball.
      */
-    const tarball = request.file('tarball', {
-      size: '20mb',
-      extnames: ['tar.gz'],
-    })
+    let tarball: MultipartFile | null = null
+    try {
+      tarball = request.file('tarball', {
+        size: '20mb',
+        extnames: ['tar.gz'],
+      })
+    } catch (error) {
+      deployment.status = DeploymentStatus.BuildFailed
+      await deployment.save()
+      throw error
+    }
 
+    /**
+     * Handle the case when a tarball is not provided.
+     * We skip the build process and return the deployment immediately.
+     * It's especially useful for cases where the user wants to build the Docker image himself.
+     */
     if (tarball === null) {
       await this.deploymentsService.igniteDeployment(deployment)
       return response.json(deployment)
