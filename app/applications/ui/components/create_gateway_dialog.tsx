@@ -52,26 +52,34 @@ export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDial
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4 px-6 pt-0">
             <div className="grid gap-2">
-              <Label>Gateway Name</Label>
+              <Label htmlFor="name">Gateway Name</Label>
 
-              <Input
-                id="name"
-                className="!col-span-3 w-full"
-                autoComplete="off"
-                value={form.data.name}
-                placeholder="bolero"
-                onChange={(e) =>
-                  form.setData('name', e.target.value.toLowerCase().replace(' ', '-'))
-                }
-                minLength={3}
-                maxLength={30}
-              />
+              <div className="flex">
+                <span className="flex h-10 rounded-sm text-neutral-500 font-medium rounded-r-none border-r-0 border border-zinc-300 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none transition focus:border-zinc-500 focus:ring-4 focus:ring-zinc-200">
+                  https://
+                </span>
+                <Input
+                  id="name"
+                  className="!col-span-3 rounded-none"
+                  autoComplete="off"
+                  value={form.data.name}
+                  placeholder="bolero"
+                  onChange={(e) =>
+                    form.setData('name', e.target.value.toLowerCase().replace(' ', '-'))
+                  }
+                  minLength={3}
+                  maxLength={30}
+                />
+                <span className="flex h-10 rounded-sm text-neutral-500 font-medium rounded-l-none border-l-0 border border-zinc-300 bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none transition focus:border-zinc-500 focus:ring-4 focus:ring-zinc-200">
+                  valyent.app
+                </span>
+              </div>
             </div>
           </div>
 
           <div className="grid gap-4 py-4 px-6 pt-0">
             <div className="grid gap-2">
-              <Label>Target Port</Label>
+              <Label htmlFor="targetPort">Target Port</Label>
 
               <Input
                 id="targetPort"

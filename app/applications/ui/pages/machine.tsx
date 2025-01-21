@@ -1,4 +1,4 @@
-import { Machine, MachineEvent } from 'valyent.ts'
+import { MachineEvent, MachineRecord } from 'valyent.ts'
 import ApplicationLayout from '../components/application_layout'
 import React from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '#common/ui/components/card'
@@ -19,7 +19,7 @@ export default function MachinePage({
   machine,
   events,
 }: {
-  machine: Machine
+  machine: MachineRecord
   events: Array<MachineEvent>
 }) {
   const params = useParams()

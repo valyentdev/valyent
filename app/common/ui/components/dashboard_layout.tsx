@@ -97,7 +97,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
         <Info className="h-4 w-4 mr-1.5" />
 
         <span className="font-medium">
-          This is an <strong>alpha</strong> demo. Any feedback will be appreciated.
+          This is a <strong>technical preview</strong>. If you encounter bugs, please report them.
         </span>
       </div>
       <div className="-top-16 z-20 border-b border-zinc-200 bg-white">
