@@ -2,7 +2,7 @@ import React from 'react'
 import ApplicationLayout from '../components/application_layout'
 import { Card, CardTitle, CardContent, CardDescription } from '#common/ui/components/card'
 import { IconExternalLink } from '@tabler/icons-react'
-import { Machine, MachineStatus } from 'valyent.ts'
+import { MachineRecord, MachineStatus } from 'valyent.ts'
 import {
   Table,
   TableHeader,
@@ -17,7 +17,7 @@ import { formatDistanceToNow, parseISO } from 'date-fns'
 import clsx from 'clsx'
 import MachineActions from '../components/machine_actions'
 
-export default function MachinesPage({ machines }: { machines: Array<Machine> }) {
+export default function MachinesPage({ machines }: { machines: Array<MachineRecord> }) {
   return (
     <ApplicationLayout breadcrumbs={[{ label: 'Machines' }]}>
       <div className="sm:col-span-3 lg:col-span-4">
@@ -63,12 +63,12 @@ export default function MachinesPage({ machines }: { machines: Array<Machine> })
   )
 }
 
-function MachineTableItem({ machine }: { machine: Machine }) {
+function MachineTableItem({ machine }: { machine: MachineRecord }) {
   const params = useParams()
   return (
     <TableRow>
-      <TableCell className="flex items-center space-x-2">
-        <div className="flex">
+      <TableCell className="flex items-center space-x-2 mt-1">
+        <div className="flex items-center">
           <div className={'flex-none rounded-full p-1 ' + getColorClass(machine.state)}>
             <div className={clsx('h-2 w-2 rounded-full bg-current')}></div>
           </div>

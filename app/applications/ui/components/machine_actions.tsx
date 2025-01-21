@@ -1,6 +1,6 @@
 import React from 'react'
 import { IconTrash } from '@tabler/icons-react'
-import { Machine, MachineStatus } from 'valyent.ts'
+import { MachineRecord, MachineStatus } from 'valyent.ts'
 import { Link, useForm } from '@inertiajs/react'
 import useParams from '#common/ui/hooks/use_params'
 import { CirclePlayIcon, CircleStopIcon, LogsIcon } from 'lucide-react'
@@ -9,12 +9,12 @@ import DeleteMachineDialog from './delete_machine_dialog'
 import useSuccessToast from '#common/ui/hooks/use_success_toast'
 
 export type MachineActionsProps = {
-  machine: Machine
+  machine: MachineRecord
   big?: boolean
 }
 
 export default function MachineActions({ machine: initialMachine, big }: MachineActionsProps) {
-  const [machine, setMachine] = React.useState<Machine>(initialMachine)
+  const [machine, setMachine] = React.useState<MachineRecord>(initialMachine)
 
   const params = useParams()
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = React.useState(false)

@@ -21,7 +21,7 @@ export default class DeploymentsService {
     let webhookURL =
       env.get('NODE_ENV') === 'production'
         ? `${env.get('APP_URL')}/deployments/webhooks`
-        : env.get('WEBHOOK_URL', 'https://smee.io/S1v6TfUa5IAvuPo')
+        : env.get('DEVELOPMENT_DEPLOYMENTS_WEBHOOK_URL')
 
     /**
      * Ignite builder machine.

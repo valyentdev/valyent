@@ -12,9 +12,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
-    "fresh": "node ace migration:fresh && node ace db:seed",
-    "proxy:deployments": "smee -u https://smee.io/S1v6TfUa5IAvuPo -t http://localhost:3333/deployments/webhooks",
-    "proxy:github": "smee -u https://smee.io/1E96WpqbsekMGsKE -t http://localhost:3333/github/webhooks"
+    "fresh": "node ace migration:fresh && node ace db:seed"
   },
   "imports": {
     "#applications/*": "./app/applications/*.js",

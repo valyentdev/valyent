@@ -5,12 +5,12 @@ import useSuccessToast from '#common/ui/hooks/use_success_toast'
 import { useForm } from '@inertiajs/react'
 import { DialogDescription } from '@radix-ui/react-dialog'
 import * as React from 'react'
-import { Machine } from 'valyent.ts'
+import { MachineRecord } from 'valyent.ts'
 
 interface DeleteMachineDialogProps {
   isOpen: boolean
   onClose: () => void
-  machine: Machine
+  machine: MachineRecord
 }
 
 const DeleteMachineDialog: React.FunctionComponent<DeleteMachineDialogProps> = ({

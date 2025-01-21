@@ -107,16 +107,27 @@ export default class CrudController {
 
   @bindApplication
   async update({ request, response }: HttpContext, application: Application) {
-    /**
-     * Update GitHub-related fields.
-     */
-    application.githubRepository = request.input('githubRepository')
-    application.githubInstallationId = request.input('githubInstallationId')
-    application.githubBranch = request.input('githubBranch')
+    // Update specs if provided
+    if (request.input('cpu_kind') || request.input('cpus') || request.input('memory_mb')) {
+      application.guest = {
+        ...application.guest,
+        cpu_kind: request.input('cpu_kind', application.guest.cpu_kind),
+        cpus: parseInt(request.input('cpus', application.guest.cpus)),
+        memory_mb: parseInt(request.input('memory_mb', application.guest.memory_mb)),
+      }
+    }
 
-    /**
-     * Save record in the database.
-     */
+    // Update GitHub-related fields
+    application.githubRepository = request.input('githubRepository', application.githubRepository)
+    application.githubInstallationId = request.input(
+      'githubInstallationId',
+      application.githubInstallationId
+    )
+    application.githubBranch = request.input('githubBranch', application.githubBranch)
+
+    application.region = request.input('region', application.region)
+
+    // Save record in the database
     await application.save()
 
     return response.redirect().back()
