@@ -1,5 +1,4 @@
 import EditOrganizationCard from '../components/edit_organization_card'
-import MembersManagementCard from '../components/members_management_card'
 import QuitOrganizationCard from '../components/quit_organization_card'
 import Organization from '#organizations/database/models/organization'
 import SettingsLayout from '../components/settings_layout'

@@ -80,7 +80,6 @@ export default function GatewaysPage({ gateways }: { fleet: Fleet; gateways: Arr
 
 function GatewayTableItem({ gateway }: { gateway: Gateway }) {
   const [openDeleteGatewayDialog, setOpenDeleteGatewayDialog] = React.useState(false)
-  const { currentOrganization } = useOrganizations()
 
   return (
     <TableRow>

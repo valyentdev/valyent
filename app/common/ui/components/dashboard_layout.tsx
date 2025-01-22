@@ -7,7 +7,7 @@ import { IconExclamationCircle, IconExternalLink } from '@tabler/icons-react'
 import OrganizationsSelector from '#organizations/ui/components/organizations_selector'
 import { Toaster } from './toaster'
 import useError from '../hooks/use_error'
-import { useToast } from '../hooks/use_toast'
+import { toast, useToast } from '../hooks/use_toast'
 import usePath from '../hooks/use_path'
 import {
   Breadcrumb,
@@ -19,6 +19,7 @@ import {
 } from './breadcrumb'
 import useOrganizations from '#organizations/ui/hooks/use_organizations'
 import { Info } from 'lucide-react'
+import useFlashMessage from '../hooks/use_flash_message'
 
 type Breadcrumb = {
   label: string | React.ReactNode
@@ -44,7 +45,6 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
   const [loaded, setLoaded] = React.useState(false)
   const error = useError('global')
   const { toast: errorToast } = useToast()
-  const path = usePath()
   const { currentOrganization } = useOrganizations()
 
   const initialBreadcrumbs: Breadcrumb[] = [

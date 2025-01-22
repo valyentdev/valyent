@@ -35,7 +35,6 @@ export default function CreateGatewayDialog({ open, setOpen }: CreateGatewayDial
       {
         onSuccess: () => {
           successToast('Gateway successfully created.')
-
           setOpen(false)
         },
       }
