@@ -4,7 +4,7 @@ import Organization from '#organizations/database/models/organization'
 import bindOrganizationWithMember from '#organizations/decorators/bind_organization_with_member'
 import type { HttpContext } from '@adonisjs/core/http'
 import logger from '@adonisjs/core/services/logger'
-import { Fleet } from 'valyent.ts'
+import { FetchErrorWithPayload, Fleet } from 'valyent.ts'
 
 export default class CrudController {
   @bindOrganizationWithMember
@@ -42,7 +42,7 @@ export default class CrudController {
   }
 
   @bindOrganizationWithMember
-  async store({ request, response }: HttpContext, organization: Organization) {
+  async store({ request, response, session }: HttpContext, organization: Organization) {
     /**
      * Create fleet in the Ravel cluster.
      */
@@ -52,8 +52,13 @@ export default class CrudController {
         name: request.input('name'),
       })
     } catch (error) {
-      logger.error({ error, organization }, 'Failed to create fleet.')
-      return response.badRequest()
+      if (error instanceof FetchErrorWithPayload && 'detail' in error.payload) {
+        session.flash('errors.global', `Failed to create fleet: ${error.payload.detail}.`)
+      } else {
+        session.flash('errors.global', 'Failed to create fleet.')
+      }
+
+      return response.redirect().back()
     }
 
     /**
