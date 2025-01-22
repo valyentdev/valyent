@@ -74,7 +74,7 @@ const DeploymentCard: React.FunctionComponent<DeploymentCardProps> = ({
         ></span>
         <div className="min-w-0 flex-auto">
           <div className="flex items-center gap-x-3">
-            <div className={'flex-none rounded-sm p-1 ' + getColorClass(deployment.status)}>
+            <div className={'flex-none rounded-full p-1 ' + getColorClass(deployment.status)}>
               <div
                 className={clsx('h-2 w-2 rounded-sm bg-current', pulse && 'animate-pulse')}
               ></div>
