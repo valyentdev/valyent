@@ -51,7 +51,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
     {
       label: (
         <div className="flex items-center space-x-2">
-          <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-zinc-600">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="h-4 w-4 text-neutral-600">
             <g bufferred-rendering="static">
               <path
                 d="M10.032 6.499A3.525 3.525 0 006.532 10a3.525 3.525 0 003.5 3.501A3.526 3.526 0 0013.533 10a3.526 3.526 0 00-3.501-3.501z"
@@ -100,7 +100,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
           This is a <strong>technical preview</strong>. If you encounter bugs, please report them.
         </span>
       </div>
-      <div className="-top-16 z-20 border-b border-zinc-200 bg-white">
+      <div className="-top-16 z-20 border-b border-neutral-200 bg-white">
         <div className="mx-auto w-full max-w-screen-xl px-2.5 lg:px-20">
           <div className="flex h-16 items-center justify-between mx-4">
             <div className="flex items-center">
@@ -119,7 +119,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                 viewBox="0 0 24 24"
                 width="14"
                 height="14"
-                className="hidden h-8 w-8 text-zinc-200 sm:block"
+                className="hidden h-8 w-8 text-neutral-200 sm:block"
               >
                 <path d="M16.88 3.549L7.12 20.451"></path>
               </svg>
@@ -130,10 +130,10 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
                 className="flex items-center space-x-1 transition-all duration-75 active:scale-95"
                 href="https://docs.valyent.cloud"
               >
-                <span className="text-sm text-zinc-600 font-medium hover:text-black">
+                <span className="text-sm text-neutral-600 font-medium hover:text-black">
                   Documentation
                 </span>
-                <IconExternalLink className="h-4 w-4 text-zinc-600 hover:text-black" />
+                <IconExternalLink className="h-4 w-4 text-neutral-600 hover:text-black" />
               </a>
               <div className="relative inline-block">
                 <AccountDropdown />
@@ -182,7 +182,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
         </div>
       )}
       {(title || description) && (
-        <div className="border-b border-zinc-200 bg-white">
+        <div className="border-b border-neutral-200 bg-white">
           <div className="mx-auto w-full max-w-screen-xl px-6 lg:px-24 flex flex-col py-8">
             <div className="pb-2 flex items-center space-x-4">
               {title && (
@@ -192,7 +192,7 @@ const DashboardLayout: React.FunctionComponent<DashboardLayoutProps> = ({
               )}
               {actionButton}
             </div>
-            {description && <h2 className="text-sm text-zinc-600 font-normal">{description}</h2>}
+            {description && <h2 className="text-sm text-neutral-600 font-normal">{description}</h2>}
           </div>
         </div>
       )}

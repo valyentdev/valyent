@@ -40,7 +40,7 @@ const AccountDropdown: React.FunctionComponent<AccountDropdownProps> = () => {
 
         <DropdownMenuGroup>
           <Link href={`/organizations/${params.organizationSlug}/settings/account`}>
-            <DropdownMenuItem className="cursor-pointer text-foreground">
+            <DropdownMenuItem className="cursor-pointer text-neutral-700">
               <IconSettings className="mr-2 h-4 w-4" />
 
               <span>Account Settings</span>
@@ -52,7 +52,7 @@ const AccountDropdown: React.FunctionComponent<AccountDropdownProps> = () => {
           <form onSubmit={handleSignOut}>
             <button type="submit" hidden id="sign-out-button" />
             <DropdownMenuItem
-              className="cursor-pointer"
+              className="cursor-pointer text-neutral-700"
               onClick={() => document.getElementById('sign-out-button')?.click()}
             >
               <IconLogout className="mr-2 h-4 w-4" />

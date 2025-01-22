@@ -27,7 +27,7 @@ const Tab: React.FunctionComponent<TabProps> = ({ className, href, label, active
       </div>
       {isActive && (
         <div className="absolute bottom-0 w-full px-1.5">
-          <div className="h-0.5 bg-blue-950"></div>
+          <div className="h-0.5 bg-black"></div>
         </div>
       )}
     </Link>

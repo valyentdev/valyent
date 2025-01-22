@@ -17,6 +17,8 @@ interface InputFieldProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   readOnly?: boolean
   minLength?: number
+  helper?: string
+  inputClassName?: string
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -32,6 +34,8 @@ const InputField: React.FC<InputFieldProps> = ({
   onChange,
   readOnly,
   minLength,
+  helper,
+  inputClassName,
 }) => {
   const error = useError(id)
   return (
@@ -55,11 +59,13 @@ const InputField: React.FC<InputFieldProps> = ({
           value={value}
           onChange={onChange}
           minLength={minLength}
+          className={inputClassName}
         />
 
         {children}
       </div>
 
+      {helper && <p className="text-sm text-neutral-600 mt-1">{helper}</p>}
       {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
     </div>
   )
