@@ -3,6 +3,7 @@ import env from '#start/env'
 import type { HttpContext } from '@adonisjs/core/http'
 import { Readable } from 'node:stream'
 import { BodyInit, fetch } from 'undici'
+import { Client } from 'valyent.ts'
 
 export default class ProxyController {
   async handleRequest({ auth, request, response }: HttpContext) {
@@ -93,5 +94,22 @@ export default class ProxyController {
       console.error('Proxy request failed:', error)
       return response.status(500).json({ error: 'Proxy request failed' })
     }
+  }
+
+  async deleteFleet({ auth, params, response }: HttpContext) {
+    const organization = auth.user as Organization
+    const application = await organization
+      .related('applications')
+      .query()
+      .where('id', params.fleetId)
+      .firstOrFail()
+    const adminClient = new Client(
+      env.get('RAVEL_API_SECRET'),
+      env.get('RAVEL_ADMIN_NAMESPACE', 'admin'),
+      env.get('RAVEL_API_ENDPOINT')
+    )
+    await adminClient.fleets.delete(params.fleetId)
+    await application?.delete()
+    return response.json({ ok: true })
   }
 }

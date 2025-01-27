@@ -8,6 +8,9 @@
 */
 import router from '@adonisjs/core/services/router'
 import { middleware } from '#start/kernel'
+import Organization from './database/models/organization.js'
+import { Client } from 'valyent.ts'
+import env from '#start/env'
 
 const OrganizationsController = () => import('./controllers/organizations_controller.js')
 const SettingsController = () => import('./controllers/settings_controller.js')
@@ -22,7 +25,13 @@ router
 /**
  * Proxy-related routes.
  */
+const CrudController = () => import('#applications/controllers/crud_controller')
 const ProxyController = () => import('#organizations/controllers/proxy_controller')
+
+router.post('/v1/fleets', [CrudController, 'store']).use(middleware.auth({ guards: ['api'] }))
+router
+  .delete('/v1/fleets/:fleetId', [ProxyController, 'deleteFleet'])
+  .use(middleware.auth({ guards: ['api'] }))
 
 router
   .get('/v1/fleets', [ProxyController, 'handleRequest'])
