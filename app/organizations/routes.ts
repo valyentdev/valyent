@@ -22,10 +22,8 @@ router
 /**
  * Proxy-related routes.
  */
-const CrudController = () => import('#applications/controllers/crud_controller')
 const ProxyController = () => import('#organizations/controllers/proxy_controller')
 
-router.post('/v1/fleets', [CrudController, 'store']).use(middleware.auth({ guards: ['api'] }))
 router
   .delete('/v1/fleets/:fleetId', [ProxyController, 'deleteFleet'])
   .use(middleware.auth({ guards: ['api'] }))
